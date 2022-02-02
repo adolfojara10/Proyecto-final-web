@@ -60,6 +60,7 @@ public class GestionPersonasBean {
 		perON.guardarCliente(newCliente);
 		System.out.println(" user > " + newCliente);
 		System.out.println(" user > " + newCuenta);
+		//System.out.println("user > clientes > " perON.g);		
 		return null;
 	}
 	
