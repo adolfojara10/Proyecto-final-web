@@ -1,5 +1,11 @@
 package ec.ups.edu.ppw.ProyectoFinalBanco.business;
 
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.util.NoSuchElementException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 
@@ -79,4 +85,52 @@ public class CuentaON {
 		
 		return nombreUsuario;
 	}
+	
+	// metodo para convertir texto hash en encriptar contraseñas
+		public String sha1(String contraseña) throws NoSuchAlgorithmException {
+			String hash;
+			MessageDigest md = MessageDigest.getInstance("SHA-1");
+			md.update(contraseña.getBytes());
+			byte[] digest = md.digest();
+			hash = hexaToString(digest);
+			return hash;
+		}
+		
+		public String hexaToString(byte[] digest) {
+			// Convert digest to a string
+			StringBuilder hexString = new StringBuilder();
+			for (int i = 0; i < digest.length; i++) {
+				if ((0xff & digest[i]) < 0x10) {
+					hexString.append("0" + Integer.toHexString((0xFF & digest[i])));
+				} else {
+					hexString.append(Integer.toHexString(0xFF & digest[i]));
+				}
+			}
+			return hexString.toString();
+		}
+		
+		public Cuenta logIn(String nombreUsu, String contra) {
+	        var listaCuentas = cuentaDAO.getList();
+	        Cuenta usu;
+	        String passwordHash = null;
+	        try {
+	            passwordHash = sha1(contra);
+	        } catch (NoSuchAlgorithmException ex) {
+	            Logger.getLogger(CuentaDAO.class.getName()).log(Level.SEVERE, null, ex);
+	        }
+
+	        final String pass = passwordHash;
+	        System.out.println(pass);
+	        try {
+	            usu = listaCuentas.stream().filter(cue -> cue.getNombre_usuario().equals(nombreUsu)
+	                    && pass.equals(cue.getContraseña())).findFirst().get();
+	            System.out.println(usu);
+
+	            return usu;
+	        } catch (NoSuchElementException e) {
+	            e.printStackTrace();
+	        }
+
+	        return null;
+	    }
 }

@@ -31,14 +31,17 @@
               <div class="card-body px-5 py-5">
                 <h3 class="card-title text-left mb-3">Login</h3>
                 <form>
+                
                   <div class="form-group">
                     <label>Username or email *</label>
-                    <input type="text" class="form-control p_input"/>
+                   <h:inputText type="text" class="form-control p_input" value="#{gestionPersonasBean.usuario}" />
                   </div>
+                  
                   <div class="form-group">
-                    <label>Password *</label>
-                    <input type="text" class="form-control p_input"/>
+                    <label>Password </label>
+                    <h:inputSecret type="text" class="form-control p_input" value="#{gestionPersonasBean.contraseña}" />
                   </div>
+                  
 <!--                   <div class="form-group d-flex align-items-center justify-content-between"> -->
 <!--                     <div class="form-check"> -->
                       
@@ -47,7 +50,7 @@
 <!--                   </div> -->
                   <br/>
                   <div class="text-center">
-<!--                   	<h:commandButton action="blank-page.xhtml" class="btn btn-primary btn-block enter-btn" value="Login" /> -->
+                   	<h:commandButton action="#{gestionPersonasBean.login()}" class="btn btn-primary btn-block enter-btn" value="Login" />
 <!--                     <button type="submit" class="btn btn-primary btn-block enter-btn"> -->
                     <a href="blank-page.xhtml" class="btn btn-primary btn-block enter-btn">Login</a>
 <!--                     </button> -->

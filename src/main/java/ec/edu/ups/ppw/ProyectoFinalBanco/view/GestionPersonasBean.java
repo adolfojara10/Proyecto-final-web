@@ -1,5 +1,6 @@
 package ec.edu.ups.ppw.ProyectoFinalBanco.view;
 
+import java.security.NoSuchAlgorithmException;
 import java.util.Date;
 import java.util.List;
 
@@ -37,6 +38,7 @@ public class GestionPersonasBean {
 
 	private String tipo;
 	private String contraseña;
+	private String usuario;
 
 	private Persona newCliente = new Persona();
 	private Cuenta newCuenta = new Cuenta();
@@ -51,14 +53,15 @@ public class GestionPersonasBean {
 		clientesList = perON.getClientes();
 	}
 	
-	public String guardar() {
+	public String guardar() throws NoSuchAlgorithmException {
 		System.out.println("1111 - " + tipo + " el id es > " + perON.calcularID() );		
-		
+		String contraencrip = cueON.sha1(newCuenta.getContraseña());
 		newCliente.setId(perON.calcularID());						
 		newCliente.setTipo(tipo);		
 		
 		newCuenta.setId(cueON.calcularID());		
 		newCuenta.setNombre_usuario("aaa");
+		newCuenta.setContraseña(contraencrip);
 		cueON.guardarCuenta(newCuenta);
 		
 		newCliente.setCuenta(newCuenta);
@@ -88,7 +91,13 @@ public class GestionPersonasBean {
     }
 	
 	
-	
+	public void login() {
+		System.out.println(usuario);
+		System.out.println(contraseña);
+		Cuenta cuenta = cueON.logIn(usuario, contraseña);
+		System.out.println("Cuenta Iniciada con exito");
+		System.out.println(cuenta);
+	}
 	
 	
 	public String guardarTipo() {
@@ -167,6 +176,15 @@ public class GestionPersonasBean {
 	public void setNewCuenta(Cuenta newCuenta) {
 		this.newCuenta = newCuenta;
 	}
+
+	public String getUsuario() {
+		return usuario;
+	}
+
+	public void setUsuario(String usuario) {
+		this.usuario = usuario;
+	}
+	
 //
 //	public List<Persona> getClientesList() {
 //		return clientesList;
