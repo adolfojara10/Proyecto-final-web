@@ -1,9 +1,12 @@
 package ec.edu.ups.ppw.ProyectoFinalBanco.view;
 
 import java.util.Date;
+import java.util.List;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.RequestScoped;
+import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
 
@@ -38,31 +41,55 @@ public class GestionPersonasBean {
 	private Persona newCliente = new Persona();
 	private Cuenta newCuenta = new Cuenta();
 
+	private List<Persona> clientesList;
+//	private List<Persona> cuentasList;
+	
 	@PostConstruct
 	public void init() {
 		newCliente = new Persona();
 		newCuenta = new Cuenta(); 
+		clientesList = perON.getClientes();
 	}
 	
 	public String guardar() {
-		System.out.println("1111 - " + tipo);		
+		System.out.println("1111 - " + tipo + " el id es > " + perON.calcularID() );		
 		
-		newCliente.setId(1);						
+		newCliente.setId(perON.calcularID());						
 		newCliente.setTipo(tipo);		
 		
-		newCuenta.setId(1);		
+		newCuenta.setId(cueON.calcularID());		
 		newCuenta.setNombre_usuario("aaa");
-		newCliente.setCuenta(newCuenta);
+		cueON.guardarCuenta(newCuenta);
 		
+		newCliente.setCuenta(newCuenta);
+		//newCuenta.setPersona(newCliente);
 		System.out.println(newCliente);
 		System.out.println(newCuenta);
 		cueON.guardarCuenta(newCuenta);
 		perON.guardarCliente(newCliente);
+		
 		System.out.println(" user > " + newCliente);
 		System.out.println(" user > " + newCuenta);
-		//System.out.println("user > clientes > " perON.g);		
+//		System.out.println("user > clientes > " + clientesList);		
 		return null;
 	}
+	
+	public void error() {
+        FacesMessage msg = null;
+        boolean valCed = perON.validarCedula(newCliente.getCedula());
+        if (!valCed) {
+            msg = new FacesMessage("Cedula Invalida");
+        }
+        else {
+            msg = new FacesMessage("cedula valida");
+        }
+
+        FacesContext.getCurrentInstance().addMessage(null, msg);
+    }
+	
+	
+	
+	
 	
 	public String guardarTipo() {
 		System.out.println(tipo);
@@ -140,5 +167,13 @@ public class GestionPersonasBean {
 	public void setNewCuenta(Cuenta newCuenta) {
 		this.newCuenta = newCuenta;
 	}
+//
+//	public List<Persona> getClientesList() {
+//		return clientesList;
+//	}
+//
+//	public void setClientesList(List<Persona> clientesList) {
+//		this.clientesList = clientesList;
+//	}
 
 }

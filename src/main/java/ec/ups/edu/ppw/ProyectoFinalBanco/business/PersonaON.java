@@ -105,4 +105,8 @@ public class PersonaON {
 		}
 
 	}
+	
+	public List<Persona> getClientes(){
+		return personaDAO.getList();
+	}
 }

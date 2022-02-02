@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
@@ -28,18 +29,23 @@ public class Persona {
 	private Date fecha_nacimiento;
 	@Column(name="per_tipo")
 	private String tipo;
+	
 	@OneToMany
 	@JoinColumn(name = "sol_id")
 	private List<Solicitud> solicitud;
+	
 	@OneToMany
 	@JoinColumn(name = "tar_id")
 	private List<Tarjeta> tarjeta;
+	
 	@OneToMany
 	@JoinColumn(name = "pol_id")
 	private List<Poliza> poliza;
-	@OneToOne
+	
+	@OneToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "cue_id")
 	private Cuenta cuenta;
+	
 	@OneToMany
 	@JoinColumn(name = "pre_id")
 	private List<Prestamo> prestamo;

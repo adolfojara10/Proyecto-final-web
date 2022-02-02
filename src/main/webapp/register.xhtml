@@ -53,7 +53,9 @@
 								</div>
 								<div class="form-group">
 									<label>Fecha de Nacimiento</label>
-									<h:inputText value="#{gestionPersonasBean.newCliente.fecha_nacimiento}" class="form-control"
+									<h:inputText
+										value="#{gestionPersonasBean.newCliente.fecha_nacimiento}"
+										class="form-control"
 										converterMessage="Please provide date of birth in dd/mm/yyyy format"
 										id="txtFecha">
 										<f:convertDateTime pattern="dd/mm/yyyy" />
@@ -71,15 +73,19 @@
 								</div>
 								<div>
 									<h:selectOneMenu value="#{gestionPersonasBean.tipo}"
-										class="btn btn-outline-primary dropdown-toggle" id="idTipo">
-<!-- 										<f:ajax listener="#{gestionPersonasBean.guardarTipo()}"  execute="idTipo"></f:ajax> -->
-										<f:selectItem  itemLabel="Elija Tipo" itemValue="" noSelectionOption="true"/>
-										<f:selectItem itemLabel="Común" itemValue="Común"/>
-										<f:selectItem itemLabel="Empresa" itemValue="Empresa"/>
-										<f:selectItem itemLabel="Administrador" itemValue="Administrador"/>
+										class="btn btn-outline-primary dropdown-toggle">
+										<!-- 										<f:ajax listener="#{gestionPersonasBean.guardarTipo()}"  execute="idTipo"></f:ajax> -->
+										<f:selectItem itemLabel="Elija Tipo" itemValue=""
+											noSelectionOption="true" />
+										<f:selectItem itemLabel="Común" itemValue="Común" />
+										<f:selectItem itemLabel="Empresa" itemValue="Empresa" />
+										<f:selectItem itemLabel="Administrador"
+											itemValue="Administrador" />
 									</h:selectOneMenu>
 								</div>
 
+<!-- 								<f:growl id="msgs" showDetail="true" -->
+<!-- 									skipDetailIfEqualsSummary="true" /> -->
 								<div
 									class="form-group d-flex align-items-center justify-content-between">
 								</div>

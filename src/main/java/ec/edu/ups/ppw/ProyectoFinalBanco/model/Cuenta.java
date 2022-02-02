@@ -20,9 +20,8 @@ public class Cuenta {
 	private String nombre_usuario;
 	@Column(name="cue_contraseña")
 	private String contraseña;
-	@OneToOne
-	@JoinColumn(name = "per_id")
-	private Persona persona;
+	
+	
 	@OneToMany
 	@JoinColumn(name = "tra_id")
 	private List<Transferencia> tranferencia;
@@ -52,12 +51,7 @@ public class Cuenta {
 	public void setContraseña(String contraseña) {
 		this.contraseña = contraseña;
 	}
-	public Persona getPersona() {
-		return persona;
-	}
-	public void setPersona(Persona persona) {
-		this.persona = persona;
-	}
+	
 	public List<Transferencia> getTranferencia() {
 		return tranferencia;
 	}
@@ -67,7 +61,7 @@ public class Cuenta {
 	@Override
 	public String toString() {
 		return "Cuenta [id=" + id + ", saldo=" + saldo + ", nombre_usuario=" + nombre_usuario + ", contraseña="
-				+ contraseña + ", persona=" + persona + ", tranferencia=" + tranferencia + "]";
+				+ contraseña + ", tranferencia=" + tranferencia + "]";
 	}
 	
 	

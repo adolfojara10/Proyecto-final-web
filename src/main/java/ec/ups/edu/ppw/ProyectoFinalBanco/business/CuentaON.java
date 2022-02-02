@@ -21,8 +21,8 @@ public class CuentaON {
 //	private TransferenciaON transferenciaON;
 
 	public void guardarCuenta(Cuenta cuenta) {
-
-		if (cuenta.getId() != 0) {
+		var c = cuentaDAO.read(cuenta.getId());
+		if (c == null) {
 			cuentaDAO.insert(cuenta);
 		} else {
 			cuentaDAO.update(cuenta);
