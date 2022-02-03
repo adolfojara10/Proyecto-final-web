@@ -39,7 +39,22 @@
 					<div class="card col-lg-4 mx-auto">
 						<div class="card-body px-5 py-5">
 							<h3 class="card-title text-left mb-3">Login</h3>
-							<form>
+							<h:form>
+
+								<div>
+									<h:selectOneMenu value="#{gestionConversionMoneda.moneda}"
+										class="btn btn-outline-primary dropdown-toggle" id="moneda">
+
+										<f:selectItem itemLabel="Elija Tipo" itemValue=""
+											noSelectionOption="true" />
+										<f:selectItem itemLabel="Euro" itemValue="Euro" />
+										<f:selectItem itemLabel="Yuan" itemValue="Yuan" />
+										<f:selectItem itemLabel="Bitcoin" itemValue="Bitcoin" />
+									</h:selectOneMenu>
+								</div>
+
+
+								<!--
 								<div>
 									<label>Moneda</label>
 								</div>
@@ -57,33 +72,34 @@
 								<div>
 									<input type="radio" id="Bitcoin" name="moneda" value="Bitcoin" />
 									<label for="Bitcoin">Bitcoin</label>
+								</div>-->
+
+								<br />
+
+								<div class="form-group">
+									<label>Cantidad</label>
+									<h:inputText type="text" class="form-control p_input"
+										id="txtCantidad" name="txtCantidad"
+										value="#{gestionConversionMoneda.cantidad}" />
 								</div>
 
 								<div class="form-group">
-									<label>Cantidad</label> <input type="text" name="monto" id="monto"
-										class="form-control p_input" onchange="getMonto()" />
+									<label>Resultado</label>
+									<h:outputText id="txtTotal"
+										value="#{gestionConversionMoneda.resultado}"
+										class="form-control" />
 								</div>
-								
-								<div class="form-group">
-									<label>Resultado</label> 
-								</div>
-								<!--                   <div class="form-group d-flex align-items-center justify-content-between"> -->
-								<!--                     <div class="form-check"> -->
 
-								<!--                     </div> -->
-
-								<!--                   </div> -->
 								<br />
 								<div class="text-center">
-									<button value="Calcular" onclick="calcular()">
-										Calcular
-									</button>
+									<h:commandButton class="btn btn-light btn-fw" value="Calcular"
+										action="#{gestionConversionMoneda.calcular()}">
+										<f:ajax execute="txtCantidad moneda" render="txtTotal" />
+									</h:commandButton>
 								</div>
-								<!--                   <div class="d-flex"> -->
 
-								<!--                   </div> -->
-								
-							</form>
+
+							</h:form>
 						</div>
 					</div>
 				</div>
@@ -114,7 +130,7 @@
     	          
         function getMonto(){
             
-        	const val = document.getElementById('monto').value;
+        	const val = document.getElementById('txtCantidad').value;
         	cantidad = val;
         	
        
@@ -122,6 +138,8 @@
 
         function calcular(){
 
+        	const val = document.getElementById('txtCantidad').value;
+        	cantidad = val;
         	
         	    var radios = document.getElementsByName('moneda');
         	    var rad;
@@ -147,7 +165,7 @@
                     	    }
 
 
-        	    alert(resultado)
+        	    alert(resultado);
                 	 
         	
         }
