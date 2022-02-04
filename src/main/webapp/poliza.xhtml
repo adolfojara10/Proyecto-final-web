@@ -39,80 +39,66 @@
 					<div class="card col-lg-4 mx-auto">
 						<div class="card-body px-5 py-5">
 							<h3 class="card-title text-left mb-3">Poliza</h3>
-							<form>
+							<h:form>
 								<div class="form-group">
-									<label>Monto</label> <input type="text"
-										class="form-control p_input" onchange="getMonto()" />
+									<label for="txtMonto">Monto</label>
+									<h:inputText value="#{gestionPolizaBean.monto}"
+										class="form-control" id="txtMonto" />
 								</div>
 								<div>
-									<label>Tiempo</label>
-								</div>
-								<div>
+									<h:selectOneMenu value="#{gestionPolizaBean.tiempo}"
+										class="btn btn-outline-primary dropdown-toggle" id="txtTiempo">
 
-									<input type="radio" id="3" name="tiempo" value="3" /> <label
-										for="3">3</label>
-								</div>
-
-								<div>
-									<input type="radio" id="6" name="tiempo" value="6" /> <label
-										for="6">6</label>
+										<f:selectItem itemLabel="Elija el Tiempo" itemValue=""
+											noSelectionOption="true" />
+										<f:selectItem itemLabel="3" itemValue="3" />
+										<f:selectItem itemLabel="6" itemValue="6" />
+										<f:selectItem itemLabel="12" itemValue="12" />
+									</h:selectOneMenu>
 								</div>
 
-								<div>
-									<input type="radio" id="12" name="tiempo" value="12" /> <label
-										for="12">12</label>
-								</div>
+								<br></br>
 
 								<div>
-									<label>Interes: </label>
+
+									<label>Intereses:</label>
+									<h:outputText id="txtIntereses"
+										value="#{gestionPolizaBean.intereses}" class="form-control" />
 								</div>
 
-								<div class="form-group">
-									<label>Fecha de Inicio</label> <input type="date"
-										style="display: block"
-										class=" form-control
-										p_input" value="2005-01-01" />
-								</div>
+								<br></br>
 
 								<div class="form-group">
-									<label>Fecha Finalización</label> <input type="date"
-										style="display: block"
-										class=" form-control
-										p_input" value="2005-01-01" />
+									<label>Fecha de inicio</label>
+									<h:inputText value="#{gestionPolizaBean.fechaInicio}"
+										class="form-control"
+										converterMessage="Please provide date of birth in dd/mm/yyyy format"
+										id="txtFechaInicio">
+										<f:convertDateTime pattern="dd/mm/yyyy" />
+									</h:inputText>
 								</div>
 
 								<div class="form-group">
-									<label>Rendimiento</label> <input type="text"
-										style="display: block"
-										class=" form-control
-										p_input" value="2005-01-01" />
+									<label>Fecha Finalización</label>
+									<h:outputText id="txtFechaFin"
+										value="#{gestionPolizaBean.fechaString}" class="form-control" />
 								</div>
 
+								<div class="form-group">
+									<label>Rendimiento</label>
+									<h:outputText id="txtRendimiento"
+										value="#{gestionPolizaBean.rendimiento}" class="form-control" />
+								</div>
 
-								<!--                   <div class="form-group d-flex align-items-center justify-content-between"> -->
-								<!--                     <div class="form-check"> -->
-
-								<!--                     </div> -->
-
-								<!--                   </div> -->
-								<br />
 								<div class="text-center">
-									<!--                   	<h:commandButton action="blank-page.xhtml" class="btn btn-primary btn-block enter-btn" value="Login" /> -->
-									<!--                     <button type="submit" class="btn btn-primary btn-block enter-btn"> -->
-									<button value="Calcular" onclick="calcular()">
-										<f:ajax execute="txtCedula" render="txtNombre txtDireccion">
-										</f:ajax>
-									</button>
-									<br></br> <a href="blank-page.xhtml">
-										<button type="submit"
-											class="btn btn-primary btn-block enter-btn">Enviar</button>
-									</a>
+									<h:commandButton class="btn btn-light btn-fw" value="Calcular"
+										action="#{gestionPolizaBean.calcularDatos()}">
+										<f:ajax execute="txtTiempo txtMonto txtFechaInicio"
+											render="txtRendimiento txtFechaFin txtIntereses" />
+									</h:commandButton>
 								</div>
-								<!--                   <div class="d-flex"> -->
 
-								<!--                   </div> -->
-
-							</form>
+							</h:form>
 						</div>
 					</div>
 				</div>
@@ -137,48 +123,6 @@
 	<!-- endinject -->
 
 
-	<script>
-
-    	var cantidad;
-    	var resultado;
-    	          
-        function getMonto(){
-            
-        	const val = document.querySelector('input').value;
-        	cantidad = val;
-        	console.log(cantidad);
-       
-        }
-
-        function calcular(){
-
-        	
-        	    var radios = document.getElementsByName('tiempo');
-        	    for (var radio of radios)
-        	    {
-        	        if (radio.checked) {
-        	            const rad = radio.value;
-        	        }
-        	    }
-
-        	    if(rad == "Yuan"){
-
-					resultado = Number(cantidad) * 6.36; 
-
-            	    } else if(rad == "Euro"){
-
-            	    	resultado = Number(cantidad) * 0.90;
-
-                	    }else {
-
-                	    	resultado = Number(cantidad) * 0.000026;
-                	    	
-                    	    }
-                	 
-        	
-        }
-        
-  </script>
 
 </h:body>
 </html>
