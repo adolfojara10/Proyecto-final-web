@@ -1,4 +1,4 @@
-package ec.ups.edu.ppw.ProyectoFinalBanco.business;
+package ec.edu.ups.ppw.ProyectoFinalBanco.business;
 
 import java.text.DateFormat;
 import java.text.ParseException;

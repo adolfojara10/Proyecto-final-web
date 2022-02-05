@@ -6,9 +6,9 @@ import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 
+import ec.edu.ups.ppw.ProyectoFinalBanco.business.PolizaON;
 import ec.edu.ups.ppw.ProyectoFinalBanco.dao.PolizaDAO;
 import ec.edu.ups.ppw.ProyectoFinalBanco.dao.SolicitudDAO;
-import ec.ups.edu.ppw.ProyectoFinalBanco.business.PolizaON;
 
 @Named
 @RequestScoped

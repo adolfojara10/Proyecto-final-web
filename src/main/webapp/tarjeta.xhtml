@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="es" xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html">
+<h:head>
+	<!-- Required meta tags -->
+	<meta charset="utf-8" />
+	<meta name="viewport"
+		content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+	<title>Corona Admin</title>
+	<!-- plugins:css -->
+	<link rel="stylesheet"
+		href="template/assets/vendors/mdi/css/materialdesignicons.min.css" />
+	<link rel="stylesheet"
+		href="template/assets/vendors/css/vendor.bundle.base.css" />
+	<!-- endinject -->
+	<!-- Plugin css for this page -->
+	<!-- End plugin css for this page -->
+	<!-- inject:css -->
+	<!-- endinject -->
+	<!-- Layout styles -->
+	<link rel="stylesheet" href="template/assets/css/style.css" />
+	<!-- End layout styles -->
+	<link rel="shortcut icon" href="template/assets/images/favicon.png" />
+</h:head>
+<h:body>
+	<div class="container-scroller">
+		<div class="container-fluid page-body-wrapper full-page-wrapper">
+			<div class="row w-100 m-0">
+				<div
+					class="content-wrapper full-page-wrapper d-flex align-items-center auth login-bg">
+					<div class="card col-lg-4 mx-auto">
+						<div class="card-body px-5 py-5">
+
+
+							<h:form title="formulario-registrar">
+								<h3 class="card-title text-left mb-3">Solicita tu Tarjeta</h3>
+								<div class="form-group">
+									<label>Nombres</label>
+									<h:inputText type="text" class="form-control p_input"
+										value="#{gestionTargetaBean.newTarjet.nombre}" />
+								</div>
+								<div class="form-group">
+									<label>Cedula</label>
+									<h:inputText type="text" class="form-control p_input"
+										value="#{gestionTargetaBean.cedula}" />
+								</div>
+								<div class="form-group">
+									<label>Fecha de Inicio</label>
+									<h:inputText
+										value="#{gestionTargetaBean.newTarjet.fecha_Inicio}"
+										class="form-control"
+										converterMessage="Please provide date of birth in dd/mm/yyyy format"
+										id="txtFecha">
+										<f:convertDateTime pattern="dd/mm/yyyy" />
+									</h:inputText>
+								</div>
+								
+								<div class="form-group">
+									<label>Fecha de Fin</label>
+									<h:inputText
+										value="#{gestionTargetaBean.newTarjet.fecha_fin}"
+										class="form-control"
+										converterMessage="Please provide date of birth in dd/mm/yyyy format"
+										id="txtFechafin">
+										<f:convertDateTime pattern="dd/mm/yyyy" />
+									</h:inputText>
+								</div>
+
+								<div>
+									<h:selectOneMenu value="#{gestionTargetaBean.tipo}"
+										class="btn btn-outline-primary dropdown-toggle">
+										<!-- 										<f:ajax listener="#{gestionPersonasBean.guardarTipo()}"  execute="idTipo"></f:ajax> -->
+										<f:selectItem itemLabel="Elija Tipo" itemValue=""
+											noSelectionOption="true" />
+										<f:selectItem itemLabel="Debito" itemValue="Debito" />
+										<f:selectItem itemLabel="Credito" itemValue="Credito" />
+									</h:selectOneMenu>
+								</div>
+
+<!-- 								<f:growl id="msgs" showDetail="true" -->
+<!-- 									skipDetailIfEqualsSummary="true" /> -->
+								<div
+									class="form-group d-flex align-items-center justify-content-between">
+								</div>
+								<!-- 								<div class="text-center"> -->
+								<h:commandButton action="#{gestionTargetaBean.guardar()}"
+									value="Solicitar Tarjeta" />
+
+								<!-- 								</div> -->
+								<div class="d-flex"></div>
+							</h:form>
+
+						</div>
+					</div>
+				</div>
+				<!-- content-wrapper ends -->
+			</div>
+			<!-- row ends -->
+		</div>
+		<!-- page-body-wrapper ends -->
+	</div>
+	<!-- container-scroller -->
+	<!-- plugins:js -->
+	<script src="template/assets/vendors/js/vendor.bundle.base.js"></script>
+	<!-- endinject -->
+	<!-- Plugin js for this page -->
+	<!-- End plugin js for this page -->
+	<!-- inject:js -->
+	<script src="template/assets/js/off-canvas.js"></script>
+	<script src="template/assets/js/hoverable-collapse.js"></script>
+	<script src="template/assets/js/misc.js"></script>
+	<script src="template/assets/js/settings.js"></script>
+	<script src="template/assets/js/todolist.js"></script>
+	<!-- endinject -->
+</h:body>
+</html>

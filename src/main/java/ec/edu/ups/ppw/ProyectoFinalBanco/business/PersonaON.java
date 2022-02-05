@@ -1,4 +1,4 @@
-package ec.ups.edu.ppw.ProyectoFinalBanco.business;
+package ec.edu.ups.ppw.ProyectoFinalBanco.business;
 
 import java.util.List;
 
@@ -108,5 +108,13 @@ public class PersonaON {
 	
 	public List<Persona> getClientes(){
 		return personaDAO.getList();
+	}
+	
+	public Persona buscarCedula(String cedula) {
+		var listaPersonas = personaDAO.getList();
+		Persona per;
+		 per = listaPersonas.stream().filter(p -> p.getCedula().equals(cedula)).findFirst().get();
+         System.out.println(per);
+		return per;
 	}
 }

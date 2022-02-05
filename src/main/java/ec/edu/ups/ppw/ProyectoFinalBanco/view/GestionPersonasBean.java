@@ -11,10 +11,10 @@ import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
 
+import ec.edu.ups.ppw.ProyectoFinalBanco.business.CuentaON;
+import ec.edu.ups.ppw.ProyectoFinalBanco.business.PersonaON;
 import ec.edu.ups.ppw.ProyectoFinalBanco.model.Cuenta;
 import ec.edu.ups.ppw.ProyectoFinalBanco.model.Persona;
-import ec.ups.edu.ppw.ProyectoFinalBanco.business.CuentaON;
-import ec.ups.edu.ppw.ProyectoFinalBanco.business.PersonaON;
 
 @Named
 @RequestScoped

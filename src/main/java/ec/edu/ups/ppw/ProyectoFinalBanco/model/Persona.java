@@ -1,5 +1,6 @@
 package ec.edu.ups.ppw.ProyectoFinalBanco.model;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -10,6 +11,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+
 
 @Entity
 public class Persona {
@@ -36,7 +38,7 @@ public class Persona {
 	
 	@OneToMany
 	@JoinColumn(name = "tar_id")
-	private List<Tarjeta> tarjeta;
+	private List<Tarjeta> tarjetas;
 	
 	@OneToMany
 	@JoinColumn(name = "pol_id")
@@ -102,10 +104,10 @@ public class Persona {
 		this.solicitud = solicitud;
 	}
 	public List<Tarjeta> getTarjeta() {
-		return tarjeta;
+		return tarjetas;
 	}
 	public void setTarjeta(List<Tarjeta> tarjeta) {
-		this.tarjeta = tarjeta;
+		this.tarjetas = tarjeta;
 	}
 	public List<Poliza> getPoliza() {
 		return poliza;
@@ -131,11 +133,20 @@ public class Persona {
 	public void setGarante(List<Prestamo> garante) {
 		this.garante = garante;
 	}
+	
+
+	public void addTarjeta(Tarjeta tarjeta) {
+		if(tarjeta==null)
+			tarjetas= new ArrayList<Tarjeta>();
+		
+		tarjetas.add(tarjeta);
+	}
+	
 	@Override
 	public String toString() {
 		return "Persona [id=" + id + ", cedula=" + cedula + ", nombre=" + nombre + ", apellido=" + apellido + ", email="
 				+ email + ", fecha_nacimiento=" + fecha_nacimiento + ", tipo=" + tipo + ", solicitud=" + solicitud
-				+ ", tarjeta=" + tarjeta + ", poliza=" + poliza + ", cuenta=" + cuenta + ", prestamo=" + prestamo
+				+ ", tarjeta=" + tarjetas + ", poliza=" + poliza + ", cuenta=" + cuenta + ", prestamo=" + prestamo
 				+ ", garante=" + garante + "]";
 	}
 	
