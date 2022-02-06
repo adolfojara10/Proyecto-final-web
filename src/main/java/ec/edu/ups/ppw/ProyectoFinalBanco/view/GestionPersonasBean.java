@@ -42,6 +42,8 @@ public class GestionPersonasBean {
 
 	private Persona newCliente = new Persona();
 	private Cuenta newCuenta = new Cuenta();
+	
+	private Cuenta cuentaLogIn = new Cuenta();
 
 	private List<Persona> clientesList;
 //	private List<Persona> cuentasList;
@@ -94,9 +96,10 @@ public class GestionPersonasBean {
 	public void login() {
 		System.out.println(usuario);
 		System.out.println(contraseña);
-		Cuenta cuenta = cueON.logIn(usuario, contraseña);
+		cuentaLogIn = cueON.logIn(usuario, contraseña);
+		cueON.setCuentaLogIn(cuentaLogIn);
 		System.out.println("Cuenta Iniciada con exito");
-		System.out.println(cuenta);
+		System.out.println(cuentaLogIn);
 	}
 	
 	

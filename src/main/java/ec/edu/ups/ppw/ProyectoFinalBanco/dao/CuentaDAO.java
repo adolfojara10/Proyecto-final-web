@@ -36,6 +36,8 @@ public class CuentaDAO{
 
 		return q.getResultList();
 	}
+	
+	
 //	
 //	public String hexaToString(byte[] digest) {
 //		// Convert digest to a string

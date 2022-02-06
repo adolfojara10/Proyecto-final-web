@@ -9,7 +9,7 @@
 	<meta charset="utf-8" />
 	<meta name="viewport"
 		content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-	<title>Conversión Moneda</title>
+	<title>Crear Servicio Pago</title>
 	<!-- plugins:css -->
 	<link rel="stylesheet"
 		href="template/assets/vendors/mdi/css/materialdesignicons.min.css" />
@@ -38,63 +38,61 @@
 					</h1>
 					<div class="card col-lg-4 mx-auto">
 						<div class="card-body px-5 py-5">
-							<h3 class="card-title text-left mb-3">Conversión Moneda</h3>
+							<h3 class="card-title text-left mb-3">Crear Servicio Pago</h3>
 							<h:form>
-
-								<div>
-									<h:selectOneMenu value="#{gestionConversionMoneda.moneda}"
-										class="btn btn-outline-primary dropdown-toggle" id="moneda">
-
-										<f:selectItem itemLabel="Elija Tipo" itemValue=""
-											noSelectionOption="true" />
-										<f:selectItem itemLabel="Euro" itemValue="Euro" />
-										<f:selectItem itemLabel="Yuan" itemValue="Yuan" />
-										<f:selectItem itemLabel="Bitcoin" itemValue="Bitcoin" />
-									</h:selectOneMenu>
-								</div>
-
-
-								<!--
-								<div>
-									<label>Moneda</label>
-								</div>
-								<div>
-
-									<input type="radio" id="Euro" name="moneda" value="Euro" /> <label
-										for="Euro">Euro</label>
-								</div>
-
-								<div>
-									<input type="radio" id="Yuan" name="moneda" value="Yuan" /> <label
-										for="Yuan">Yuan</label>
-								</div>
-
-								<div>
-									<input type="radio" id="Bitcoin" name="moneda" value="Bitcoin" />
-									<label for="Bitcoin">Bitcoin</label>
-								</div>-->
-
-								<br />
-
 								<div class="form-group">
-									<label>Cantidad</label>
-									<h:inputText type="text" class="form-control p_input"
-										id="txtCantidad" name="txtCantidad"
-										value="#{gestionConversionMoneda.cantidad}" />
-								</div>
-
-								<div class="form-group">
-									<label>Resultado</label>
-									<h:outputText id="txtTotal"
-										value="#{gestionConversionMoneda.resultado}"
+									<label>Fecha</label>
+									<h:outputText id="txtFecha"
+										value="#{gestionServiciosBean.fechaEmision}"
 										class="form-control" />
 								</div>
 
+								<div>
+									<h:selectOneMenu value="#{gestionServiciosBean.tipo}"
+										class="btn btn-outline-primary dropdown-toggle" id="tipo">
+
+										<f:selectItem itemLabel="Elija Tipo" itemValue=""
+											noSelectionOption="true" />
+										<f:selectItem itemLabel="Luz" itemValue="Luz" />
+										<f:selectItem itemLabel="Agua" itemValue="Agua" />
+										<f:selectItem itemLabel="Internet" itemValue="Internet" />
+									</h:selectOneMenu>
+								</div>
+
 								<br />
+
+
+
+								<div class="form-group">
+									<label>Deuda</label>
+									<h:inputText id="txtDeuda" type="text"
+										value="#{gestionServiciosBean.deuda}" class="form-control" />
+								</div>
+
+								<div class="form-group">
+									<label>Cedula Persona</label>
+									<h:inputText id="txtPersona" type="text"
+										value="#{gestionServiciosBean.cedula}" class="form-control" />
+									<br />
+									<h:commandButton class="btn btn-light btn-fw" value="Buscar"
+										action="#{gestionServiciosBean.cargarPersona()}">
+										<f:ajax execute="txtPersona" render="txtNombres" />
+									</h:commandButton>
+								</div>
+
+								<div class="form-group">
+									<label>Nombres Persona</label>
+									<h:outputText id="txtNombres"
+										value="#{gestionServiciosBean.persona.nombre}"
+										class="form-control" />
+								</div>
+
+
 								<div class="text-center">
-									<h:commandButton class="btn btn-light btn-fw" value="Calcular"
-										action="#{gestionConversionMoneda.calcular()}">
-										<f:ajax execute="txtCantidad moneda" render="txtTotal" />
+									<h:commandButton class="btn btn-light btn-fw"
+										value="Emitir Servicio"
+										action="#{gestionServiciosBean.guardarServicio()}">
+
 									</h:commandButton>
 								</div>
 
@@ -123,54 +121,6 @@
 	<script src="template/assets/js/todolist.js"></script>
 	<!-- endinject -->
 
-	<script>
-
-    	var cantidad;
-    	var resultado;
-    	          
-        function getMonto(){
-            
-        	const val = document.getElementById('txtCantidad').value;
-        	cantidad = val;
-        	
-       
-        }
-
-        function calcular(){
-
-        	const val = document.getElementById('txtCantidad').value;
-        	cantidad = val;
-        	
-        	    var radios = document.getElementsByName('moneda');
-        	    var rad;
-        	    for (var radio of radios)
-        	    {
-        	        if (radio.checked) {
-        	            rad = radio.value;
-        	        }
-        	    }
-
-        	    if(rad == "Yuan"){
-
-					resultado = Number(cantidad) * 6.36; 
-
-            	    } else if(rad == "Euro"){
-
-            	    	resultado = Number(cantidad) * 0.90;
-
-                	    }else {
-
-                	    	resultado = Number(cantidad) * 0.000026;
-                	    	
-                    	    }
-
-
-        	    alert(resultado);
-                	 
-        	
-        }
-        
-  </script>
 
 </h:body>
 </html>

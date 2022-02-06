@@ -6,9 +6,11 @@ import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 
+import ec.edu.ups.ppw.ProyectoFinalBanco.business.CuentaON;
 import ec.edu.ups.ppw.ProyectoFinalBanco.business.PolizaON;
 import ec.edu.ups.ppw.ProyectoFinalBanco.dao.PolizaDAO;
 import ec.edu.ups.ppw.ProyectoFinalBanco.dao.SolicitudDAO;
+import ec.edu.ups.ppw.ProyectoFinalBanco.model.Poliza;
 
 @Named
 @RequestScoped
@@ -16,6 +18,9 @@ public class GestionPolizaBean {
 
 	@Inject
 	private PolizaON polizaON;
+
+	@Inject
+	private CuentaON cuentaON;
 
 	private String fechaString;
 
@@ -41,6 +46,27 @@ public class GestionPolizaBean {
 		this.fechaString = polizaON.calcularFechaFinString(fechaInicio, tiempo);
 		this.intereses = polizaON.calcularInteres(tiempo);
 		return null;
+	}
+
+	public boolean guardarPoliza() {
+
+		if (polizaON.validarPoliza(this.cuentaON.getCuentaLogIn(), this.monto)) {
+			var poliza = new Poliza();
+			poliza.setId(polizaON.calcularID());
+			poliza.setMonto(this.monto);
+			poliza.setTiempo(this.tiempo);
+			poliza.setPor_interes(this.intereses);
+			poliza.setRendimiento(this.rendimiento);
+			poliza.setFecha_inicio(this.fechaInicio);
+			poliza.setFecha_fin(this.fechaFin);
+			poliza.setEstado(true);
+
+			polizaON.guardarPoliza(this.cuentaON.getCuentaLogIn(), poliza);
+
+			return true;
+		} else {
+			return false;
+		}
 	}
 
 	public PolizaON getPolizaON() {

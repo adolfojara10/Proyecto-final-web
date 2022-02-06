@@ -10,8 +10,10 @@ import java.util.Map;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 
+import ec.edu.ups.ppw.ProyectoFinalBanco.dao.CuentaDAO;
 import ec.edu.ups.ppw.ProyectoFinalBanco.dao.PolizaDAO;
 import ec.edu.ups.ppw.ProyectoFinalBanco.model.Cuenta;
+import ec.edu.ups.ppw.ProyectoFinalBanco.model.Persona;
 import ec.edu.ups.ppw.ProyectoFinalBanco.model.Poliza;
 
 @Stateless
@@ -20,18 +22,20 @@ public class PolizaON {
 	@Inject
 	private PolizaDAO polizaDAO;
 
-	public void guardarPoliza(Cuenta cuenta, Double monto, int tiempo, Date fechaInicio) {
+	@Inject
+	private CuentaON cuentaON;
 
-		var p = new Poliza();
-		p.setId(calcularID());
-		p.setMonto(monto);
-		p.setTiempo(tiempo);
-		p.setPor_interes(listaInteres().get(tiempo));
-		p.setRendimiento(this.calcularRendimiento(monto, tiempo));
-		p.setFecha_inicio(fechaInicio);
-		p.setFecha_fin(calcularFechaFin(fechaInicio, tiempo));
-		p.setEstado(true);
-		// p.setPersona(cuenta.getPersona());
+	public void guardarPoliza(Cuenta cuenta, Poliza poliza) {
+
+		var p = polizaDAO.read(poliza.getId());
+		if (p == null) {
+			poliza.setPersona(cuentaON.getPersonaLogIn());
+			cuenta.setSaldo(cuenta.getSaldo() - poliza.getMonto());
+			cuentaON.guardarCuenta(cuenta);
+			polizaDAO.insert(poliza);
+		} else {
+			polizaDAO.update(poliza);
+		}
 
 		this.cambiarEstado();
 
@@ -84,9 +88,7 @@ public class PolizaON {
 
 		DateFormat df = new SimpleDateFormat("dd-MM-yyyy");
 		String requiredDate = df.format(fechaFin);
-		
-		
-		
+
 		try {
 			SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
 			Date date = formatter.parse(requiredDate);
@@ -99,7 +101,7 @@ public class PolizaON {
 
 		return fechaFin;
 	}
-	
+
 	public String calcularFechaFinString(Date fechaInicio, int tiempo) {
 
 		int mes = fechaInicio.getMonth();
@@ -110,7 +112,6 @@ public class PolizaON {
 
 		DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
 		String requiredDate = df.format(fechaFin);
-	
 
 		return requiredDate;
 	}
@@ -121,6 +122,11 @@ public class PolizaON {
 		for (Poliza p : polizas) {
 			if (p.getFecha_fin().after(new Date())) {
 				p.setEstado(false);
+				var c = p.getPersona();
+				var cuenta = c.getCuenta();
+				cuenta.setSaldo(p.getMonto() + p.getRendimiento());
+				cuentaON.guardarCuenta(cuenta);
+
 			}
 		}
 	}
@@ -137,5 +143,13 @@ public class PolizaON {
 		}
 
 		return interes;
+	}
+
+	public boolean validarPoliza(Cuenta cue, double monto) {
+		if (cue.getSaldo() >= monto) {
+			return true;
+		} else {
+			return false;
+		}
 	}
 }
