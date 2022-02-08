@@ -1,6 +1,7 @@
 package ec.edu.ups.ppw.ProyectoFinalBanco.business;
 
 import java.util.List;
+import java.util.Random;
 
 import javax.ejb.Stateless;
 import javax.inject.Inject;
@@ -37,6 +38,18 @@ public class TarjetaON {
 	
 	public List<Tarjeta> getTarjetas(){
 		return tarjetaDAO.getList();
+	}
+	
+	public int generarNumero() {
+		Random aleatorio = new Random();
+		int numero = aleatorio.nextInt(1000000000 - 100000000 + 1) + 100000000;
+		return numero;
+	}
+	
+	public int generarcodigoseguridad() {
+		Random aleatorio = new Random();
+		int numero = aleatorio.nextInt(1000 - 100 + 1) + 100;
+		return numero;
 	}
 
 }

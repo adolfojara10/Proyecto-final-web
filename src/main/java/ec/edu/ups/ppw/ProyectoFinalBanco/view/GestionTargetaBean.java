@@ -50,6 +50,8 @@ public class GestionTargetaBean {
 		if(saldo > 5) {
 			newTarjet.setId(tarON.calcularID());
 			newTarjet.setTipo(tipo);
+			newTarjet.setNumero(tarON.generarNumero());
+			newTarjet.setCodigo(tarON.generarcodigoseguridad());
 			
 			tarON.guardarTarjeta(newTarjet);
 			
