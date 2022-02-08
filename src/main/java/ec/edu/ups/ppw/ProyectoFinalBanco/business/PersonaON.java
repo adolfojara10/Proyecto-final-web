@@ -6,6 +6,7 @@ import javax.ejb.Stateless;
 import javax.inject.Inject;
 
 import ec.edu.ups.ppw.ProyectoFinalBanco.dao.PersonaDAO;
+import ec.edu.ups.ppw.ProyectoFinalBanco.model.Cuenta;
 //import ec.edu.ups.ppw.ProyectoFinalBanco.dao.TransferenciaDAO;
 import ec.edu.ups.ppw.ProyectoFinalBanco.model.Persona;
 
@@ -17,7 +18,7 @@ public class PersonaON {
 
 //	@Inject
 //	private TransferenciaDAO transferenciaDAO;
-	
+
 	@Inject
 	private CuentaON cuentaON;
 
@@ -31,12 +32,18 @@ public class PersonaON {
 		}
 	}
 
-	public List<Persona> consultarCuentaUsuario(int cuenta){
-		return personaDAO.ConsultarCuenta(cuenta);
-		
+	public Persona consultarCuentaUsuario(Cuenta cuenta) {
+		var personas = personaDAO.getList();
+
+		for (Persona p : personas) {
+			if (p.getCuenta().getId() == cuenta.getId()) {
+				return p;
+			}
+		}
+
+		return null;
 	}
-	
-	
+
 	public boolean validarCedula(String cedula) {
 		if (cedula.length() == 10) {
 			int verificador = Integer.parseInt(cedula.substring(cedula.length() - 1, cedula.length()));
@@ -64,7 +71,6 @@ public class PersonaON {
 
 	}
 
-	
 	public boolean validarUsuario(String nombre) {
 		for (Persona per : personaDAO.getList()) {
 			System.out.println("------------- " + per.getNombre());
@@ -105,16 +111,16 @@ public class PersonaON {
 		}
 
 	}
-	
-	public List<Persona> getClientes(){
+
+	public List<Persona> getClientes() {
 		return personaDAO.getList();
 	}
-	
+
 	public Persona buscarCedula(String cedula) {
 		var listaPersonas = personaDAO.getList();
 		Persona per;
-		 per = listaPersonas.stream().filter(p -> p.getCedula().equals(cedula)).findFirst().get();
-         System.out.println(per);
+		per = listaPersonas.stream().filter(p -> p.getCedula().equals(cedula)).findFirst().get();
+		System.out.println(per);
 		return per;
 	}
 }
