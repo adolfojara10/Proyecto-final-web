@@ -1,8 +1,11 @@
 package ec.edu.ups.ppw.ProyectoFinalBanco.view;
 
-import java.util.Date;
+import java.util.Date; 
 import java.util.List;
+//import java.util.regex.Matcher;
+//import java.util.regex.Pattern;
 
+//import javax.annotation.ManagedBean;
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.RequestScoped;
 import javax.faces.application.FacesMessage;
@@ -51,7 +54,7 @@ public class GestionPersonasBean {
 		clientesList = perON.getClientes();
 	}
 	
-	public String guardar() {
+	public String guardar() {		
 		System.out.println("1111 - " + tipo + " el id es > " + perON.calcularID() );		
 		
 		newCliente.setId(perON.calcularID());						
@@ -59,37 +62,25 @@ public class GestionPersonasBean {
 		
 		newCuenta.setId(cueON.calcularID());		
 		newCuenta.setNombre_usuario("aaa");
-		cueON.guardarCuenta(newCuenta);
+		//cueON.guardarCuenta(newCuenta);
 		
 		newCliente.setCuenta(newCuenta);
-		//newCuenta.setPersona(newCliente);
 		System.out.println(newCliente);
 		System.out.println(newCuenta);
 		cueON.guardarCuenta(newCuenta);
 		perON.guardarCliente(newCliente);
 		
+		this.cedula = newCliente.getCedula();
 		System.out.println(" user > " + newCliente);
 		System.out.println(" user > " + newCuenta);
-//		System.out.println("user > clientes > " + clientesList);		
+		System.out.println("cd > " + cedula);		
+			
 		return null;
 	}
 	
-	public void error() {
-        FacesMessage msg = null;
-        boolean valCed = perON.validarCedula(newCliente.getCedula());
-        if (!valCed) {
-            msg = new FacesMessage("Cedula Invalida");
-        }
-        else {
-            msg = new FacesMessage("cedula valida");
-        }
-
-        FacesContext.getCurrentInstance().addMessage(null, msg);
-    }
-	
-	
-	
-	
+	public void obtener() {
+		System.out.println("--> " +cedula);
+	}
 	
 	public String guardarTipo() {
 		System.out.println(tipo);

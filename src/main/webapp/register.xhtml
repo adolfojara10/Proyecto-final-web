@@ -37,63 +37,93 @@
 							<h:form title="formulario-registrar">
 								<h3 class="card-title text-left mb-3">Registrar</h3>
 								<div class="form-group">
-									<label>Nombres</label>
-									<h:inputText type="text" class="form-control p_input"
-										value="#{gestionPersonasBean.newCliente.nombre}" />
+									<h:outputLabel for="nombre">Nombres*</h:outputLabel>
+									<h:inputText id="nombre" type="text"
+										class="form-control p_input"
+										value="#{gestionPersonasBean.newCliente.nombre}"
+										required="true" requiredMessage="  Este campo es obligatorio" />
+									<h:message for="nombre" errorClass="mdi mdi-alert"
+										errorStyle="color:red" />
 								</div>
 								<div class="form-group">
-									<label>Apellidos</label>
-									<h:inputText type="text" class="form-control p_input"
-										value="#{gestionPersonasBean.newCliente.apellido}" />
+									<h:outputLabel for="apellido">Apellidos*</h:outputLabel>
+									<h:inputText id="apellido" type="text"
+										class="form-control p_input"
+										value="#{gestionPersonasBean.newCliente.apellido}"
+										required="true" requiredMessage="  Este campo es obligatorio" />
+									<h:message for="apellido" errorClass="mdi mdi-alert"
+										errorStyle="color:red" />
 								</div>
 								<div class="form-group">
-									<label>Cedula</label>
-									<h:inputText type="text" class="form-control p_input"
-										value="#{gestionPersonasBean.newCliente.cedula}" />
+									<h:outputLabel for="cedula">Cedula*</h:outputLabel>
+									<h:inputText id="cedula" type="text"
+										class="form-control p_input"
+										value="#{gestionPersonasBean.newCliente.cedula}"
+										required="true" requiredMessage="  Este campo es obligatorio"
+										validatorMessage="  Ingrese una cedula valida">
+										<f:validateLength minimum="10" maximum="10" />
+										<f:validateRegex pattern="^([0-9]{10})" />
+									</h:inputText>
+									<h:message id="msgcedula" for="cedula"
+										errorClass="mdi mdi-alert" errorStyle="color:red" />
 								</div>
 								<div class="form-group">
-									<label>Fecha de Nacimiento</label>
-									<h:inputText
+									<h:outputLabel for="fecha">Fecha de Nacimiento*</h:outputLabel>
+									<h:inputText required="true" type="date"
 										value="#{gestionPersonasBean.newCliente.fecha_nacimiento}"
 										class="form-control"
-										converterMessage="Please provide date of birth in dd/mm/yyyy format"
-										id="txtFecha">
+										converterMessage="  Por favor ingrese fecha valida segun el formato dd/mm/yyyy"
+										id="fecha" requiredMessage="  Este campo es obligatorio">
 										<f:convertDateTime pattern="dd/mm/yyyy" />
 									</h:inputText>
+									<h:message for="fecha" errorClass="mdi mdi-alert"
+										errorStyle="color:red" />
 								</div>
 								<div class="form-group">
-									<label>Email</label>
-									<h:inputText type="text" class="form-control p_input"
-										value="#{gestionPersonasBean.newCliente.email}" />
+									<h:outputLabel for="email">Email*</h:outputLabel>
+									<h:inputText id="email" required="true" type="text"
+										class="form-control p_input"
+										value="#{gestionPersonasBean.newCliente.email}"
+										requiredMessage="  Este campo es obligatorio" />
+									<h:message for="email" errorClass="mdi mdi-alert"
+										errorStyle="color:red" />
 								</div>
 								<div class="form-group">
-									<label>Password</label>
-									<h:inputSecret type="text" class="form-control p_input"
-										value="#{gestionPersonasBean.newCuenta.contraseña}" />
+									<h:outputLabel for="password">Password*</h:outputLabel>
+									<h:inputSecret id="password" required="true" type="text"
+										class="form-control p_input"
+										value="#{gestionPersonasBean.newCuenta.contraseña}"
+										requiredMessage="  Este campo es obligatorio" />
+									<h:message for="password" errorClass="mdi mdi-alert"
+										errorStyle="color:red" />
 								</div>
 								<div>
-									<h:selectOneMenu value="#{gestionPersonasBean.tipo}"
-										class="btn btn-outline-primary dropdown-toggle">
-										<!-- 										<f:ajax listener="#{gestionPersonasBean.guardarTipo()}"  execute="idTipo"></f:ajax> -->
+<!-- 									<h:outputLabel for="password">Password*</h:outputLabel> -->
+									<h:selectOneMenu id="tipo" value="#{gestionPersonasBean.tipo}"
+										class="btn btn-outline-primary dropdown-toggle"
+										required="true" requiredMessage="Escoga una opcion">
 										<f:selectItem itemLabel="Elija Tipo" itemValue=""
 											noSelectionOption="true" />
 										<f:selectItem itemLabel="Común" itemValue="Común" />
 										<f:selectItem itemLabel="Empresa" itemValue="Empresa" />
-										<f:selectItem itemLabel="Administrador"
-											itemValue="Administrador" />
+										<f:selectItem itemLabel="Administrador" itemValue="Administrador" />
 									</h:selectOneMenu>
+									<br></br>
+									<h:message for="tipo" errorClass="mdi mdi-alert"
+										errorStyle="color:red" />
 								</div>
 
-<!-- 								<f:growl id="msgs" showDetail="true" -->
-<!-- 									skipDetailIfEqualsSummary="true" /> -->
 								<div
 									class="form-group d-flex align-items-center justify-content-between">
 								</div>
-								<!-- 								<div class="text-center"> -->
-								<h:commandButton action="#{gestionPersonasBean.guardar()}"
-									value="Crear Cuenta" />
 
-								<!-- 								</div> -->
+								<div class="text-center">
+									<h:commandButton action="#{gestionPersonasBean.guardar()}"
+										value="Crear Cuenta">
+
+									</h:commandButton>
+
+								</div>
 								<div class="d-flex"></div>
 								<p class="sign-up text-center">
 									¿Ya tienes una cuenta?<a href="login.xhtml">Log in</a>
