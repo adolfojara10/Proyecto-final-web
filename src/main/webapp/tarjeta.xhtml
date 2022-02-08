@@ -1,15 +1,14 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml"
+<!DOCTYPE html>
+<html lang="es" xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:h="http://java.sun.com/jsf/html">
-
 <h:head>
 	<!-- Required meta tags -->
 	<meta charset="utf-8" />
 	<meta name="viewport"
 		content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-	<title>Poliza</title>
+	<title>Corona Admin</title>
 	<!-- plugins:css -->
 	<link rel="stylesheet"
 		href="template/assets/vendors/mdi/css/materialdesignicons.min.css" />
@@ -31,74 +30,68 @@
 			<div class="row w-100 m-0">
 				<div
 					class="content-wrapper full-page-wrapper d-flex align-items-center auth login-bg">
-					<h1>
-						<h:title name="title">
-							<ui:insert name="title"></ui:insert>
-						</h:title>
-					</h1>
 					<div class="card col-lg-4 mx-auto">
 						<div class="card-body px-5 py-5">
-							<h3 class="card-title text-left mb-3">Poliza</h3>
-							<h:form>
+
+
+							<h:form title="formulario-registrar">
+								<h3 class="card-title text-left mb-3">Solicita tu Tarjeta</h3>
 								<div class="form-group">
-									<label for="txtMonto">Monto</label>
-									<h:inputText value="#{gestionPolizaBean.monto}"
-										class="form-control" id="txtMonto" />
+									<label>Nombres</label>
+									<h:inputText type="text" class="form-control p_input"
+										value="#{gestionTargetaBean.newTarjet.nombre}" />
 								</div>
-								<div>
-									<h:selectOneMenu value="#{gestionPolizaBean.tiempo}"
-										class="btn btn-outline-primary dropdown-toggle" id="txtTiempo">
-
-										<f:selectItem itemLabel="Elija el Tiempo" itemValue=""
-											noSelectionOption="true" />
-										<f:selectItem itemLabel="3" itemValue="3" />
-										<f:selectItem itemLabel="6" itemValue="6" />
-										<f:selectItem itemLabel="12" itemValue="12" />
-									</h:selectOneMenu>
-								</div>
-
-								<br></br>
-
-								<div>
-
-									<label>Intereses:</label>
-									<h:outputText id="txtIntereses"
-										value="#{gestionPolizaBean.intereses}" class="form-control" />
-								</div>
-
-								<br></br>
-
 								<div class="form-group">
-									<label>Fecha de inicio</label>
-									<h:inputText value="#{gestionPolizaBean.fechaInicio}"
+									<label>Cedula</label>
+									<h:inputText type="text" class="form-control p_input"
+										value="#{gestionTargetaBean.cedula}" />
+								</div>
+								<div class="form-group">
+									<label>Fecha de Inicio</label>
+									<h:inputText
+										value="#{gestionTargetaBean.newTarjet.fecha_Inicio}"
 										class="form-control"
 										converterMessage="Please provide date of birth in dd/mm/yyyy format"
-										id="txtFechaInicio">
+										id="txtFecha">
+										<f:convertDateTime pattern="dd/mm/yyyy" />
+									</h:inputText>
+								</div>
+								
+								<div class="form-group">
+									<label>Fecha de Fin</label>
+									<h:inputText
+										value="#{gestionTargetaBean.newTarjet.fecha_fin}"
+										class="form-control"
+										converterMessage="Please provide date of birth in dd/mm/yyyy format"
+										id="txtFechafin">
 										<f:convertDateTime pattern="dd/mm/yyyy" />
 									</h:inputText>
 								</div>
 
-								<div class="form-group">
-									<label>Fecha Finalización</label>
-									<h:outputText id="txtFechaFin"
-										value="#{gestionPolizaBean.fechaString}" class="form-control" />
+								<div>
+									<h:selectOneMenu value="#{gestionTargetaBean.tipo}"
+										class="btn btn-outline-primary dropdown-toggle">
+										<!-- 										<f:ajax listener="#{gestionPersonasBean.guardarTipo()}"  execute="idTipo"></f:ajax> -->
+										<f:selectItem itemLabel="Elija Tipo" itemValue=""
+											noSelectionOption="true" />
+										<f:selectItem itemLabel="Debito" itemValue="Debito" />
+										<f:selectItem itemLabel="Credito" itemValue="Credito" />
+									</h:selectOneMenu>
 								</div>
 
-								<div class="form-group">
-									<label>Rendimiento</label>
-									<h:outputText id="txtRendimiento"
-										value="#{gestionPolizaBean.rendimiento}" class="form-control" />
+<!-- 								<f:growl id="msgs" showDetail="true" -->
+<!-- 									skipDetailIfEqualsSummary="true" /> -->
+								<div
+									class="form-group d-flex align-items-center justify-content-between">
 								</div>
+								<!-- 								<div class="text-center"> -->
+								<h:commandButton action="#{gestionTargetaBean.guardar()}"
+									value="Solicitar Tarjeta" />
 
-								<div class="text-center">
-									<h:commandButton class="btn btn-light btn-fw" value="Calcular"
-										action="#{gestionPolizaBean.calcularDatos()}">
-										<f:ajax execute="txtTiempo txtMonto txtFechaInicio"
-											render="txtRendimiento txtFechaFin txtIntereses" />
-									</h:commandButton>
-								</div>
-
+								<!-- 								</div> -->
+								<div class="d-flex"></div>
 							</h:form>
+
 						</div>
 					</div>
 				</div>
@@ -121,8 +114,5 @@
 	<script src="template/assets/js/settings.js"></script>
 	<script src="template/assets/js/todolist.js"></script>
 	<!-- endinject -->
-
-
-
 </h:body>
 </html>

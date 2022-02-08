@@ -67,4 +67,5 @@ public class PersonaDAO{
 		Persona per = (Persona) query.getResultList().get(0);
 		return per;
 	}
+	
 }

@@ -1,6 +1,7 @@
 package ec.edu.ups.ppw.ProyectoFinalBanco.view;
 
-import java.util.Date; 
+import java.security.NoSuchAlgorithmException;
+import java.util.Date;
 import java.util.List;
 //import java.util.regex.Matcher;
 //import java.util.regex.Pattern;
@@ -13,10 +14,10 @@ import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
 
+import ec.edu.ups.ppw.ProyectoFinalBanco.business.CuentaON;
+import ec.edu.ups.ppw.ProyectoFinalBanco.business.PersonaON;
 import ec.edu.ups.ppw.ProyectoFinalBanco.model.Cuenta;
 import ec.edu.ups.ppw.ProyectoFinalBanco.model.Persona;
-import ec.ups.edu.ppw.ProyectoFinalBanco.business.CuentaON;
-import ec.ups.edu.ppw.ProyectoFinalBanco.business.PersonaON;
 
 @Named
 @RequestScoped
@@ -40,9 +41,12 @@ public class GestionPersonasBean {
 
 	private String tipo;
 	private String contraseña;
+	private String usuario;
 
 	private Persona newCliente = new Persona();
 	private Cuenta newCuenta = new Cuenta();
+	
+	private Cuenta cuentaLogIn = new Cuenta();
 
 	private List<Persona> clientesList;
 //	private List<Persona> cuentasList;
@@ -54,15 +58,16 @@ public class GestionPersonasBean {
 		clientesList = perON.getClientes();
 	}
 	
-	public String guardar() {		
+	public String guardar() throws NoSuchAlgorithmException {
 		System.out.println("1111 - " + tipo + " el id es > " + perON.calcularID() );		
-		
+		String contraencrip = cueON.sha1(newCuenta.getContraseña());
 		newCliente.setId(perON.calcularID());						
 		newCliente.setTipo(tipo);		
 		
 		newCuenta.setId(cueON.calcularID());		
 		newCuenta.setNombre_usuario("aaa");
-		//cueON.guardarCuenta(newCuenta);
+		newCuenta.setContraseña(contraencrip);
+		cueON.guardarCuenta(newCuenta);
 		
 		newCliente.setCuenta(newCuenta);
 		System.out.println(newCliente);
@@ -78,9 +83,29 @@ public class GestionPersonasBean {
 		return null;
 	}
 	
-	public void obtener() {
-		System.out.println("--> " +cedula);
+	public void error() {
+        FacesMessage msg = null;
+        boolean valCed = perON.validarCedula(newCliente.getCedula());
+        if (!valCed) {
+            msg = new FacesMessage("Cedula Invalida");
+        }
+        else {
+            msg = new FacesMessage("cedula valida");
+        }
+
+        FacesContext.getCurrentInstance().addMessage(null, msg);
+    }
+	
+	
+	public void login() {
+		System.out.println(usuario);
+		System.out.println(contraseña);
+		cuentaLogIn = cueON.logIn(usuario, contraseña);
+		cueON.setCuentaLogIn(cuentaLogIn);
+		System.out.println("Cuenta Iniciada con exito");
+		System.out.println(cuentaLogIn);
 	}
+	
 	
 	public String guardarTipo() {
 		System.out.println(tipo);
@@ -158,6 +183,15 @@ public class GestionPersonasBean {
 	public void setNewCuenta(Cuenta newCuenta) {
 		this.newCuenta = newCuenta;
 	}
+
+	public String getUsuario() {
+		return usuario;
+	}
+
+	public void setUsuario(String usuario) {
+		this.usuario = usuario;
+	}
+	
 //
 //	public List<Persona> getClientesList() {
 //		return clientesList;
