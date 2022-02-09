@@ -52,7 +52,7 @@ public class GestionPersonasBean {
 
 	private List<Persona> clientesList;
 //	private List<Persona> cuentasList;
-	private List<Servicios> listaServiciosActivos = new ArrayList<Servicios>();
+	private List<Servicios> listaServiciosActivos;
 
 	@PostConstruct
 	public void init() {
@@ -119,7 +119,7 @@ public class GestionPersonasBean {
 	public String cargarDeudas() {
 
 		var listaDeudas = cueON.getPersonaLogIn().getServicios();
-
+		listaServiciosActivos = new ArrayList<Servicios>();
 		if (listaDeudas.size() > 0) {
 			for (Servicios s : listaDeudas) {
 				if (s.isEstado()) {

@@ -2,8 +2,12 @@ package ec.edu.ups.ppw.ProyectoFinalBanco.model;
 
 import java.util.Date;
 
+import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -11,9 +15,11 @@ import javax.persistence.ManyToOne;
 @Entity
 public class Servicios {
 
+	// @GeneratedValue(strategy = GenerationType.AUTO)
 	@Id
+	@Basic(optional = false)
 	@Column(name = "ser_id")
-	private int id;
+	private Integer id;
 
 	@Column(name = "ser_tipo")
 	private String tipo;
@@ -27,10 +33,10 @@ public class Servicios {
 	@Column(name = "ser_estado")
 	private boolean estado;
 
-	@ManyToOne
+	/*@ManyToOne(cascade=CascadeType.ALL)
 	@JoinColumn(name = "per_id", insertable = false, updatable = false)
 	private Persona persona;
-
+*/
 	public int getId() {
 		return id;
 	}
@@ -63,14 +69,6 @@ public class Servicios {
 		this.fechaEmision = fechaEmision;
 	}
 
-	public Persona getPersona() {
-		return persona;
-	}
-
-	public void setPersona(Persona persona) {
-		this.persona = persona;
-	}
-
 	public boolean isEstado() {
 		return estado;
 	}
@@ -79,10 +77,26 @@ public class Servicios {
 		this.estado = estado;
 	}
 
+	/*public Persona getPersona() {
+		return persona;
+	}
+
+	public void setPersona(Persona persona) {
+		this.persona = persona;
+	}*/
+
+	public void setId(Integer id) {
+		this.id = id;
+	}
+
 	@Override
 	public String toString() {
 		return "Servicios [id=" + id + ", tipo=" + tipo + ", deuda=" + deuda + ", fechaEmision=" + fechaEmision
-				+ ", estado=" + estado + ", persona=" + persona + "]";
+				+ ", estado=" + estado + "]";
 	}
+	
+	
+	
+
 
 }

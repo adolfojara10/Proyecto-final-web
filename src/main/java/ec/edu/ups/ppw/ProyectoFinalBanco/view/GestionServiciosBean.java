@@ -41,7 +41,7 @@ public class GestionServiciosBean {
 	public void init() {
 		servicio = new Servicios();
 		fechaEmision = new Date();
-		persona = new Persona();
+		//persona = new Persona();
 		servicioPagar = new Servicios();
 	}
 
@@ -49,9 +49,17 @@ public class GestionServiciosBean {
 		servicio.setId(serviciosON.calcularID());
 		servicio.setDeuda(deuda);
 		servicio.setEstado(true);
+		servicio.setTipo(tipo);
 		servicio.setFechaEmision(fechaEmision);
+		this.persona = personaON.buscarCedula(cedula);
+		
 		serviciosON.guardarServicios(servicio);
-		persona.addServicio(servicio);
+		
+
+		
+		
+		
+		this.persona.addServicio(servicio);
 		personaON.guardarCliente(persona);
 		
 		System.out.println(persona);
@@ -61,7 +69,7 @@ public class GestionServiciosBean {
 
 	public String cargarPersona() {
 
-		persona = personaON.buscarCedula(cedula);
+		this.persona = personaON.buscarCedula(cedula);
 		return null;
 	}
 
