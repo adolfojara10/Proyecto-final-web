@@ -83,18 +83,18 @@ public class GestionPersonasBean {
 		return null;
 	}
 	
-	public void error() {
-        FacesMessage msg = null;
-        boolean valCed = perON.validarCedula(newCliente.getCedula());
-        if (!valCed) {
-            msg = new FacesMessage("Cedula Invalida");
-        }
-        else {
-            msg = new FacesMessage("cedula valida");
-        }
-
-        FacesContext.getCurrentInstance().addMessage(null, msg);
-    }
+//	public void error() {
+//        FacesMessage msg = null;
+//        boolean valCed = perON.validarCedula(newCliente.getCedula());
+//        if (!valCed) {
+//            msg = new FacesMessage("Cedula Invalida");
+//        }
+//        else {
+//            msg = new FacesMessage("cedula valida");
+//        }
+//
+//        FacesContext.getCurrentInstance().addMessage(null, msg);
+//    }
 	
 	
 	public void login() {
