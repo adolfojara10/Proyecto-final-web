@@ -43,7 +43,6 @@ public class GestionTargetaBean {
 	
 	public String guardar() {
 		Persona p = perON.buscarCedula(cedula);
-		p.getCuenta().setSaldo(7);
 		perON.guardarCliente(p);
 		this.saldo=p.getCuenta().getSaldo();
 		System.out.println(saldo);

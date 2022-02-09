@@ -74,6 +74,7 @@ public class GestionPersonasBean {
 		// newCliente.getApellido()));
 		newCuenta.setNombre_usuario("aa");
 		newCuenta.setContraseña(contraencrip);
+		newCuenta.setSaldo(3000);
 		cueON.guardarCuenta(newCuenta);
 
 		System.out.println(newCliente);

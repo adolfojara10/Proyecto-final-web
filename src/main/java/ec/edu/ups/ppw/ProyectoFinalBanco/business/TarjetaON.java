@@ -42,7 +42,7 @@ public class TarjetaON {
 	
 	public int generarNumero() {
 		Random aleatorio = new Random();
-		int numero = aleatorio.nextInt(1000000000 - 100000000 + 1) + 100000000;
+		int numero = aleatorio.nextInt(1000000000 - 100000000 + 1) + 1000000000;
 		return numero;
 	}
 	

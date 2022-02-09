@@ -33,6 +33,17 @@ public class GestionPrestamosBean {
 	private double pagoProgreso;
 	private double porInteres;
 	
+	private String cedula;
+	private String nombre;
+	private String apellidos;
+	private int cuenta;
+	private boolean aprovacion;
+	
+	private String cedulaP;
+	private String nombreP;
+	private String apellidosP;
+	private int cuentaP;
+	
 	private Prestamo newPrestamo = new Prestamo();
 	private Persona newCliente = new Persona();
 	
@@ -40,6 +51,45 @@ public class GestionPrestamosBean {
 	public void init() {
 		newCliente = new Persona();
 		newPrestamo = new Prestamo();
+	}
+	
+	public String cargarDatosGarante () {
+		Persona p = perON.buscarCedula(this.cedula);
+		this.nombre = p.getNombre();
+		this.apellidos = p.getApellido();
+		this.cuenta = p.getCuenta().getId();
+		return null;
+	}
+	
+	public String cargarDatosCliente () {
+		Persona p = perON.buscarCedula(this.cedulaP);
+		this.nombreP = p.getNombre();
+		this.apellidosP = p.getApellido();
+		this.cuentaP = p.getCuenta().getId();
+		return null;
+	}
+	
+	public String aprobarGarante() {
+		Persona p = perON.buscarCedula(this.cedula);
+		double saldo = p.getCuenta().getSaldo();
+		if(saldo > 2000) {
+			System.out.println("Garante Aprobado");
+			aprovacion = true;
+			System.out.println(aprovacion);
+			return null;
+		}else {
+			System.out.println("Garante No Aprobado");
+			aprovacion = false;
+			System.out.println(aprovacion);
+		}
+		return null;
+	}
+	
+	public String calculoPagoCuotas() {
+		System.out.println(this.monto);
+		this.porInteres= presON.calculoInteres(this.monto);
+		this.pagoMensual= presON.calculoPago(this.monto, this.plazo);
+		return null;
 	}
 
 	public int getId() {
@@ -137,7 +187,81 @@ public class GestionPrestamosBean {
 	public void setNewCliente(Persona newCliente) {
 		this.newCliente = newCliente;
 	}
-	
-	
 
+	public String getCedula() {
+		return cedula;
+	}
+
+	public void setCedula(String cedula) {
+		this.cedula = cedula;
+	}
+
+	public String getNombre() {
+		return nombre;
+	}
+
+	public void setNombre(String nombre) {
+		this.nombre = nombre;
+	}
+
+	public int getCuenta() {
+		return cuenta;
+	}
+
+	public void setCuenta(int cuenta) {
+		this.cuenta = cuenta;
+	}
+
+	public String getCedulaP() {
+		return cedulaP;
+	}
+
+	public void setCedulaP(String cedulaP) {
+		this.cedulaP = cedulaP;
+	}
+
+	public String getNombreP() {
+		return nombreP;
+	}
+
+	public void setNombreP(String nombreP) {
+		this.nombreP = nombreP;
+	}
+
+	public int getCuentaP() {
+		return cuentaP;
+	}
+
+	public void setCuentaP(int cuentaP) {
+		this.cuentaP = cuentaP;
+	}
+
+	public String getApellidos() {
+		return apellidos;
+	}
+
+	public void setApellidos(String apellidos) {
+		this.apellidos = apellidos;
+	}
+
+	public String getApellidosP() {
+		return apellidosP;
+	}
+
+	public void setApellidosP(String apellidosP) {
+		this.apellidosP = apellidosP;
+	}
+
+	public boolean isAprovacion() {
+		return aprovacion;
+	}
+
+	public void setAprovacion(boolean aprovacion) {
+		this.aprovacion = aprovacion;
+	}
+	
+	
+	
+	
+	
 }
