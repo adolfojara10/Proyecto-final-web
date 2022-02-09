@@ -12,7 +12,6 @@ import ec.edu.ups.ppw.ProyectoFinalBanco.business.PersonaON;
 import ec.edu.ups.ppw.ProyectoFinalBanco.business.ServiciosON;
 import ec.edu.ups.ppw.ProyectoFinalBanco.model.Persona;
 import ec.edu.ups.ppw.ProyectoFinalBanco.model.Servicios;
-import ec.edu.ups.ppw.ProyectoFinalBanco.model.Tarjeta;
 
 @Named
 @RequestScoped
@@ -28,6 +27,7 @@ public class GestionServiciosBean {
 	private CuentaON cuentaON;
 
 	private Servicios servicio = new Servicios();
+	private Servicios servicioPagar = new Servicios();
 	private Persona persona = new Persona();
 
 	private Date fechaEmision;
@@ -42,6 +42,7 @@ public class GestionServiciosBean {
 		servicio = new Servicios();
 		fechaEmision = new Date();
 		persona = new Persona();
+		servicioPagar = new Servicios();
 	}
 
 	public String guardarServicio() {
@@ -49,7 +50,12 @@ public class GestionServiciosBean {
 		servicio.setDeuda(deuda);
 		servicio.setEstado(true);
 		servicio.setFechaEmision(fechaEmision);
-		servicio.setPersona(personaON.buscarCedula(cedula));
+		serviciosON.guardarServicios(servicio);
+		persona.addServicio(servicio);
+		personaON.guardarCliente(persona);
+		
+		System.out.println(persona);
+		
 		return null;
 	}
 
@@ -59,14 +65,13 @@ public class GestionServiciosBean {
 		return null;
 	}
 
-	public String pagarServicio(int id) {
+	public String pagarServicio() {
 
-		var ser = serviciosON.buscarServicio(id);
-		if (cuentaON.getCuentaLogIn().getSaldo() >= ser.getDeuda()) {
+		if (cuentaON.getCuentaLogIn().getSaldo() > servicioPagar.getDeuda()) {
 			var cuenta = cuentaON.getCuentaLogIn();
-			cuenta.setSaldo(cuenta.getSaldo() - ser.getDeuda());
+			cuenta.setSaldo(cuenta.getSaldo() - servicioPagar.getDeuda());
 			cuentaON.guardarCuenta(cuenta);
-			ser.setEstado(false);
+			servicioPagar.setEstado(false);
 			serviciosON.guardarServicios(servicio);
 
 			return "SIUUU";
@@ -130,6 +135,14 @@ public class GestionServiciosBean {
 
 	public void setCedula(String cedula) {
 		this.cedula = cedula;
+	}
+
+	public Servicios getServicioPagar() {
+		return servicioPagar;
+	}
+
+	public void setServicioPagar(Servicios servicioPagar) {
+		this.servicioPagar = servicioPagar;
 	}
 
 }

@@ -23,7 +23,7 @@ public class Servicios {
 
 	@Column(name = "ser_fechaEmision")
 	private Date fechaEmision;
-	
+
 	@Column(name = "ser_estado")
 	private boolean estado;
 
@@ -78,7 +78,11 @@ public class Servicios {
 	public void setEstado(boolean estado) {
 		this.estado = estado;
 	}
-	
-	
+
+	@Override
+	public String toString() {
+		return "Servicios [id=" + id + ", tipo=" + tipo + ", deuda=" + deuda + ", fechaEmision=" + fechaEmision
+				+ ", estado=" + estado + ", persona=" + persona + "]";
+	}
 
 }

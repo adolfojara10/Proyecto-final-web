@@ -1,6 +1,7 @@
 package ec.edu.ups.ppw.ProyectoFinalBanco.view;
 
 import java.security.NoSuchAlgorithmException;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 //import java.util.regex.Matcher;
@@ -18,11 +19,12 @@ import ec.edu.ups.ppw.ProyectoFinalBanco.business.CuentaON;
 import ec.edu.ups.ppw.ProyectoFinalBanco.business.PersonaON;
 import ec.edu.ups.ppw.ProyectoFinalBanco.model.Cuenta;
 import ec.edu.ups.ppw.ProyectoFinalBanco.model.Persona;
+import ec.edu.ups.ppw.ProyectoFinalBanco.model.Servicios;
 
 @Named
 @RequestScoped
 public class GestionPersonasBean {
-
+//jovnes si hicieron pull?
 	@Inject
 	private PersonaON perON;
 
@@ -45,73 +47,95 @@ public class GestionPersonasBean {
 
 	private Persona newCliente = new Persona();
 	private Cuenta newCuenta = new Cuenta();
-	
+
 	private Cuenta cuentaLogIn = new Cuenta();
 
 	private List<Persona> clientesList;
 //	private List<Persona> cuentasList;
-	
+	private List<Servicios> listaServiciosActivos = new ArrayList<Servicios>();
+
 	@PostConstruct
 	public void init() {
 		newCliente = new Persona();
-		newCuenta = new Cuenta(); 
+		newCuenta = new Cuenta();
 		clientesList = perON.getClientes();
+		// listaServiciosActivos = new ArrayList<Servicios>();
+
 	}
-	
+
 	public String guardar() throws NoSuchAlgorithmException {
-		System.out.println("1111 - " + tipo + " el id es > " + perON.calcularID() );		
+		System.out.println("1111 - " + tipo + " el id es > " + perON.calcularID());
 		String contraencrip = cueON.sha1(newCuenta.getContraseña());
-		newCliente.setId(perON.calcularID());						
-		newCliente.setTipo(tipo);		
-		
-		newCuenta.setId(cueON.calcularID());		
-		newCuenta.setNombre_usuario("aaa");
+		newCliente.setId(perON.calcularID());
+		newCliente.setTipo(tipo);
+
+		newCuenta.setId(cueON.calcularID());
+		// newCuenta.setNombre_usuario(cueON.crearNombreUsuario(newCliente.getNombre(),
+		// newCliente.getApellido()));
+		newCuenta.setNombre_usuario("aa");
 		newCuenta.setContraseña(contraencrip);
 		cueON.guardarCuenta(newCuenta);
-		
-		newCliente.setCuenta(newCuenta);
+
 		System.out.println(newCliente);
 		System.out.println(newCuenta);
 		cueON.guardarCuenta(newCuenta);
+		newCliente.setCuenta(newCuenta);
 		perON.guardarCliente(newCliente);
-		
+
 		this.cedula = newCliente.getCedula();
 		System.out.println(" user > " + newCliente);
 		System.out.println(" user > " + newCuenta);
-		System.out.println("cd > " + cedula);		
-			
+		System.out.println("cd > " + cedula);
+
 		return null;
 	}
-	
-//	public void error() {
-//        FacesMessage msg = null;
-//        boolean valCed = perON.validarCedula(newCliente.getCedula());
-//        if (!valCed) {
-//            msg = new FacesMessage("Cedula Invalida");
-//        }
-//        else {
-//            msg = new FacesMessage("cedula valida");
-//        }
-//
-//        FacesContext.getCurrentInstance().addMessage(null, msg);
-//    }
-	
-	
+
+	public void error() {
+		FacesMessage msg = null;
+		boolean valCed = perON.validarCedula(newCliente.getCedula());
+		if (!valCed) {
+			msg = new FacesMessage("Cedula Invalida");
+		} else {
+			msg = new FacesMessage("cedula valida");
+		}
+
+		FacesContext.getCurrentInstance().addMessage(null, msg);
+	}
+
 	public void login() {
 		System.out.println(usuario);
 		System.out.println(contraseña);
 		cuentaLogIn = cueON.logIn(usuario, contraseña);
-		cueON.setCuentaLogIn(cuentaLogIn);
+
+		if (cuentaLogIn != null) {
+			cueON.setCuentaLogIn(cuentaLogIn);
+			this.cargarDeudas();
+		}
+
 		System.out.println("Cuenta Iniciada con exito");
 		System.out.println(cuentaLogIn);
 	}
-	
-	
+
+	public String cargarDeudas() {
+
+		var listaDeudas = cueON.getPersonaLogIn().getServicios();
+
+		if (listaDeudas.size() > 0) {
+			for (Servicios s : listaDeudas) {
+				if (s.isEstado()) {
+					listaServiciosActivos.add(s);
+				}
+			}
+		}
+
+		return null;
+	}
+
 	public String guardarTipo() {
 		System.out.println(tipo);
 		return null;
 	}
-	
+
 	public String getCedula() {
 		return cedula;
 	}
@@ -191,7 +215,23 @@ public class GestionPersonasBean {
 	public void setUsuario(String usuario) {
 		this.usuario = usuario;
 	}
-	
+
+	public Cuenta getCuentaLogIn() {
+		return cuentaLogIn;
+	}
+
+	public void setCuentaLogIn(Cuenta cuentaLogIn) {
+		this.cuentaLogIn = cuentaLogIn;
+	}
+
+	public List<Servicios> getListaServiciosActivos() {
+		return listaServiciosActivos;
+	}
+
+	public void setListaServiciosActivos(List<Servicios> listaServiciosActivos) {
+		this.listaServiciosActivos = listaServiciosActivos;
+	}
+
 //
 //	public List<Persona> getClientesList() {
 //		return clientesList;

@@ -24,7 +24,7 @@ public class CuentaON {
 	private PersonaON personaON;
 
 	private Cuenta cuentaLogIn = new Cuenta();
-	
+
 	private Persona personaLogIn = new Persona();
 
 //	@Inject
@@ -54,8 +54,8 @@ public class CuentaON {
 	}
 
 	public boolean transferencia(Transferencia t) {
-		Persona us = personaON.consultarCuentaUsuario(t.getCuenta().getId()).get(0);
-		Persona us1 = personaON.consultarCuentaUsuario(t.getCuenta().getId()).get(0);
+		Persona us = personaON.consultarCuentaUsuario(t.getCuenta());
+		Persona us1 = personaON.consultarCuentaUsuario(t.getCuenta());
 
 		if (us == null && us1 == null || t.getMonto() > us.getCuenta().getSaldo()) {
 			return false;
@@ -84,8 +84,16 @@ public class CuentaON {
 	}
 
 	public String crearNombreUsuario(String nombre, String apellido) {
-		String nombreUsuario = nombre.concat(Character.toString(apellido.charAt(0)));
-		nombreUsuario = nombreUsuario.concat(Integer.toString(calcularID()));
+
+		String nom = nombre.split(" ")[0];
+		String ape = apellido.split(" ")[0];
+
+		String nombreUsuario = nom.concat(ape);
+		nombreUsuario = nombreUsuario.concat(String.valueOf(this.calcularID()));
+		/*
+		 * String nombreUsuario = nombre.concat(Character.toString(apellido.charAt(0)));
+		 * nombreUsuario = nombreUsuario.concat(Integer.toString(calcularID()));
+		 */
 
 		return nombreUsuario;
 	}
@@ -131,6 +139,9 @@ public class CuentaON {
 					.findFirst().get();
 			System.out.println(usu);
 
+			this.cuentaLogIn = usu;
+			this.personaLogIn = personaON.consultarCuentaUsuario(this.cuentaLogIn);
+
 			return usu;
 		} catch (NoSuchElementException e) {
 			e.printStackTrace();
@@ -145,7 +156,7 @@ public class CuentaON {
 
 	public void setCuentaLogIn(Cuenta cuentaLogIn) {
 		this.cuentaLogIn = cuentaLogIn;
-		this.setPersonaLogIn(this.personaON.consultarCuentaUsuario(cuentaLogIn.getId()).get(0)); 
+		this.setPersonaLogIn(this.personaON.consultarCuentaUsuario(cuentaLogIn));
 	}
 
 	public Persona getPersonaLogIn() {
@@ -155,7 +166,5 @@ public class CuentaON {
 	public void setPersonaLogIn(Persona personaLogIn) {
 		this.personaLogIn = personaLogIn;
 	}
-	
-	
 
 }
