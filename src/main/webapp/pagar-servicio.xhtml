@@ -5,27 +5,13 @@
 	xmlns:h="http://java.sun.com/jsf/html">
 
 <h:head>
-	<!-- Required meta tags -->
-	<meta charset="utf-8" />
-	<meta name="viewport"
-		content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-	<title>Crear Servicio Pago</title>
-	<!-- plugins:css -->
-	<link rel="stylesheet"
-		href="template/assets/vendors/mdi/css/materialdesignicons.min.css" />
-	<link rel="stylesheet"
-		href="template/assets/vendors/css/vendor.bundle.base.css" />
-	<!-- endinject -->
-	<!-- Plugin css for this page -->
-	<!-- End plugin css for this page -->
-	<!-- inject:css -->
-	<!-- endinject -->
-	<!-- Layout styles -->
-	<link rel="stylesheet" href="template/assets/css/style.css" />
-	<!-- End layout styles -->
-	<link rel="shortcut icon" href="template/assets/images/favicon.png" />
+
 </h:head>
-<h:body>
+<ui:composition template="blank-page.xhtml"></ui:composition>
+<ui:define name="title">
+        PAGAR SERVICIOS
+    </ui:define>
+<ui:define name="content">
 	<div class="container-scroller">
 		<div class="container-fluid page-body-wrapper full-page-wrapper">
 			<div class="row w-100 m-0">
@@ -46,7 +32,7 @@
 										value="#{gestionServiciosBean.servicioPagar.id}"
 										class="form-control" />
 								</div>
-								
+
 								<div class="form-group">
 									<label>Fecha Emisión</label>
 									<h:outputText id="txtFecha"
@@ -103,5 +89,6 @@
 	<script src="template/assets/js/todolist.js"></script>
 	<!-- endinject -->
 
-</h:body>
+</ui:define>
+
 </html>

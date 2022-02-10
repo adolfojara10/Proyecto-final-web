@@ -5,56 +5,42 @@
 	xmlns:h="http://java.sun.com/jsf/html">
 
 <h:head>
-	<!-- Required meta tags -->
-	<meta charset="utf-8" />
-	<meta name="viewport"
-		content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-	<title>Conversión Moneda</title>
-	<!-- plugins:css -->
-	<link rel="stylesheet"
-		href="template/assets/vendors/mdi/css/materialdesignicons.min.css" />
-	<link rel="stylesheet"
-		href="template/assets/vendors/css/vendor.bundle.base.css" />
-	<!-- endinject -->
-	<!-- Plugin css for this page -->
-	<!-- End plugin css for this page -->
-	<!-- inject:css -->
-	<!-- endinject -->
-	<!-- Layout styles -->
-	<link rel="stylesheet" href="template/assets/css/style.css" />
-	<!-- End layout styles -->
-	<link rel="shortcut icon" href="template/assets/images/favicon.png" />
+
 </h:head>
-<h:body>
-	<div class="container-scroller">
-		<div class="container-fluid page-body-wrapper full-page-wrapper">
-			<div class="row w-100 m-0">
-				<div
-					class="content-wrapper full-page-wrapper d-flex align-items-center auth login-bg">
-					<h1>
-						<h:title name="title">
-							<ui:insert name="title"></ui:insert>
-						</h:title>
-					</h1>
-					<div class="card col-lg-4 mx-auto">
-						<div class="card-body px-5 py-5">
-							<h3 class="card-title text-left mb-3">Conversión Moneda</h3>
-							<h:form>
+<ui:composition template="blank-page.xhtml">
+	<ui:define name="title">
+        CONVERSION DE MONEDA
+    </ui:define>
+	<ui:define name="content">
+		<div class="container-scroller">
+			<div class="container-fluid page-body-wrapper full-page-wrapper">
+				<div class="row w-100 m-0">
+					<div
+						class="content-wrapper full-page-wrapper d-flex align-items-center auth login-bg">
+						<h1>
+							<h:title name="title">
+								<ui:insert name="title"></ui:insert>
+							</h:title>
+						</h1>
+						<div class="card col-lg-4 mx-auto">
+							<div class="card-body px-5 py-5">
+								<h3 class="card-title text-left mb-3">Conversión Moneda</h3>
+								<h:form>
 
-								<div>
-									<h:selectOneMenu value="#{gestionConversionMoneda.moneda}"
-										class="btn btn-outline-primary dropdown-toggle" id="moneda">
+									<div>
+										<h:selectOneMenu value="#{gestionConversionMoneda.moneda}"
+											class="btn btn-outline-primary dropdown-toggle" id="moneda">
 
-										<f:selectItem itemLabel="Elija Tipo" itemValue=""
-											noSelectionOption="true" />
-										<f:selectItem itemLabel="Euro" itemValue="Euro" />
-										<f:selectItem itemLabel="Yuan" itemValue="Yuan" />
-										<f:selectItem itemLabel="Bitcoin" itemValue="Bitcoin" />
-									</h:selectOneMenu>
-								</div>
+											<f:selectItem itemLabel="Elija Tipo" itemValue=""
+												noSelectionOption="true" />
+											<f:selectItem itemLabel="Euro" itemValue="Euro" />
+											<f:selectItem itemLabel="Yuan" itemValue="Yuan" />
+											<f:selectItem itemLabel="Bitcoin" itemValue="Bitcoin" />
+										</h:selectOneMenu>
+									</div>
 
 
-								<!--
+									<!--
 								<div>
 									<label>Moneda</label>
 								</div>
@@ -74,56 +60,56 @@
 									<label for="Bitcoin">Bitcoin</label>
 								</div>-->
 
-								<br />
+									<br />
 
-								<div class="form-group">
-									<label>Cantidad</label>
-									<h:inputText type="text" class="form-control p_input"
-										id="txtCantidad" name="txtCantidad"
-										value="#{gestionConversionMoneda.cantidad}" />
-								</div>
+									<div class="form-group">
+										<label>Cantidad</label>
+										<h:inputText type="text" class="form-control p_input"
+											id="txtCantidad" name="txtCantidad"
+											value="#{gestionConversionMoneda.cantidad}" />
+									</div>
 
-								<div class="form-group">
-									<label>Resultado</label>
-									<h:outputText id="txtTotal"
-										value="#{gestionConversionMoneda.resultado}"
-										class="form-control" />
-								</div>
+									<div class="form-group">
+										<label>Resultado</label>
+										<h:outputText id="txtTotal"
+											value="#{gestionConversionMoneda.resultado}"
+											class="form-control" />
+									</div>
 
-								<br />
-								<div class="text-center">
-									<h:commandButton class="btn btn-light btn-fw" value="Calcular"
-										action="#{gestionConversionMoneda.calcular()}">
-										<f:ajax execute="txtCantidad moneda" render="txtTotal" />
-									</h:commandButton>
-								</div>
+									<br />
+									<div class="text-center">
+										<h:commandButton styleClass="btn btn-outline-primary btn-fw" value="Calcular"
+											action="#{gestionConversionMoneda.calcular()}">
+											<f:ajax execute="txtCantidad moneda" render="txtTotal" />
+										</h:commandButton>
+									</div>
 
 
-							</h:form>
+								</h:form>
+							</div>
 						</div>
 					</div>
+					<!-- content-wrapper ends -->
 				</div>
-				<!-- content-wrapper ends -->
+				<!-- row ends -->
 			</div>
-			<!-- row ends -->
+			<!-- page-body-wrapper ends -->
 		</div>
-		<!-- page-body-wrapper ends -->
-	</div>
-	<!-- container-scroller -->
-	<!-- plugins:js -->
-	<script src="template/assets/vendors/js/vendor.bundle.base.js"></script>
-	<!-- endinject -->
-	<!-- Plugin js for this page -->
-	<!-- End plugin js for this page -->
-	<!-- inject:js -->
-	<script src="template/assets/js/off-canvas.js"></script>
-	<script src="template/assets/js/hoverable-collapse.js"></script>
-	<script src="template/assets/js/misc.js"></script>
-	<script src="template/assets/js/settings.js"></script>
-	<script src="template/assets/js/todolist.js"></script>
-	<!-- endinject -->
+		<!-- container-scroller -->
+		<!-- plugins:js -->
+		<script src="template/assets/vendors/js/vendor.bundle.base.js"></script>
+		<!-- endinject -->
+		<!-- Plugin js for this page -->
+		<!-- End plugin js for this page -->
+		<!-- inject:js -->
+		<script src="template/assets/js/off-canvas.js"></script>
+		<script src="template/assets/js/hoverable-collapse.js"></script>
+		<script src="template/assets/js/misc.js"></script>
+		<script src="template/assets/js/settings.js"></script>
+		<script src="template/assets/js/todolist.js"></script>
+		<!-- endinject -->
 
-	<script>
+		<script>
 
     	var cantidad;
     	var resultado;
@@ -172,5 +158,6 @@
         
   </script>
 
-</h:body>
+	</ui:define>
+</ui:composition>
 </html>

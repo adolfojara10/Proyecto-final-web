@@ -8,7 +8,7 @@
 	<meta charset="utf-8" />
 	<meta name="viewport"
 		content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-	<title>Corona Admin</title>
+	<title>Login</title>
 	<!-- plugins:css -->
 	<link rel="stylesheet"
 		href="template/assets/vendors/mdi/css/materialdesignicons.min.css" />
@@ -36,30 +36,30 @@
 
 							<h:form title="formulario-registrar">
 								<h3 class="card-title text-left mb-3">Login</h3>
-								
+
 								<div class="form-group">
 									<label>Usuario</label>
 									<h:inputText type="text" class="form-control p_input"
 										value="#{gestionPersonasBean.usuario}" />
 								</div>
-								
+
 								<div class="form-group">
 									<label>Password</label>
 									<h:inputSecret type="text" class="form-control p_input"
 										value="#{gestionPersonasBean.contraseña}" />
 								</div>
-
-<!-- 								<f:growl id="msgs" showDetail="true" -->
-<!-- 									skipDetailIfEqualsSummary="true" /> -->
+								
 								<div
 									class="form-group d-flex align-items-center justify-content-between">
 								</div>
-								<!-- 								<div class="text-center"> -->
-								<h:commandButton action="#{gestionPersonasBean.login()}"
-									value="Login" class="btn btn-primary btn-block enter-btn" />
 
-								<!-- 								</div> -->
-								<div class="d-flex"></div>
+								<div class="text-center">
+
+									<h:commandButton styleClass="btn btn-outline-primary btn-fw" action="#{gestionPersonasBean.login()}"
+										value="Login"/>
+								</div>
+
+								<p class="sign-up">Don't have an Account?<a href="register.xhtml"> Sign Up</a></p>
 							</h:form>
 
 						</div>

@@ -4,222 +4,208 @@
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:h="http://java.sun.com/jsf/html">
 <h:head>
-	<!-- Required meta tags -->
-	<meta charset="utf-8" />
-	<meta name="viewport"
-		content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-	<title>Corona Admin</title>
-	<!-- plugins:css -->
-	<link rel="stylesheet"
-		href="template/assets/vendors/mdi/css/materialdesignicons.min.css" />
-	<link rel="stylesheet"
-		href="template/assets/vendors/css/vendor.bundle.base.css" />
-	<!-- endinject -->
-	<!-- Plugin css for this page -->
-	<!-- End plugin css for this page -->
-	<!-- inject:css -->
-	<!-- endinject -->
-	<!-- Layout styles -->
-	<link rel="stylesheet" href="template/assets/css/style.css" />
-	<!-- End layout styles -->
-	<link rel="shortcut icon" href="template/assets/images/favicon.png" />
+
 </h:head>
-<h:body>
-	<h1>
-		<h:title name="title">
-			<ui:insert name="title">SOLICITUD DE PRESTAMOS</ui:insert>
-		</h:title>
-	</h1>
-	<div class="container-scroller">
-		<div class="container-fluid page-body-wrapper full-page-wrapper">
-			<div class="row w-100 m-0">
-				<div
-					class="content-wrapper full-page-wrapper d-flex align-items-center auth login-bg">
-					<div class="card col-lg-4 mx-auto">
-						<div class="card-body px-5 py-5">
+<ui:composition template="blank-page.xhtml">
+	<ui:define name="title">
+        SOLICITUD DE PRESTAMOS
+    </ui:define>
+	<ui:define name="content">
+		<div class="container-scroller">
+			<div class="container-fluid page-body-wrapper full-page-wrapper">
+				<div class="row w-100 m-0">
+					<div
+						class="content-wrapper full-page-wrapper d-flex align-items-center auth login-bg">
+						<div class="card col-lg-4 mx-auto">
+							<div class="card-body px-5 py-5">
 
 
-							<h:form title="formulario-registrar">
-								<h3 class="card-title text-left mb-3">GARANTE</h3>
-								<div class="form-group">
-									<label>Cedula</label>
-									<h:inputText type="text" class="form-control p_input"
-										value="#{gestionPrestamosBean.cedula}" id="txtCedula"/>
-								</div>
-								<div>
-									<h:commandButton
-										action="#{gestionPrestamosBean.cargarDatosGarante()}"
-										value="Cargar Datos Garnte"
-										class="btn btn-primary btn-block enter-btn">
-										<f:ajax execute="txtCedula"
-											render="txtNombre txtApellido txtNumeroCuenta"></f:ajax>
-									</h:commandButton>
-								</div>
-								
-								<div class="form-group">
-									<label>Nombre</label>
-									<h:inputText type="text" class="form-control p_input"
-										value="#{gestionPrestamosBean.nombre}" id="txtNombre"/>
-								</div>
-								
-								<div class="form-group">
-									<label>Apellidos</label>
-									<h:inputText type="text" class="form-control p_input"
-										value="#{gestionPrestamosBean.apellidos}" id="txtApellido"/>
-								</div>
-								
-								<div class="form-group">
-									<label>Numero de Cuenta</label>
-									<h:inputText type="text" class="form-control p_input"
-										value="#{gestionPrestamosBean.cuenta}" id="txtNumeroCuenta" />
-								</div>
-								
+								<h:form title="formulario-registrar">
+									<h3 class="card-title text-left mb-3">GARANTE</h3>
+									<div class="form-group">
+										<label>Cedula</label>
+										<h:inputText type="text" class="form-control p_input"
+											value="#{gestionPrestamosBean.cedula}" id="txtCedula" />
+									</div>
+									<div>
+										<h:commandButton
+											action="#{gestionPrestamosBean.cargarDatosGarante()}"
+											value="Cargar Datos Garnte"
+											class="btn btn-primary btn-block enter-btn">
+											<f:ajax execute="txtCedula"
+												render="txtNombre txtApellido txtNumeroCuenta"></f:ajax>
+										</h:commandButton>
+									</div>
 
-								<!-- 								<f:growl id="msgs" showDetail="true" -->
-								<!-- 									skipDetailIfEqualsSummary="true" /> -->
-								<div
-									class="form-group d-flex align-items-center justify-content-between">
-								</div>
-								<!-- 								<div class="text-center"> -->
-								
+									<div class="form-group">
+										<label>Nombre</label>
+										<h:inputText type="text" class="form-control p_input"
+											value="#{gestionPrestamosBean.nombre}" id="txtNombre" />
+									</div>
 
-								<div>
-									<h:commandButton action="#{gestionPrestamosBean.aprobarGarante()}"
-									value="Aprovar Garante" class="btn btn-primary btn-block enter-btn" />
-								</div>
+									<div class="form-group">
+										<label>Apellidos</label>
+										<h:inputText type="text" class="form-control p_input"
+											value="#{gestionPrestamosBean.apellidos}" id="txtApellido" />
+									</div>
 
-								<!-- 								</div> -->
-								<div class="d-flex"></div>
-							</h:form>
-
-						</div>
-						<div class="card-body px-5 py-5">
+									<div class="form-group">
+										<label>Numero de Cuenta</label>
+										<h:inputText type="text" class="form-control p_input"
+											value="#{gestionPrestamosBean.cuenta}" id="txtNumeroCuenta" />
+									</div>
 
 
-							<h:form title="formulario-registrar">
-								<h3 class="card-title text-left mb-3">CLIENTE SOLICITANTE</h3>
-								<div class="form-group">
-									<label>Cedula</label>
-									<h:inputText type="text" class="form-control p_input"
-										value="#{gestionPrestamosBean.cedulaP}" id="txtCedulap"/>
-								</div>
-								
-								<div>
-									<h:commandButton
-										action="#{gestionPrestamosBean.cargarDatosCliente()}"
-										value="Cargar Datos Garnte"
-										class="btn btn-primary btn-block enter-btn">
-										<f:ajax execute="txtCedulap"
-											render="txtNombrep txtApellidop txtNumeroCuentap"></f:ajax>
-									</h:commandButton>
-								</div>
-								
-								<div class="form-group">
-									<label>Nombre</label>
-									<h:inputText type="text" class="form-control p_input"
-										value="#{gestionPrestamosBean.nombreP}" id="txtNombrep"/>
-								</div>
-								
-								<div class="form-group">
-									<label>Apellidos</label>
-									<h:inputText type="text" class="form-control p_input"
-										value="#{gestionPrestamosBean.apellidosP}" id="txtApellidop"/>
-								</div>
-								
-								<div class="form-group">
-									<label>Numero de Cuenta</label>
-									<h:inputText type="text" class="form-control p_input"
-										value="#{gestionPrestamosBean.cuentaP}" id="txtNumeroCuentap" />
-								</div>
-								
-
-								<!-- 								<f:growl id="msgs" showDetail="true" -->
-								<!-- 									skipDetailIfEqualsSummary="true" /> -->
-								<div
-									class="form-group d-flex align-items-center justify-content-between">
-								</div>
-								<!-- 								<div class="text-center"> -->
+									<!-- 								<f:growl id="msgs" showDetail="true" -->
+									<!-- 									skipDetailIfEqualsSummary="true" /> -->
+									<div
+										class="form-group d-flex align-items-center justify-content-between">
+									</div>
+									<!-- 								<div class="text-center"> -->
 
 
-								<!-- 								</div> -->
-								<div class="d-flex"></div>
-							</h:form>
+									<div>
+										<h:commandButton
+											action="#{gestionPrestamosBean.aprobarGarante()}"
+											value="Aprovar Garante"
+											class="btn btn-primary btn-block enter-btn" />
+									</div>
 
-						</div>
-						<div class="card-body px-5 py-5">
+									<!-- 								</div> -->
+									<div class="d-flex"></div>
+								</h:form>
 
-
-							<h:form title="formulario-registrar">
-								<h3 class="card-title text-left mb-3">CARACTERISTICAS DEL PRESTAMO</h3>
-								<div class="form-group">
-									<label>Monto</label>
-									<h:inputText type="text" class="form-control p_input"
-										value="#{gestionPrestamosBean.monto}" id="txtMonto"/>
-								</div>
-								
-								
-								
-								<div class="form-group">
-									<label>#Cuotas</label>
-									<h:inputText type="text" class="form-control p_input"
-										value="#{gestionPrestamosBean.plazo}" id="txtCuotas"/>
-								</div>
-								
-								<div>
-									<h:commandButton
-										action="#{gestionPrestamosBean.calculoPagoCuotas()}"
-										value="Calcular Pago"
-										class="btn btn-primary btn-block enter-btn">
-										<f:ajax execute="txtMonto txtCuotas"
-											render="txtInteres txtPagoMensual"></f:ajax>
-									</h:commandButton>
-								</div>
-								
-								<div class="form-group">
-									<label>Pago Mensual</label>
-									<h:inputText type="text" class="form-control p_input"
-										value="#{gestionPrestamosBean.pagoMensual}" id="txtPagoMensual"/>
-								</div>
-								
-								<div class="form-group">
-									<label>Interes %</label>
-									<h:inputText type="text" class="form-control p_input"
-										value="#{gestionPrestamosBean.porInteres}" id="txtInteres"/>
-								</div>
-
-								<!-- 								<f:growl id="msgs" showDetail="true" -->
-								<!-- 									skipDetailIfEqualsSummary="true" /> -->
-								<div
-									class="form-group d-flex align-items-center justify-content-between">
-								</div>
-								<!-- 								<div class="text-center"> -->
+							</div>
+							<div class="card-body px-5 py-5">
 
 
-								<!-- 								</div> -->
-								<div class="d-flex"></div>
-							</h:form>
+								<h:form title="formulario-registrar">
+									<h3 class="card-title text-left mb-3">CLIENTE SOLICITANTE</h3>
+									<div class="form-group">
+										<label>Cedula</label>
+										<h:inputText type="text" class="form-control p_input"
+											value="#{gestionPrestamosBean.cedulaP}" id="txtCedulap" />
+									</div>
 
+									<div>
+										<h:commandButton
+											action="#{gestionPrestamosBean.cargarDatosCliente()}"
+											value="Cargar Datos Garnte"
+											class="btn btn-primary btn-block enter-btn">
+											<f:ajax execute="txtCedulap"
+												render="txtNombrep txtApellidop txtNumeroCuentap"></f:ajax>
+										</h:commandButton>
+									</div>
+
+									<div class="form-group">
+										<label>Nombre</label>
+										<h:inputText type="text" class="form-control p_input"
+											value="#{gestionPrestamosBean.nombreP}" id="txtNombrep" />
+									</div>
+
+									<div class="form-group">
+										<label>Apellidos</label>
+										<h:inputText type="text" class="form-control p_input"
+											value="#{gestionPrestamosBean.apellidosP}" id="txtApellidop" />
+									</div>
+
+									<div class="form-group">
+										<label>Numero de Cuenta</label>
+										<h:inputText type="text" class="form-control p_input"
+											value="#{gestionPrestamosBean.cuentaP}" id="txtNumeroCuentap" />
+									</div>
+
+
+									<!-- 								<f:growl id="msgs" showDetail="true" -->
+									<!-- 									skipDetailIfEqualsSummary="true" /> -->
+									<div
+										class="form-group d-flex align-items-center justify-content-between">
+									</div>
+									<!-- 								<div class="text-center"> -->
+
+
+									<!-- 								</div> -->
+									<div class="d-flex"></div>
+								</h:form>
+
+							</div>
+							<div class="card-body px-5 py-5">
+
+
+								<h:form title="formulario-registrar">
+									<h3 class="card-title text-left mb-3">CARACTERISTICAS DEL
+										PRESTAMO</h3>
+									<div class="form-group">
+										<label>Monto</label>
+										<h:inputText type="text" class="form-control p_input"
+											value="#{gestionPrestamosBean.monto}" id="txtMonto" />
+									</div>
+
+
+
+									<div class="form-group">
+										<label>#Cuotas</label>
+										<h:inputText type="text" class="form-control p_input"
+											value="#{gestionPrestamosBean.plazo}" id="txtCuotas" />
+									</div>
+
+									<div>
+										<h:commandButton
+											action="#{gestionPrestamosBean.calculoPagoCuotas()}"
+											value="Calcular Pago"
+											class="btn btn-primary btn-block enter-btn">
+											<f:ajax execute="txtMonto txtCuotas"
+												render="txtInteres txtPagoMensual"></f:ajax>
+										</h:commandButton>
+									</div>
+
+									<div class="form-group">
+										<label>Pago Mensual</label>
+										<h:inputText type="text" class="form-control p_input"
+											value="#{gestionPrestamosBean.pagoMensual}"
+											id="txtPagoMensual" />
+									</div>
+
+									<div class="form-group">
+										<label>Interes %</label>
+										<h:inputText type="text" class="form-control p_input"
+											value="#{gestionPrestamosBean.porInteres}" id="txtInteres" />
+									</div>
+
+									<!-- 								<f:growl id="msgs" showDetail="true" -->
+									<!-- 									skipDetailIfEqualsSummary="true" /> -->
+									<div
+										class="form-group d-flex align-items-center justify-content-between">
+									</div>
+									<!-- 								<div class="text-center"> -->
+
+
+									<!-- 								</div> -->
+									<div class="d-flex"></div>
+								</h:form>
+
+							</div>
 						</div>
 					</div>
+					<!-- content-wrapper ends -->
 				</div>
-				<!-- content-wrapper ends -->
+				<!-- row ends -->
 			</div>
-			<!-- row ends -->
+			<!-- page-body-wrapper ends -->
 		</div>
-		<!-- page-body-wrapper ends -->
-	</div>
-	<!-- container-scroller -->
-	<!-- plugins:js -->
-	<script src="template/assets/vendors/js/vendor.bundle.base.js"></script>
-	<!-- endinject -->
-	<!-- Plugin js for this page -->
-	<!-- End plugin js for this page -->
-	<!-- inject:js -->
-	<script src="template/assets/js/off-canvas.js"></script>
-	<script src="template/assets/js/hoverable-collapse.js"></script>
-	<script src="template/assets/js/misc.js"></script>
-	<script src="template/assets/js/settings.js"></script>
-	<script src="template/assets/js/todolist.js"></script>
-	<!-- endinject -->
-</h:body>
+		<!-- container-scroller -->
+		<!-- plugins:js -->
+		<script src="template/assets/vendors/js/vendor.bundle.base.js"></script>
+		<!-- endinject -->
+		<!-- Plugin js for this page -->
+		<!-- End plugin js for this page -->
+		<!-- inject:js -->
+		<script src="template/assets/js/off-canvas.js"></script>
+		<script src="template/assets/js/hoverable-collapse.js"></script>
+		<script src="template/assets/js/misc.js"></script>
+		<script src="template/assets/js/settings.js"></script>
+		<script src="template/assets/js/todolist.js"></script>
+		<!-- endinject -->
+	</ui:define>
+</ui:composition>
 </html>

@@ -6,111 +6,98 @@
 	xmlns:p="http://java.sun.com/jsf/html">
 
 <h:head>
-	<!-- Required meta tags -->
-	<meta charset="utf-8" />
-	<meta name="viewport"
-		content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-	<title>Crear Servicio Pago</title>
-	<!-- plugins:css -->
-	<link rel="stylesheet"
-		href="template/assets/vendors/mdi/css/materialdesignicons.min.css" />
-	<link rel="stylesheet"
-		href="template/assets/vendors/css/vendor.bundle.base.css" />
-	<!-- endinject -->
-	<!-- Plugin css for this page -->
-	<!-- End plugin css for this page -->
-	<!-- inject:css -->
-	<!-- endinject -->
-	<!-- Layout styles -->
-	<link rel="stylesheet" href="template/assets/css/style.css" />
-	<!-- End layout styles -->
-	<link rel="shortcut icon" href="template/assets/images/favicon.png" />
-</h:head>
-<h:body>
-	<div class="container-scroller">
-		<div class="container-fluid page-body-wrapper full-page-wrapper">
-			<div class="row w-100 m-0">
-				<div
-					class="content-wrapper full-page-wrapper d-flex align-items-center auth login-bg">
-					<h1>
-						<h:title name="title">
-							<ui:insert name="title">Deudas</ui:insert>
-						</h:title>
-					</h1>
-					<div class="card col-lg-4 mx-auto">
-						<div class="form-group">
 
-							<p:dataTable var="servicio"
-								value="#{gestionPersonasBean.listaServiciosActivos}"
-								class="table table-striped" paginator="true" rows="10"
-								selectionMode="single" selection="#{carBean.selectedCar}"
-								rowKey="#{servicio.id}">
-								<f:facet name="header">
+</h:head>
+<ui:composition template="blank-page.xhtml">
+	<ui:define name="title">
+        Tarjetas
+    </ui:define>
+	<ui:define name="content">
+		<div class="container-scroller">
+			<div class="container-fluid page-body-wrapper full-page-wrapper">
+				<div class="row w-100 m-0">
+					<div
+						class="content-wrapper full-page-wrapper d-flex align-items-center auth login-bg">
+						<h1>
+							<h:title name="title">
+								<ui:insert name="title">Deudas</ui:insert>
+							</h:title>
+						</h1>
+						<div class="card col-lg-4 mx-auto">
+							<div class="form-group">
+
+								<p:dataTable var="servicio"
+									value="#{gestionPersonasBean.listaServiciosActivos}"
+									class="table table-striped" paginator="true" rows="10"
+									selectionMode="single" selection="#{carBean.selectedCar}"
+									rowKey="#{servicio.id}">
+									<f:facet name="header">
         Lista Deudas Servicios
     </f:facet>
-								<p:column>
-									<f:facet name="header">
+									<p:column>
+										<f:facet name="header">
             ID
         </f:facet>
         #{servicio.id}
         </p:column>
-								<p:column>
-									<f:facet name="header">
+									<p:column>
+										<f:facet name="header">
             Fecha Emisión
         </f:facet>
         #{servicio.fechaEmision}
 								</p:column>
-								<p:column>
-									<f:facet name="header">
+									<p:column>
+										<f:facet name="header">
             Tipo
         </f:facet>
         #{servicio.tipo}
     </p:column>
-								<p:column>
-									<f:facet name="header">
+									<p:column>
+										<f:facet name="header">
             Deuda
         </f:facet>
         #{servicio.deuda}
     </p:column>
 
 
-								<p:column>
-									<f:facet name="header">Acciones</f:facet>
+									<p:column>
+										<f:facet name="header">Acciones</f:facet>
 
-									<h:commandButton class="btn btn-light btn-fw" value="Pagar"
-										action="#{gestionServiciosBean.pagarServicio()}">
-										<f:ajax execute="txtNumeroDet txtCantidad"
-											render="txtNombreProducto txtPrecio txtTotal" />
-									</h:commandButton>
+										<h:commandButton class="btn btn-light btn-fw" value="Pagar"
+											action="#{gestionServiciosBean.pagarServicio()}">
+											<f:ajax execute="txtNumeroDet txtCantidad"
+												render="txtNombreProducto txtPrecio txtTotal" />
+										</h:commandButton>
 
-								</p:column>
+									</p:column>
 
-							</p:dataTable>
+								</p:dataTable>
 
 
 
+							</div>
 						</div>
 					</div>
 				</div>
+				<!-- content-wrapper ends -->
 			</div>
-			<!-- content-wrapper ends -->
+			<!-- row ends -->
 		</div>
-		<!-- row ends -->
-	</div>
-	<!-- page-body-wrapper ends -->
+		<!-- page-body-wrapper ends -->
 
-	<!-- container-scroller -->
-	<!-- plugins:js -->
-	<script src="template/assets/vendors/js/vendor.bundle.base.js"></script>
-	<!-- endinject -->
-	<!-- Plugin js for this page -->
-	<!-- End plugin js for this page -->
-	<!-- inject:js -->
-	<script src="template/assets/js/off-canvas.js"></script>
-	<script src="template/assets/js/hoverable-collapse.js"></script>
-	<script src="template/assets/js/misc.js"></script>
-	<script src="template/assets/js/settings.js"></script>
-	<script src="template/assets/js/todolist.js"></script>
-	<!-- endinject -->
-</h:body>
+		<!-- container-scroller -->
+		<!-- plugins:js -->
+		<script src="template/assets/vendors/js/vendor.bundle.base.js"></script>
+		<!-- endinject -->
+		<!-- Plugin js for this page -->
+		<!-- End plugin js for this page -->
+		<!-- inject:js -->
+		<script src="template/assets/js/off-canvas.js"></script>
+		<script src="template/assets/js/hoverable-collapse.js"></script>
+		<script src="template/assets/js/misc.js"></script>
+		<script src="template/assets/js/settings.js"></script>
+		<script src="template/assets/js/todolist.js"></script>
+		<!-- endinject -->
+	</ui:define>
+</ui:composition>
 </html>

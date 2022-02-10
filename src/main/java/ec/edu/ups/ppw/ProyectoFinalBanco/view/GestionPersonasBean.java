@@ -103,18 +103,25 @@ public class GestionPersonasBean {
 		FacesContext.getCurrentInstance().addMessage(null, msg);
 	}
 
-	public void login() {
+	public String login() {
 		System.out.println(usuario);
 		System.out.println(contraseña);
 		cuentaLogIn = cueON.logIn(usuario, contraseña);
 
 		if (cuentaLogIn != null) {
 			cueON.setCuentaLogIn(cuentaLogIn);
-			this.cargarDeudas();
+			if (cueON.getCuentaLogIn() != null) {
+				this.cargarDeudas();
+				return "poliza";
+			}else {
+				return null;
+			}
+			
 		}
 
 		System.out.println("Cuenta Iniciada con exito");
 		System.out.println(cuentaLogIn);
+		return null;
 	}
 
 	public String cargarDeudas() {
