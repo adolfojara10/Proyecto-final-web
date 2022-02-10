@@ -52,7 +52,7 @@ public class Persona {
 
 	@OneToMany
 	@JoinColumn(name = "pre_id")
-	private List<Prestamo> prestamo;
+	private List<Prestamo> prestamos;
 	@OneToMany
 	@JoinColumn(name = "pre_id")
 	private List<Prestamo> garante;
@@ -150,11 +150,11 @@ public class Persona {
 	}
 
 	public List<Prestamo> getPrestamo() {
-		return prestamo;
+		return prestamos;
 	}
 
 	public void setPrestamo(List<Prestamo> prestamo) {
-		this.prestamo = prestamo;
+		this.prestamos = prestamo;
 	}
 
 	public List<Prestamo> getGarante() {
@@ -194,12 +194,19 @@ public class Persona {
 
 		servicios.add(ser);
 	}
+	
+	public void addPrestamo(Prestamo prestamo) {
+		if (prestamos == null) {
+			prestamos = new ArrayList<Prestamo>();
+		}
+		prestamos.add(prestamo);
+	}
 
 	@Override
 	public String toString() {
 		return "Persona [id=" + id + ", cedula=" + cedula + ", nombre=" + nombre + ", apellido=" + apellido + ", email="
 				+ email + ", fecha_nacimiento=" + fecha_nacimiento + ", tipo=" + tipo + ", solicitud=" + solicitud
-				+ ", tarjetas=" + tarjetas + ", poliza=" + poliza + ", cuenta=" + cuenta + ", prestamo=" + prestamo
+				+ ", tarjetas=" + tarjetas + ", poliza=" + poliza + ", cuenta=" + cuenta + ", prestamo=" + prestamos
 				+ ", garante=" + garante + ", servicios=" + servicios + "]";
 	}
 

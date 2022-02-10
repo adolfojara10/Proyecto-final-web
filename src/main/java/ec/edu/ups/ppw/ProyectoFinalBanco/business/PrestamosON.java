@@ -13,7 +13,7 @@ public class PrestamosON {
 	@Inject
 	private PrestamoDAO prestamoDAO;
 	
-	public void guardarTarjeta(Prestamo prestamo) {
+	public void guardarPrestamo(Prestamo prestamo) {
 
 		Prestamo p = prestamoDAO.read(prestamo.getId());
 		if (p == null) {

@@ -91,6 +91,30 @@ public class GestionPrestamosBean {
 		this.pagoMensual= presON.calculoPago(this.monto, this.plazo);
 		return null;
 	}
+	
+	public String guardarPrestamo() {
+		System.out.println("-------------------------------------------------------------------------------------------------");
+		System.out.println(aprovacion);
+		if(aprovacion == true) {
+			newPrestamo.setId(presON.calcularID());
+			newPrestamo.setMonto(monto);
+			newPrestamo.setEstado(false);
+			newPrestamo.setPago_mensual(pagoMensual);
+			newPrestamo.setPlazo(plazo);
+			newPrestamo.setPor_interes(porInteres);
+			Persona p = perON.buscarCedula(this.cedula);
+			newPrestamo.setGarante(p);
+			presON.guardarPrestamo(newPrestamo);
+			Persona c = perON.buscarCedula(this.cedulaP);
+			c.addPrestamo(newPrestamo);
+			perON.guardarCliente(c);
+			System.out.println(c);
+			System.out.println("Solicitud enviada");
+		}else {
+			System.out.println("No se puede enviar la solucitud garante no aprovado");
+		}
+		return null;
+	}
 
 	public int getId() {
 		return id;
