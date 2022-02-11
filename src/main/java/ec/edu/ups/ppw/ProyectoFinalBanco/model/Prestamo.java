@@ -1,5 +1,6 @@
 package ec.edu.ups.ppw.ProyectoFinalBanco.model;
 
+import java.io.Serializable;
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -7,139 +8,131 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQuery;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+
 
 @Entity
-public class Prestamo {
+@NamedQuery(name="Prestamo.findAll", query="SELECT p FROM Prestamo p")
+public class Prestamo implements Serializable {
+	private static final long serialVersionUID = 1L;
 
 	@Id
-	@Column(name = "pre_id")
 	private int id;
-	@Column(name = "pre_monto")
+
+	private String estado;
+
+	@Temporal(TemporalType.DATE)
+	@Column(name="fecha_fin")
+	private Date fechaFin;
+
+	@Temporal(TemporalType.DATE)
+	@Column(name="fecha_inicio")
+	private Date fechaInicio;
+
+	private double interes;
+
 	private double monto;
-	@Column(name = "pre_plazo")
+
+	@Column(name="pago_mensual")
+	private double pagoMensual;
+
 	private int plazo;
-	@Column(name = "pre_por_interes")
-	private double por_interes;
-	@Column(name = "pre_pago_mensual")
-	private double pago_mensual;
-	@Column(name = "pre_fecha_inicio")
-	private Date fecha_inicio;
-	@Column(name = "pre_fecha_fin")
-	private Date fecha_fin;
-	@Column(name = "pre_cuotas_pagadas")
-	private int cuotasPagadas;
-	@Column(name = "pre_pago_progreso")
-	private double pago_progreso;
-	@Column(name = "pre_estado")
-	private boolean estado;
+
+	//bi-directional many-to-one association to Persona
 	@ManyToOne
-	@JoinColumn(name = "per_id", insertable = false, updatable = false)
-	private Persona persona;
+	@JoinColumn(name="persona_id")
+	private Persona persona1;
+
+	//bi-directional many-to-one association to Persona
 	@ManyToOne
-	@JoinColumn(name = "per_id", insertable = false, updatable = false)
-	private Persona garante;
+	@JoinColumn(name="garante_id")
+	private Persona persona2;
+
+	public Prestamo() {
+	}
 
 	public int getId() {
-		return id;
+		return this.id;
 	}
 
 	public void setId(int id) {
 		this.id = id;
 	}
 
+	public String getEstado() {
+		return this.estado;
+	}
+
+	public void setEstado(String estado) {
+		this.estado = estado;
+	}
+
+	public Date getFechaFin() {
+		return this.fechaFin;
+	}
+
+	public void setFechaFin(Date fechaFin) {
+		this.fechaFin = fechaFin;
+	}
+
+	public Date getFechaInicio() {
+		return this.fechaInicio;
+	}
+
+	public void setFechaInicio(Date fechaInicio) {
+		this.fechaInicio = fechaInicio;
+	}
+
+	public double getInteres() {
+		return this.interes;
+	}
+
+	public void setInteres(double interes) {
+		this.interes = interes;
+	}
+
 	public double getMonto() {
-		return monto;
+		return this.monto;
 	}
 
 	public void setMonto(double monto) {
 		this.monto = monto;
 	}
 
+	public double getPagoMensual() {
+		return this.pagoMensual;
+	}
+
+	public void setPagoMensual(double pagoMensual) {
+		this.pagoMensual = pagoMensual;
+	}
+
 	public int getPlazo() {
-		return plazo;
+		return this.plazo;
 	}
 
 	public void setPlazo(int plazo) {
 		this.plazo = plazo;
 	}
 
-	public double getPor_interes() {
-		return por_interes;
+	public Persona getPersona1() {
+		return this.persona1;
 	}
 
-	public void setPor_interes(double por_interes) {
-		this.por_interes = por_interes;
+	public void setPersona1(Persona persona1) {
+		this.persona1 = persona1;
 	}
 
-	public double getPago_mensual() {
-		return pago_mensual;
+	public Persona getPersona2() {
+		return this.persona2;
 	}
 
-	public void setPago_mensual(double pago_mensual) {
-		this.pago_mensual = pago_mensual;
+	public void setPersona2(Persona persona2) {
+		this.persona2 = persona2;
 	}
 
-	public Date getFecha_inicio() {
-		return fecha_inicio;
-	}
-
-	public void setFecha_inicio(Date fecha_inicio) {
-		this.fecha_inicio = fecha_inicio;
-	}
-
-	public Date getFecha_fin() {
-		return fecha_fin;
-	}
-
-	public void setFecha_fin(Date fecha_fin) {
-		this.fecha_fin = fecha_fin;
-	}
-
-	public boolean isEstado() {
-		return estado;
-	}
-
-	public void setEstado(boolean estado) {
-		this.estado = estado;
-	}
-
-	public double getPago_progreso() {
-		return pago_progreso;
-	}
-
-	public void setPago_progreso(double pago_progreso) {
-		this.pago_progreso = pago_progreso;
-	}
-
-	public int getCuotasPagadas() {
-		return cuotasPagadas;
-	}
-
-	public void setCuotasPagadas(int cuotasPagadas) {
-		this.cuotasPagadas = cuotasPagadas;
-	}
-
-	public Persona getPersona() {
-		return persona;
-	}
-
-	public void setPersona(Persona persona) {
-		this.persona = persona;
-	}
-
-	public Persona getGarante() {
-		return garante;
-	}
-
-	public void setGarante(Persona garante) {
-		this.garante = garante;
-	}
-
-	@Override
-	public String toString() {
-		return "Prestamo [id=" + id + ", monto=" + monto + ", plazo=" + plazo + ", por_interes=" + por_interes
-				+ ", pago_mensual=" + pago_mensual + ", fecha_inicio=" + fecha_inicio + ", fecha_fin=" + fecha_fin
-				+ ", estado=" + estado + ", persona=" + persona + ", garante=" + garante + "]";
-	}
+	
 
 }

@@ -1,98 +1,110 @@
 package ec.edu.ups.ppw.ProyectoFinalBanco.model;
 
+import java.io.Serializable;
 import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQuery;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+
 
 @Entity
-public class Tarjeta {
+@NamedQuery(name="Tarjeta.findAll", query="SELECT t FROM Tarjeta t")
+public class Tarjeta implements Serializable {
+	private static final long serialVersionUID = 1L;
+
 	@Id
-	@Column(name="tar_id")
 	private int id;
-	@Column(name="tar_nombre")
-	private String nombre;
-	@Column(name="tar_numero")
-	private int numero;
-	@Column(name="tar_codigo")
+
 	private int codigo;
-	@Column(name="tar_fecha_Inicio")
-	private Date fecha_Inicio;
-	@Column(name="tar_fecha_fin")
-	private Date fecha_fin;
-	@Column(name="tar_tipo")
+
+	@Temporal(TemporalType.DATE)
+	@Column(name="fecha_fin")
+	private Date fechaFin;
+
+	@Temporal(TemporalType.DATE)
+	@Column(name="fecha_inicio")
+	private Date fechaInicio;
+
+	private String nombre;
+
+	private int numero;
+
 	private String tipo;
-	@Column(name="tar_monto")
-	private double monto;
+
+	//bi-directional many-to-one association to Persona
 	@ManyToOne
-	@JoinColumn(name = "per_id")
 	private Persona persona;
-	
-	
-	public int getId() {
-		return id;
+
+	public Tarjeta() {
 	}
+
+	public int getId() {
+		return this.id;
+	}
+
 	public void setId(int id) {
 		this.id = id;
 	}
-	public String getNombre() {
-		return nombre;
-	}
-	public void setNombre(String nombre) {
-		this.nombre = nombre;
-	}
-	public int getNumero() {
-		return numero;
-	}
-	public void setNumero(int numero) {
-		this.numero = numero;
-	}
+
 	public int getCodigo() {
-		return codigo;
+		return this.codigo;
 	}
+
 	public void setCodigo(int codigo) {
 		this.codigo = codigo;
 	}
-	public Date getFecha_Inicio() {
-		return fecha_Inicio;
+
+	public Date getFechaFin() {
+		return this.fechaFin;
 	}
-	public void setFecha_Inicio(Date fecha_Inicio) {
-		this.fecha_Inicio = fecha_Inicio;
+
+	public void setFechaFin(Date fechaFin) {
+		this.fechaFin = fechaFin;
 	}
-	public Date getFecha_fin() {
-		return fecha_fin;
+
+	public Date getFechaInicio() {
+		return this.fechaInicio;
 	}
-	public void setFecha_fin(Date fecha_fin) {
-		this.fecha_fin = fecha_fin;
+
+	public void setFechaInicio(Date fechaInicio) {
+		this.fechaInicio = fechaInicio;
 	}
+
+	public String getNombre() {
+		return this.nombre;
+	}
+
+	public void setNombre(String nombre) {
+		this.nombre = nombre;
+	}
+
+	public int getNumero() {
+		return this.numero;
+	}
+
+	public void setNumero(int numero) {
+		this.numero = numero;
+	}
+
 	public String getTipo() {
-		return tipo;
+		return this.tipo;
 	}
+
 	public void setTipo(String tipo) {
 		this.tipo = tipo;
 	}
-	public double getMonto() {
-		return monto;
-	}
-	public void setMonto(double monto) {
-		this.monto = monto;
-	}
+
 	public Persona getPersona() {
-		return persona;
+		return this.persona;
 	}
+
 	public void setPersona(Persona persona) {
 		this.persona = persona;
 	}
-	
-	@Override
-	public String toString() {
-		return "Tarjeta [id=" + id + ", nombre=" + nombre + ", numero=" + numero + ", codigo=" + codigo
-				+ ", fecha_Inicio=" + fecha_Inicio + ", fecha_fin=" + fecha_fin + ", tipo=" + tipo + ", monto=" + monto
-				+ ", persona=" + persona + "]";
-	}
-	
 
 }

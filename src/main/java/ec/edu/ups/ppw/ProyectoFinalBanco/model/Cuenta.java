@@ -1,82 +1,120 @@
 package ec.edu.ups.ppw.ProyectoFinalBanco.model;
 
-import java.util.ArrayList;
+import java.io.Serializable;
+
 import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
+
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
+
+import javax.persistence.NamedQuery;
+
 
 @Entity
-public class Cuenta {
-	@Id
-	@Column(name = "cue_id")
-	private int id;
-	@Column(name = "cue_saldo")
-	private double saldo;
-	@Column(name = "cue_nombre_usuario")
-	private String nombre_usuario;
-	@Column(name = "cue_contraseña")
-	private String contraseña;
+@NamedQuery(name="Cuenta.findAll", query="SELECT c FROM Cuenta c")
+public class Cuenta implements Serializable {
+	private static final long serialVersionUID = 1L;
 
-	@OneToMany
-	@JoinColumn(name = "tra_id")
-	private List<Transferencia> tranferencias;
+	@Id
+	private int id;
+
+	private String contrasenia;
+
+	@Column(name="nombre_usuario")
+	private String nombreUsuario;
+
+	private double saldo;
+
+	//bi-directional many-to-one association to Persona
+	@OneToMany(mappedBy="cuenta")
+	private List<Persona> personas;
+
+	//bi-directional many-to-one association to Transferencia
+	@OneToMany(mappedBy="cuenta")
+	private List<Transferencia> transferencias;
+
+	public Cuenta() {
+	}
 
 	public int getId() {
-		return id;
+		return this.id;
 	}
 
 	public void setId(int id) {
 		this.id = id;
 	}
 
+	public String getContrasenia() {
+		return this.contrasenia;
+	}
+
+	public void setContrasenia(String contrasenia) {
+		this.contrasenia = contrasenia;
+	}
+
+	public String getNombreUsuario() {
+		return this.nombreUsuario;
+	}
+
+	public void setNombreUsuario(String nombreUsuario) {
+		this.nombreUsuario = nombreUsuario;
+	}
+
 	public double getSaldo() {
-		return saldo;
+		return this.saldo;
 	}
 
 	public void setSaldo(double saldo) {
 		this.saldo = saldo;
 	}
 
-	public String getNombre_usuario() {
-		return nombre_usuario;
+	public List<Persona> getPersonas() {
+		return this.personas;
 	}
 
-	public void setNombre_usuario(String nombre_usuario) {
-		this.nombre_usuario = nombre_usuario;
+	public void setPersonas(List<Persona> personas) {
+		this.personas = personas;
 	}
 
-	public String getContraseña() {
-		return contraseña;
+	public Persona addPersona(Persona persona) {
+		getPersonas().add(persona);
+		persona.setCuenta(this);
+
+		return persona;
 	}
 
-	public void setContraseña(String contraseña) {
-		this.contraseña = contraseña;
+	public Persona removePersona(Persona persona) {
+		getPersonas().remove(persona);
+		persona.setCuenta(null);
+
+		return persona;
 	}
 
-	public List<Transferencia> getTranferencia() {
-		return tranferencias;
+	public List<Transferencia> getTransferencias() {
+		return this.transferencias;
 	}
 
-	public void setTranferencia(List<Transferencia> tranferencia) {
-		this.tranferencias = tranferencia;
-	}
-	
-	public void addTransferencia(Transferencia t) {
-		if (tranferencias == null) {
-			tranferencias = new ArrayList<>();
-		}
-		tranferencias.add(t);
+	public void setTransferencias(List<Transferencia> transferencias) {
+		this.transferencias = transferencias;
 	}
 
-	@Override
-	public String toString() {
-		return "Cuenta [id=" + id + ", saldo=" + saldo + ", nombre_usuario=" + nombre_usuario + ", contraseña="
-				+ contraseña + ", tranferencia=" + tranferencias + "]";
+	public Transferencia addTransferencia(Transferencia transferencia) {
+		getTransferencias().add(transferencia);
+		transferencia.setCuenta(this);
+
+		return transferencia;
+	}
+
+	public Transferencia removeTransferencia(Transferencia transferencia) {
+		getTransferencias().remove(transferencia);
+		transferencia.setCuenta(null);
+
+		return transferencia;
 	}
 
 }
+

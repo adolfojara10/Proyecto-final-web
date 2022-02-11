@@ -7,6 +7,7 @@ import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 
+import ec.edu.ups.ppw.ProyectoFinalBanco.business.CuentaON;
 import ec.edu.ups.ppw.ProyectoFinalBanco.business.PersonaON;
 import ec.edu.ups.ppw.ProyectoFinalBanco.business.TarjetaON;
 import ec.edu.ups.ppw.ProyectoFinalBanco.model.Persona;
@@ -20,6 +21,9 @@ public class GestionTargetaBean {
 	
 	@Inject
 	private TarjetaON tarON;
+	
+	@Inject
+	private CuentaON cuentaON;
 	
 	private int id;
 	private String nombre;
@@ -42,21 +46,19 @@ public class GestionTargetaBean {
 	}
 	
 	public String guardar() {
-		Persona p = perON.buscarCedula(cedula);
-		perON.guardarCliente(p);
-		this.saldo=p.getCuenta().getSaldo();
-		System.out.println(saldo);
+		var p = cuentaON.getPersonaLogIn();
+		double saldo = p.getCuenta().getSaldo();
 		if(saldo > 5) {
-			newTarjet.setId(tarON.calcularID());
+			//newTarjet.setId(tarON.calcularID());
 			newTarjet.setTipo(tipo);
 			newTarjet.setNumero(tarON.generarNumero());
 			newTarjet.setCodigo(tarON.generarcodigoseguridad());
-			
+			System.out.println(newTarjet.toString());
 			tarON.guardarTarjeta(newTarjet);
 			
-			p.addTarjeta(newTarjet);
+			cuentaON.getPersonaLogIn().addTarjeta(newTarjet);
 			System.out.println(p);
-			perON.guardarCliente(p);
+			perON.guardarCliente(cuentaON.getPersonaLogIn());
 			
 			System.out.println("Solicitud aprovada");
 		}else {

@@ -11,7 +11,7 @@ import ec.edu.ups.ppw.ProyectoFinalBanco.business.CuentaON;
 import ec.edu.ups.ppw.ProyectoFinalBanco.business.PersonaON;
 import ec.edu.ups.ppw.ProyectoFinalBanco.business.ServiciosON;
 import ec.edu.ups.ppw.ProyectoFinalBanco.model.Persona;
-import ec.edu.ups.ppw.ProyectoFinalBanco.model.Servicios;
+import ec.edu.ups.ppw.ProyectoFinalBanco.model.Servicio;
 
 @Named
 @RequestScoped
@@ -26,8 +26,8 @@ public class GestionServiciosBean {
 	@Inject
 	private CuentaON cuentaON;
 
-	private Servicios servicio = new Servicios();
-	private Servicios servicioPagar = new Servicios();
+	private Servicio servicio = new Servicio();
+	private Servicio servicioPagar = new Servicio();
 	private Persona persona = new Persona();
 
 	private Date fechaEmision;
@@ -39,7 +39,7 @@ public class GestionServiciosBean {
 
 	@PostConstruct
 	public void init() {
-		servicio = new Servicios();
+		servicio = new Servicio();
 		fechaEmision = new Date();
 		// persona = new Persona();
 		//servicioPagar = new Servicios();
@@ -90,11 +90,11 @@ public class GestionServiciosBean {
 		}
 	}
 
-	public Servicios getServicio() {
+	public Servicio getServicio() {
 		return servicio;
 	}
 
-	public void setServicio(Servicios servicio) {
+	public void setServicio(Servicio servicio) {
 		this.servicio = servicio;
 	}
 
@@ -146,11 +146,11 @@ public class GestionServiciosBean {
 		this.cedula = cedula;
 	}
 
-	public Servicios getServicioPagar() {
+	public Servicio getServicioPagar() {
 		return servicioPagar;
 	}
 
-	public void setServicioPagar(Servicios servicioPagar) {
+	public void setServicioPagar(Servicio servicioPagar) {
 		this.servicioPagar = servicioPagar;
 	}
 

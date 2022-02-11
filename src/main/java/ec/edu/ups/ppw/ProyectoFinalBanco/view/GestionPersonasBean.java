@@ -19,7 +19,7 @@ import ec.edu.ups.ppw.ProyectoFinalBanco.business.CuentaON;
 import ec.edu.ups.ppw.ProyectoFinalBanco.business.PersonaON;
 import ec.edu.ups.ppw.ProyectoFinalBanco.model.Cuenta;
 import ec.edu.ups.ppw.ProyectoFinalBanco.model.Persona;
-import ec.edu.ups.ppw.ProyectoFinalBanco.model.Servicios;
+import ec.edu.ups.ppw.ProyectoFinalBanco.model.Servicio;
 
 @Named
 @RequestScoped
@@ -52,7 +52,7 @@ public class GestionPersonasBean {
 
 	private List<Persona> clientesList;
 //	private List<Persona> cuentasList;
-	private static List<Servicios> listaServiciosActivos;
+	private static List<Servicio> listaServiciosActivos;
 
 	@PostConstruct
 	public void init() {
@@ -65,14 +65,14 @@ public class GestionPersonasBean {
 
 	public String guardar() throws NoSuchAlgorithmException {
 		System.out.println("1111 - " + tipo + " el id es > " + perON.calcularID());
-		String contraencrip = cueON.sha1(newCuenta.getContraseña());
-		newCliente.setId(perON.calcularID());
+		String contraencrip = cueON.sha1(newCuenta.getContrasenia());
+		//newCliente.setId(perON.calcularID());
 		newCliente.setTipo(tipo);
 
-		newCuenta.setId(cueON.calcularID());
-		newCuenta.setNombre_usuario(cueON.crearNombreUsuario(newCliente.getNombre(), newCliente.getApellido()));
+		//newCuenta.setId(cueON.calcularID());
+		newCuenta.setNombreUsuario(cueON.crearNombreUsuario(newCliente.getNombre(), newCliente.getApellido()));
 		// newCuenta.setNombre_usuario("aa");
-		newCuenta.setContraseña(contraencrip);
+		newCuenta.setContrasenia(contraencrip);
 		newCuenta.setSaldo(3000);
 		cueON.guardarCuenta(newCuenta);
 
@@ -127,12 +127,12 @@ public class GestionPersonasBean {
 		return null;
 	}
 
-	public List<Servicios> cargarDeudas() {
+	public List<Servicio> cargarDeudas() {
 
 		var listaDeudas = cueON.getPersonaLogIn().getServiciosPagados();
-		listaServiciosActivos = new ArrayList<Servicios>();
+		listaServiciosActivos = new ArrayList<Servicio>();
 		if (listaDeudas.size() > 0) {
-			for (Servicios s : listaDeudas) {
+			for (Servicio s : listaDeudas) {
 				if (s.isEstado()) {
 					listaServiciosActivos.add(s);
 				}
@@ -237,11 +237,11 @@ public class GestionPersonasBean {
 		this.cuentaLogIn = cuentaLogIn;
 	}
 
-	public List<Servicios> getListaServiciosActivos() {
+	public List<Servicio> getListaServiciosActivos() {
 		return listaServiciosActivos;
 	}
 
-	public void setListaServiciosActivos(List<Servicios> listaServiciosActivos) {
+	public void setListaServiciosActivos(List<Servicio> listaServiciosActivos) {
 		this.listaServiciosActivos = listaServiciosActivos;
 	}
 

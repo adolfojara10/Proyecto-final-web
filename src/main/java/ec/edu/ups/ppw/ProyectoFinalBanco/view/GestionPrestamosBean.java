@@ -51,62 +51,64 @@ public class GestionPrestamosBean {
 	public void init() {
 		newCliente = new Persona();
 		newPrestamo = new Prestamo();
+		aprovacion = false;
 	}
 	
-	public String cargarDatosGarante () {
+	public void cargarDatosGarante () {
 		Persona p = perON.buscarCedula(this.cedula);
 		this.nombre = p.getNombre();
 		this.apellidos = p.getApellido();
 		this.cuenta = p.getCuenta().getId();
-		return null;
+		//return null;
 	}
 	
-	public String cargarDatosCliente () {
+	public void cargarDatosCliente () {
 		Persona p = perON.buscarCedula(this.cedulaP);
 		this.nombreP = p.getNombre();
 		this.apellidosP = p.getApellido();
 		this.cuentaP = p.getCuenta().getId();
-		return null;
+		//return null;
 	}
 	
-	public String aprobarGarante() {
+	public void aprobarGarante() {
 		Persona p = perON.buscarCedula(this.cedula);
+		System.out.println(p);
 		double saldo = p.getCuenta().getSaldo();
 		if(saldo > 2000) {
 			System.out.println("Garante Aprobado");
 			aprovacion = true;
 			System.out.println(aprovacion);
-			return null;
+			//return null;
 		}else {
 			System.out.println("Garante No Aprobado");
 			aprovacion = false;
 			System.out.println(aprovacion);
 		}
-		return null;
+		//return null;
 	}
 	
-	public String calculoPagoCuotas() {
+	public void calculoPagoCuotas() {
 		System.out.println(this.monto);
 		this.porInteres= presON.calculoInteres(this.monto);
 		this.pagoMensual= presON.calculoPago(this.monto, this.plazo);
-		return null;
+		//return null;
 	}
 	
 	public String guardarPrestamo() {
-		System.out.println("-------------------------------------------------------------------------------------------------");
+		aprobarGarante();
 		System.out.println(aprovacion);
 		if(aprovacion == true) {
-			newPrestamo.setId(presON.calcularID());
+			//newPrestamo.setId(presON.calcularID());
 			newPrestamo.setMonto(monto);
-			newPrestamo.setEstado(false);
-			newPrestamo.setPago_mensual(pagoMensual);
+			newPrestamo.setEstado("Pendiente");
+			newPrestamo.setPagoMensual(pagoMensual);
 			newPrestamo.setPlazo(plazo);
-			newPrestamo.setPor_interes(porInteres);
+			newPrestamo.setInteres(porInteres);
 			Persona p = perON.buscarCedula(this.cedula);
-			newPrestamo.setGarante(p);
+			newPrestamo.setPersona2(p);
 			presON.guardarPrestamo(newPrestamo);
 			Persona c = perON.buscarCedula(this.cedulaP);
-			c.addPrestamo(newPrestamo);
+			//c.addPrestamo(newPrestamo);
 			perON.guardarCliente(c);
 			System.out.println(c);
 			System.out.println("Solicitud enviada");

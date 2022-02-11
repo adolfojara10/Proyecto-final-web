@@ -11,7 +11,7 @@ import ec.edu.ups.ppw.ProyectoFinalBanco.model.Cuenta;
 //import ec.edu.ups.ppw.ProyectoFinalBanco.dao.TransferenciaDAO;
 import ec.edu.ups.ppw.ProyectoFinalBanco.model.Persona;
 import ec.edu.ups.ppw.ProyectoFinalBanco.model.Poliza;
-import ec.edu.ups.ppw.ProyectoFinalBanco.model.Servicios;
+import ec.edu.ups.ppw.ProyectoFinalBanco.model.Servicio;
 
 @Stateless
 public class PersonaON {
@@ -121,19 +121,21 @@ public class PersonaON {
 
 	public Persona buscarCedula(String cedula) {
 		var listaPersonas = personaDAO.getList();
+		for (Persona persona : listaPersonas) {
+			System.out.println(persona.toString());
+		}
 		Persona per;
 		per = listaPersonas.stream().filter(p -> p.getCedula().equals(cedula)).findFirst().get();
-		System.out.println(per);
 		return per;
 	}
 
-	public List<Persona> personasServicio(Servicios s) {
+	public List<Persona> personasServicio(Servicio s) {
 		var lista = personaDAO.getList();
 
 		var listaPersonas = new ArrayList<Persona>();
 
 		for (Persona p : lista) {
-			for (Servicios ser : p.getServiciosPagados()) {
+			for (Servicio ser : p.getServiciosPagados()) {
 				if (ser.getId() == s.getId()) {
 					listaPersonas.add(p);
 				}
@@ -141,7 +143,7 @@ public class PersonaON {
 		}
 
 		for (Persona p : lista) {
-			for (Servicios ser : p.getServiciosEmitidos()) {
+			for (Servicio ser : p.getServiciosEmitidos()) {
 				if (ser.getId() == s.getId()) {
 					listaPersonas.add(p);
 				}

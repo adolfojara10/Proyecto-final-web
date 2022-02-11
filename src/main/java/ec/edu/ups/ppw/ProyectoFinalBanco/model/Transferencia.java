@@ -1,64 +1,77 @@
 package ec.edu.ups.ppw.ProyectoFinalBanco.model;
 
+import java.io.Serializable;
 import java.util.Date;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQuery;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 @Entity
-public class Transferencia {
+@NamedQuery(name="Transferencia.findAll", query="SELECT t FROM Transferencia t")
+public class Transferencia implements Serializable {
+	private static final long serialVersionUID = 1L;
+
 	@Id
-	@Column(name="tra_id")
 	private int id;
-	@Column(name="tra_fecha")
-	private String fecha;
-	@Column(name="tra_monto")
+
+	@Temporal(TemporalType.DATE)
+	private Date fecha;
+
 	private double monto;
-	@Column(name="tra_tipo")
+	
 	private String tipo;
+
+	//bi-directional many-to-one association to Cuenta
 	@ManyToOne
-	@JoinColumn(name = "cue_id", insertable = false, updatable = false)
 	private Cuenta cuenta;
-	
-	
-	public int getId() {
-		return id;
+
+	public Transferencia() {
 	}
+
+	public int getId() {
+		return this.id;
+	}
+
 	public void setId(int id) {
 		this.id = id;
 	}
-	public String getFecha() {
-		return fecha;
+
+	public Date getFecha() {
+		return this.fecha;
 	}
-	public void setFecha(String fecha) {
+
+	public void setFecha(Date fecha) {
 		this.fecha = fecha;
 	}
+
 	public double getMonto() {
-		return monto;
+		return this.monto;
 	}
+
 	public void setMonto(double monto) {
 		this.monto = monto;
 	}
-	public String getTipo() {
-		return tipo;
-	}
-	public void setTipo(String tipo) {
-		this.tipo = tipo;
-	}
+
 	public Cuenta getCuenta() {
-		return cuenta;
+		return this.cuenta;
 	}
+
 	public void setCuenta(Cuenta cuenta) {
 		this.cuenta = cuenta;
 	}
-	
-	@Override
-	public String toString() {
-		return "Transferencia [id=" + id + ", fecha=" + fecha + ", monto=" + monto + ", tipo=" + tipo + ", cuenta="
-				+ cuenta + "]";
+
+	public String getTipo() {
+		return tipo;
 	}
+
+	public void setTipo(String tipo) {
+		this.tipo = tipo;
+	}
+	
+	
 	
 }

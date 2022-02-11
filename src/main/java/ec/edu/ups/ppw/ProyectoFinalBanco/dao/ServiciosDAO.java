@@ -7,7 +7,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
-import ec.edu.ups.ppw.ProyectoFinalBanco.model.Servicios;
+import ec.edu.ups.ppw.ProyectoFinalBanco.model.Servicio;
 
 @Stateless
 public class ServiciosDAO {
@@ -15,24 +15,24 @@ public class ServiciosDAO {
 	@PersistenceContext
 	private EntityManager em;
 
-	public void insert(Servicios ser) {
+	public void insert(Servicio ser) {
 		em.persist(ser);
 	}
 
-	public void update(Servicios ser) {
+	public void update(Servicio ser) {
 		em.merge(ser);
 	}
 
-	public Servicios read(int id) {
-		Servicios p = em.find(Servicios.class, id);
+	public Servicio read(int id) {
+		Servicio p = em.find(Servicio.class, id);
 		return p;
 	}
 
 	// ----------------------------------------------------------------
-	public List<Servicios> getList() {
+	public List<Servicio> getList() {
 		String jpql = "Select s From Servicios s";
 
-		Query q = em.createQuery(jpql, Servicios.class);
+		Query q = em.createQuery(jpql, Servicio.class);
 
 		return q.getResultList();
 	}

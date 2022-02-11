@@ -6,7 +6,7 @@ import javax.ejb.Stateless;
 import javax.inject.Inject;
 
 import ec.edu.ups.ppw.ProyectoFinalBanco.dao.ServiciosDAO;
-import ec.edu.ups.ppw.ProyectoFinalBanco.model.Servicios;
+import ec.edu.ups.ppw.ProyectoFinalBanco.model.Servicio;
 
 @Stateless
 public class ServiciosON {
@@ -14,9 +14,9 @@ public class ServiciosON {
 	@Inject
 	private ServiciosDAO serviciosDAO;
 
-	public void guardarServicios(Servicios servicios) {
+	public void guardarServicios(Servicio servicios) {
 
-		Servicios t = serviciosDAO.read(servicios.getId());
+		Servicio t = serviciosDAO.read(servicios.getId());
 		if (t == null) {
 			serviciosDAO.insert(servicios);
 		} else {
@@ -35,11 +35,11 @@ public class ServiciosON {
 
 	}
 
-	public List<Servicios> getServicioss() {
+	public List<Servicio> getServicioss() {
 		return serviciosDAO.getList();
 	}
 
-	public Servicios buscarServicio(int id) {
+	public Servicio buscarServicio(int id) {
 		return serviciosDAO.read(id);
 	}
 }

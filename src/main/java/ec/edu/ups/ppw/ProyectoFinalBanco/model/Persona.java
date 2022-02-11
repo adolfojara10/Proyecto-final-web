@@ -1,120 +1,134 @@
 package ec.edu.ups.ppw.ProyectoFinalBanco.model;
 
-import java.util.ArrayList;
+import java.io.Serializable;
 import java.util.Date;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
-
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
-import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
-import javax.persistence.Table;
+import javax.persistence.NamedQuery;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+import javax.persistence.ManyToOne;
 
 @Entity
-@Table(name = "persona")
-public class Persona {
+@NamedQuery(name="Persona.findAll", query="SELECT p FROM Persona p")
+public class Persona implements Serializable {
+	private static final long serialVersionUID = 1L;
 
-	@Column(name = "per_id")
 	@Id
 	private int id;
-	@Column(name = "per_cedula")
-	private String cedula;
-	@Column(name = "per_nombre")
-	private String nombre;
-	@Column(name = "per_apellido")
+
 	private String apellido;
-	@Column(name = "per_email")
+
+	private String cedula;
+
 	private String email;
-	@Column(name = "per_fecha_nacimineto")
-	private Date fecha_nacimiento;
-	@Column(name = "per_tipo")
+
+	@Temporal(TemporalType.DATE)
+	@Column(name="fecha_nacimiento")
+	private Date fechaNacimiento;
+
+	private String nombre;
+	
 	private String tipo;
 
-	@OneToMany
-	@JoinColumn(name = "sol_id")
-	private List<Solicitud> solicitud;
-
-	@OneToMany
-	@JoinColumn(name = "tar_id")
-	private List<Tarjeta> tarjetas;
-
-	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-	@JoinColumn(name = "pol_id")
-	private Set<Poliza> poliza;
-
-	@OneToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "cue_id")
+	//bi-directional many-to-one association to Cuenta
+	@ManyToOne
 	private Cuenta cuenta;
 
-	@OneToMany
-	@JoinColumn(name = "pre_id")
-	private List<Prestamo> prestamos;
-	@OneToMany
-	@JoinColumn(name = "pre_id")
-	private List<Prestamo> garante;
+	//bi-directional many-to-one association to Poliza
+	@OneToMany(mappedBy="persona")
+	private List<Poliza> polizas;
 
-	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-	@JoinColumn(name = "ser_id")
-	private List<Servicios> serviciosEmitidos;
+	//bi-directional many-to-one association to Prestamo
+	@OneToMany(mappedBy="persona1")
+	private List<Prestamo> prestamos1;
 
-	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-	@JoinColumn(name = "ser_id")
-	private List<Servicios> serviciosPagados;
+	//bi-directional many-to-one association to Prestamo
+	@OneToMany(mappedBy="persona2")
+	private List<Prestamo> prestamos2;
+
+	//bi-directional many-to-one association to Servicio
+	@OneToMany(mappedBy="persona1")
+	private List<Servicio> servicios1;
+
+	//bi-directional many-to-one association to Servicio
+	@OneToMany(mappedBy="persona2")
+	private List<Servicio> servicios2;
+
+	//bi-directional many-to-one association to Tarjeta
+	@OneToMany(mappedBy="persona")
+	private List<Tarjeta> tarjetas;
+
+	public Persona() {
+	}
 
 	public int getId() {
-		return id;
+		return this.id;
 	}
 
 	public void setId(int id) {
 		this.id = id;
 	}
 
-	public String getCedula() {
-		return cedula;
-	}
-
-	public void setCedula(String cedula) {
-		this.cedula = cedula;
-	}
-
-	public String getNombre() {
-		return nombre;
-	}
-
-	public void setNombre(String nombre) {
-		this.nombre = nombre;
-	}
-
 	public String getApellido() {
-		return apellido;
+		return this.apellido;
 	}
 
 	public void setApellido(String apellido) {
 		this.apellido = apellido;
 	}
 
+	public String getCedula() {
+		return this.cedula;
+	}
+
+	public void setCedula(String cedula) {
+		this.cedula = cedula;
+	}
+
 	public String getEmail() {
-		return email;
+		return this.email;
 	}
 
 	public void setEmail(String email) {
 		this.email = email;
 	}
 
-	public Date getFecha_nacimiento() {
-		return fecha_nacimiento;
+	public Date getFechaNacimiento() {
+		return this.fechaNacimiento;
 	}
 
-	public void setFecha_nacimiento(Date fecha_nacimiento) {
-		this.fecha_nacimiento = fecha_nacimiento;
+	public void setFechaNacimiento(Date fechaNacimiento) {
+		this.fechaNacimiento = fechaNacimiento;
 	}
+
+	public String getNombre() {
+		return this.nombre;
+	}
+
+	public void setNombre(String nombre) {
+		this.nombre = nombre;
+	}
+
+	public Cuenta getCuenta() {
+		return this.cuenta;
+	}
+
+	public void setCuenta(Cuenta cuenta) {
+		this.cuenta = cuenta;
+	}
+
+	public List<Poliza> getPolizas() {
+		return this.polizas;
+	}
+
+	public void setPolizas(List<Poliza> polizas) {
+		this.polizas = polizas;
+	}
+	
 
 	public String getTipo() {
 		return tipo;
@@ -124,128 +138,129 @@ public class Persona {
 		this.tipo = tipo;
 	}
 
-	public List<Solicitud> getSolicitud() {
-		return solicitud;
-	}
+	public Poliza addPoliza(Poliza poliza) {
+		getPolizas().add(poliza);
+		poliza.setPersona(this);
 
-	public void setSolicitud(List<Solicitud> solicitud) {
-		this.solicitud = solicitud;
-	}
-
-	public List<Tarjeta> getTarjeta() {
-		return tarjetas;
-	}
-
-	public void setTarjeta(List<Tarjeta> tarjeta) {
-		this.tarjetas = tarjeta;
-	}
-
-	public Set<Poliza> getPoliza() {
 		return poliza;
 	}
 
-	public void setPoliza(Set<Poliza> poliza) {
-		this.poliza = poliza;
+	public Poliza removePoliza(Poliza poliza) {
+		getPolizas().remove(poliza);
+		poliza.setPersona(null);
+
+		return poliza;
 	}
 
-	public Cuenta getCuenta() {
-		return cuenta;
+	public List<Prestamo> getPrestamos1() {
+		return this.prestamos1;
 	}
 
-	public void setCuenta(Cuenta cuenta) {
-		this.cuenta = cuenta;
+	public void setPrestamos1(List<Prestamo> prestamos1) {
+		this.prestamos1 = prestamos1;
 	}
 
-	public List<Prestamo> getPrestamo() {
-		return prestamos;
+	public Prestamo addPrestamos1(Prestamo prestamos1) {
+		getPrestamos1().add(prestamos1);
+		prestamos1.setPersona1(this);
+
+		return prestamos1;
 	}
 
-	public void setPrestamo(List<Prestamo> prestamo) {
-		this.prestamos = prestamo;
+	public Prestamo removePrestamos1(Prestamo prestamos1) {
+		getPrestamos1().remove(prestamos1);
+		prestamos1.setPersona1(null);
+
+		return prestamos1;
 	}
 
-	public List<Prestamo> getGarante() {
-		return garante;
+	public List<Prestamo> getPrestamos2() {
+		return this.prestamos2;
 	}
 
-	public void setGarante(List<Prestamo> garante) {
-		this.garante = garante;
+	public void setPrestamos2(List<Prestamo> prestamos2) {
+		this.prestamos2 = prestamos2;
+	}
+
+	public Prestamo addPrestamos2(Prestamo prestamos2) {
+		getPrestamos2().add(prestamos2);
+		prestamos2.setPersona2(this);
+
+		return prestamos2;
+	}
+
+	public Prestamo removePrestamos2(Prestamo prestamos2) {
+		getPrestamos2().remove(prestamos2);
+		prestamos2.setPersona2(null);
+
+		return prestamos2;
+	}
+
+	public List<Servicio> getServicios1() {
+		return this.servicios1;
+	}
+
+	public void setServicios1(List<Servicio> servicios1) {
+		this.servicios1 = servicios1;
+	}
+
+	public Servicio addServicios1(Servicio servicios1) {
+		getServicios1().add(servicios1);
+		servicios1.setPersona1(this);
+
+		return servicios1;
+	}
+
+	public Servicio removeServicios1(Servicio servicios1) {
+		getServicios1().remove(servicios1);
+		servicios1.setPersona1(null);
+
+		return servicios1;
+	}
+
+	public List<Servicio> getServicios2() {
+		return this.servicios2;
+	}
+
+	public void setServicios2(List<Servicio> servicios2) {
+		this.servicios2 = servicios2;
+	}
+
+	public Servicio addServicios2(Servicio servicios2) {
+		getServicios2().add(servicios2);
+		servicios2.setPersona2(this);
+
+		return servicios2;
+	}
+
+	public Servicio removeServicios2(Servicio servicios2) {
+		getServicios2().remove(servicios2);
+		servicios2.setPersona2(null);
+
+		return servicios2;
 	}
 
 	public List<Tarjeta> getTarjetas() {
-		return tarjetas;
+		return this.tarjetas;
 	}
 
 	public void setTarjetas(List<Tarjeta> tarjetas) {
 		this.tarjetas = tarjetas;
 	}
 
-	public List<Prestamo> getPrestamos() {
-		return prestamos;
+	public Tarjeta addTarjeta(Tarjeta tarjeta) {
+		getTarjetas().add(tarjeta);
+		tarjeta.setPersona(this);
+
+		return tarjeta;
 	}
 
-	public void setPrestamos(List<Prestamo> prestamos) {
-		this.prestamos = prestamos;
+	public Tarjeta removeTarjeta(Tarjeta tarjeta) {
+		getTarjetas().remove(tarjeta);
+		tarjeta.setPersona(null);
+
+		return tarjeta;
 	}
 
-	public List<Servicios> getServiciosEmitidos() {
-		return serviciosEmitidos;
-	}
-
-	public void setServiciosEmitidos(List<Servicios> serviciosEmitidos) {
-		this.serviciosEmitidos = serviciosEmitidos;
-	}
-
-	public List<Servicios> getServiciosPagados() {
-		return serviciosPagados;
-	}
-
-	public void setServiciosPagados(List<Servicios> serviciosPagados) {
-		this.serviciosPagados = serviciosPagados;
-	}
-
-	public void addTarjeta(Tarjeta tarjeta) {
-		if (tarjetas == null) {
-			tarjetas = new ArrayList<Tarjeta>();
-		}
-		tarjetas.add(tarjeta);
-	}
-
-	public void addPoliza(Poliza p) {
-		if (poliza == null) {
-			poliza = new HashSet<>();
-		}
-		poliza.add(p);
-	}
-
-	public void addServicioEmitido(Servicios ser) {
-		if (serviciosEmitidos == null)
-			serviciosEmitidos = new ArrayList<Servicios>();
-
-		serviciosEmitidos.add(ser);
-	}
-
-	public void addServicioPagados(Servicios ser) {
-		if (serviciosPagados == null)
-			serviciosPagados = new ArrayList<Servicios>();
-
-		serviciosPagados.add(ser);
-	}
-
-	public void addPrestamo(Prestamo prestamo) {
-		if (prestamos == null) {
-			prestamos = new ArrayList<Prestamo>();
-		}
-		prestamos.add(prestamo);
-	}
-
-	@Override
-	public String toString() {
-		return "Persona [id=" + id + ", cedula=" + cedula + ", nombre=" + nombre + ", apellido=" + apellido + ", email="
-				+ email + ", fecha_nacimiento=" + fecha_nacimiento + ", tipo=" + tipo + ", solicitud=" + solicitud
-				+ ", tarjetas=" + tarjetas + ", poliza=" + poliza + ", cuenta=" + cuenta + ", prestamos=" + prestamos
-				+ ", garante=" + garante + ", serviciosEmitidos=" + serviciosEmitidos + ", serviciosPagados="
-				+ serviciosPagados + "]";
-	}
-
+	
 }

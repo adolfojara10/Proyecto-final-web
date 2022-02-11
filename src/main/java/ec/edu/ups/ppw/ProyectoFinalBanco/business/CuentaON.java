@@ -13,7 +13,7 @@ import ec.edu.ups.ppw.ProyectoFinalBanco.dao.CuentaDAO;
 import ec.edu.ups.ppw.ProyectoFinalBanco.dao.ServiciosDAO;
 import ec.edu.ups.ppw.ProyectoFinalBanco.model.Cuenta;
 import ec.edu.ups.ppw.ProyectoFinalBanco.model.Persona;
-import ec.edu.ups.ppw.ProyectoFinalBanco.model.Servicios;
+import ec.edu.ups.ppw.ProyectoFinalBanco.model.Servicio;
 import ec.edu.ups.ppw.ProyectoFinalBanco.model.Transferencia;
 
 @Stateless
@@ -88,7 +88,7 @@ public class CuentaON {
 	}
 	
 	
-	public boolean pagoServicio(Servicios s) {
+	public boolean pagoServicio(Servicio s) {
 		
 		/*var lista = personaON.personasServicio(s);
 		

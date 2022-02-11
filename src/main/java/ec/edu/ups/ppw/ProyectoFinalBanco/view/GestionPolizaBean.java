@@ -51,7 +51,7 @@ public class GestionPolizaBean {
 
 		if (polizaON.validarPoliza(this.cuentaON.getCuentaLogIn(), this.monto)) {
 			var poliza = new Poliza();
-			poliza.setId(polizaON.calcularID());
+			//poliza.setId(polizaON.calcularID());
 			poliza.setMonto(this.monto);
 			poliza.setTiempo(this.tiempo);
 			poliza.setPor_interes(polizaON.calcularInteres(tiempo));
