@@ -41,8 +41,8 @@ public class GestionServiciosBean {
 	public void init() {
 		servicio = new Servicios();
 		fechaEmision = new Date();
-		//persona = new Persona();
-		servicioPagar = new Servicios();
+		// persona = new Persona();
+		//servicioPagar = new Servicios();
 	}
 
 	public String guardarServicio() {
@@ -52,18 +52,17 @@ public class GestionServiciosBean {
 		servicio.setTipo(tipo);
 		servicio.setFechaEmision(fechaEmision);
 		this.persona = personaON.buscarCedula(cedula);
-		
-		serviciosON.guardarServicios(servicio);
-		
 
-		
-		
-		
-		this.persona.addServicio(servicio);
+		serviciosON.guardarServicios(servicio);
+
+		cuentaON.getPersonaLogIn().addServicioEmitido(servicio);
+
+		this.persona.addServicioPagados(servicio);
 		personaON.guardarCliente(persona);
-		
+		personaON.guardarCliente(cuentaON.getPersonaLogIn());
+
 		System.out.println(persona);
-		
+
 		return null;
 	}
 
@@ -76,15 +75,17 @@ public class GestionServiciosBean {
 	public String pagarServicio() {
 
 		if (cuentaON.getCuentaLogIn().getSaldo() > servicioPagar.getDeuda()) {
-			var cuenta = cuentaON.getCuentaLogIn();
-			cuenta.setSaldo(cuenta.getSaldo() - servicioPagar.getDeuda());
-			cuentaON.guardarCuenta(cuenta);
-			servicioPagar.setEstado(false);
-			serviciosON.guardarServicios(servicio);
 
+			cuentaON.pagoServicio(servicioPagar);
+
+			//servicioPagar.setEstado(false);
+
+			//serviciosON.guardarServicios(servicioPagar);
+			
+			System.out.println("siuuu");
 			return "SIUUU";
 		} else {
-
+			System.out.println("noooo");
 			return "No";
 		}
 	}

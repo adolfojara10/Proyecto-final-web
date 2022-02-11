@@ -52,7 +52,7 @@ public class GestionPersonasBean {
 
 	private List<Persona> clientesList;
 //	private List<Persona> cuentasList;
-	private List<Servicios> listaServiciosActivos;
+	private static List<Servicios> listaServiciosActivos;
 
 	@PostConstruct
 	public void init() {
@@ -70,9 +70,8 @@ public class GestionPersonasBean {
 		newCliente.setTipo(tipo);
 
 		newCuenta.setId(cueON.calcularID());
-		// newCuenta.setNombre_usuario(cueON.crearNombreUsuario(newCliente.getNombre(),
-		// newCliente.getApellido()));
-		newCuenta.setNombre_usuario("aa");
+		newCuenta.setNombre_usuario(cueON.crearNombreUsuario(newCliente.getNombre(), newCliente.getApellido()));
+		// newCuenta.setNombre_usuario("aa");
 		newCuenta.setContraseña(contraencrip);
 		newCuenta.setSaldo(3000);
 		cueON.guardarCuenta(newCuenta);
@@ -111,12 +110,16 @@ public class GestionPersonasBean {
 		if (cuentaLogIn != null) {
 			cueON.setCuentaLogIn(cuentaLogIn);
 			if (cueON.getCuentaLogIn() != null) {
-				this.cargarDeudas();
+
+				if (cueON.getPersonaLogIn().getTipo().equals("Común")) {
+					this.cargarDeudas();
+					System.out.println("brrrrrrrrrrrrrrrrr");
+				}
 				return "poliza";
-			}else {
+			} else {
 				return null;
 			}
-			
+
 		}
 
 		System.out.println("Cuenta Iniciada con exito");
@@ -124,9 +127,9 @@ public class GestionPersonasBean {
 		return null;
 	}
 
-	public String cargarDeudas() {
+	public List<Servicios> cargarDeudas() {
 
-		var listaDeudas = cueON.getPersonaLogIn().getServicios();
+		var listaDeudas = cueON.getPersonaLogIn().getServiciosPagados();
 		listaServiciosActivos = new ArrayList<Servicios>();
 		if (listaDeudas.size() > 0) {
 			for (Servicios s : listaDeudas) {
@@ -135,8 +138,10 @@ public class GestionPersonasBean {
 				}
 			}
 		}
+		
+		System.out.println(listaServiciosActivos);
 
-		return null;
+		return listaDeudas;
 	}
 
 	public String guardarTipo() {

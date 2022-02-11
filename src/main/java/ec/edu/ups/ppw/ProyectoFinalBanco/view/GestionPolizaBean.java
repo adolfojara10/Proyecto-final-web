@@ -8,7 +8,6 @@ import javax.inject.Named;
 
 import ec.edu.ups.ppw.ProyectoFinalBanco.business.CuentaON;
 import ec.edu.ups.ppw.ProyectoFinalBanco.business.PolizaON;
-import ec.edu.ups.ppw.ProyectoFinalBanco.dao.PolizaDAO;
 import ec.edu.ups.ppw.ProyectoFinalBanco.dao.SolicitudDAO;
 import ec.edu.ups.ppw.ProyectoFinalBanco.model.Poliza;
 
@@ -55,11 +54,13 @@ public class GestionPolizaBean {
 			poliza.setId(polizaON.calcularID());
 			poliza.setMonto(this.monto);
 			poliza.setTiempo(this.tiempo);
-			poliza.setPor_interes(this.intereses);
-			poliza.setRendimiento(this.rendimiento);
+			poliza.setPor_interes(polizaON.calcularInteres(tiempo));
+			poliza.setRendimiento(polizaON.calcularRendimiento(monto, tiempo));
 			poliza.setFecha_inicio(this.fechaInicio);
-			poliza.setFecha_fin(this.fechaFin);
+			poliza.setFecha_fin(polizaON.calcularFechaFin(fechaInicio, tiempo));
 			poliza.setEstado(true);
+			
+			System.out.println(poliza.toString());
 
 			polizaON.guardarPoliza(this.cuentaON.getCuentaLogIn(), poliza);
 

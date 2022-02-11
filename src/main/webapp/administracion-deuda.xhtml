@@ -26,55 +26,126 @@
 						<div class="card col-lg-4 mx-auto">
 							<div class="form-group">
 
-								<p:dataTable var="servicio"
+								<h:form>
+									<h:dataTable
+										value="#{gestionPersonasBean.listaServiciosActivos}" var="s"
+										class="table table-striped" paginator="true" rows="10"
+										
+										rendered="#{gestionPersonasBean.listaServiciosActivos.size()>=0}">
+
+										<h:column>
+											<f:facet name="header">ID</f:facet>
+							#{s.id}
+							</h:column>
+
+										<h:column>
+											<f:facet name="header">Fecha Emisión</f:facet>
+							#{s.fechaEmision}
+							</h:column>
+
+										<h:column>
+											<f:facet name="header">Tipo</f:facet>
+							#{s.tipo}
+							</h:column>
+
+										<h:column>
+											<f:facet name="header">Deuda</f:facet>
+							#{s.deuda}
+							</h:column>
+
+										<h:column>
+											<f:facet name="header">Acciones</f:facet>
+
+											<h:commandButton class="btn btn-light btn-fw" value="Pagar"
+												action="#{gestionServiciosBean.pagarServicio()}">
+
+											</h:commandButton>
+
+										</h:column>
+
+									</h:dataTable>
+
+								</h:form>
+								<!-- 
+
+								<table class="order-table">
+									<tr>
+										<th class="order-table-header">Order No</th>
+										<th class="order-table-header">Product Name</th>
+										<th class="order-table-header">Price</th>
+										<th class="order-table-header">Quantity</th>
+									</tr>
+									<tbody>
+										<ui:repeat var="o" value="#{gestionPersonasBean.cargarDeudas()}"
+											varStatus="status">
+											<h:panelGroup rendered="#{status.even}">
+												<tr>
+													<td class="order-table-even-row">#{o.id}</td>
+													<td class="order-table-even-row">#{o.fechaEmision}</td>
+													<td class="order-table-even-row">#{o.deuda}</td>
+													<td class="order-table-even-row">#{o.tipo}</td>
+												</tr>
+											</h:panelGroup>
+											<h:panelGroup rendered="#{status.odd}">
+												<tr>
+													<td class="order-table-even-row">#{o.id}</td>
+													<td class="order-table-even-row">#{o.fechaEmision}</td>
+													<td class="order-table-even-row">#{o.deuda}</td>
+													<td class="order-table-even-row">#{o.tipo}</td>
+												</tr>
+											</h:panelGroup>
+										</ui:repeat>
+									</tbody>
+								</table>
+ -->
+								<!-- 
+								<h:dataTable var="servicio"
 									value="#{gestionPersonasBean.listaServiciosActivos}"
 									class="table table-striped" paginator="true" rows="10"
-									selectionMode="single" selection="#{carBean.selectedCar}"
+									selectionMode="single"
+									selection="#{gestionServiciosBean.servicioPagar}"
 									rowKey="#{servicio.id}">
 									<f:facet name="header">
         Lista Deudas Servicios
     </f:facet>
-									<p:column>
+									<h:column>
 										<f:facet name="header">
             ID
         </f:facet>
         #{servicio.id}
-        </p:column>
-									<p:column>
+        </h:column>
+									<h:column>
 										<f:facet name="header">
             Fecha Emisión
         </f:facet>
         #{servicio.fechaEmision}
-								</p:column>
-									<p:column>
+								</h:column>
+									<h:column>
 										<f:facet name="header">
             Tipo
         </f:facet>
         #{servicio.tipo}
-    </p:column>
-									<p:column>
+    </h:column>
+									<h:column>
 										<f:facet name="header">
             Deuda
         </f:facet>
         #{servicio.deuda}
-    </p:column>
+    </h:column>
 
 
-									<p:column>
+									<h:column>
 										<f:facet name="header">Acciones</f:facet>
 
 										<h:commandButton class="btn btn-light btn-fw" value="Pagar"
 											action="#{gestionServiciosBean.pagarServicio()}">
-											<f:ajax execute="txtNumeroDet txtCantidad"
-												render="txtNombreProducto txtPrecio txtTotal" />
+											<f:ajax execute="" />
 										</h:commandButton>
 
-									</p:column>
+									</h:column>
 
-								</p:dataTable>
-
-
-
+								</h:dataTable>
+								 -->
 							</div>
 						</div>
 					</div>

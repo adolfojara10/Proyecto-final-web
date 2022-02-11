@@ -3,6 +3,7 @@ package ec.edu.ups.ppw.ProyectoFinalBanco.business;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -25,19 +26,24 @@ public class PolizaON {
 	@Inject
 	private CuentaON cuentaON;
 
+	@Inject
+	private PersonaON personaON;
+
 	public void guardarPoliza(Cuenta cuenta, Poliza poliza) {
 
 		var p = polizaDAO.read(poliza.getId());
 		if (p == null) {
-			poliza.setPersona(cuentaON.getPersonaLogIn());
+			// poliza.setPersona(cuentaON.getPersonaLogIn());
+			polizaDAO.insert(poliza);
+			cuentaON.getPersonaLogIn().addPoliza(poliza);
 			cuenta.setSaldo(cuenta.getSaldo() - poliza.getMonto());
 			cuentaON.guardarCuenta(cuenta);
-			polizaDAO.insert(poliza);
+			
 		} else {
 			polizaDAO.update(poliza);
 		}
 
-		this.cambiarEstado();
+		//this.cambiarEstado();
 
 	}
 
@@ -80,40 +86,62 @@ public class PolizaON {
 
 	public Date calcularFechaFin(Date fechaInicio, int tiempo) {
 
-		int mes = fechaInicio.getMonth();
+		Calendar c = Calendar.getInstance();
 
-		mes += tiempo;
+		c.setTime(fechaInicio);
 
-		var fechaFin = new Date(fechaInicio.getYear(), mes, fechaInicio.getDay());
+		c.add(Calendar.MONTH, tiempo + 1);
 
-		DateFormat df = new SimpleDateFormat("dd-MM-yyyy");
-		String requiredDate = df.format(fechaFin);
+		/*DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
+		String requiredDate = df.format(c);
+		*/
+		
+		Date date = c.getTime();
 
-		try {
-			SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-			Date date = formatter.parse(requiredDate);
-			fechaFin = date;
-			System.out.println(requiredDate + "--0" + date);
-		} catch (ParseException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		/*
+		 * int mes = fechaInicio.getMonth();
+		 * 
+		 * mes += tiempo;
+		 * 
+		 * var fechaFin = new Date(fechaInicio.getYear(), mes, fechaInicio.getDay());
+		 * 
+		 * DateFormat df = new SimpleDateFormat("dd-MM-yyyy"); String requiredDate =
+		 * df.format(fechaFin);
+		 * 
+		 * try { SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy"); Date
+		 * date = formatter.parse(requiredDate); fechaFin = date;
+		 * System.out.println(requiredDate + "--0" + date); } catch (ParseException e) {
+		 * // TODO Auto-generated catch block e.printStackTrace(); }
+		 */
 
-		return fechaFin;
+		return date;
 	}
 
 	public String calcularFechaFinString(Date fechaInicio, int tiempo) {
 
-		int mes = fechaInicio.getMonth();
+		Calendar c = Calendar.getInstance();
 
-		mes += tiempo;
+		c.setTime(fechaInicio);
 
-		var fechaFin = new Date(fechaInicio.getYear(), mes, fechaInicio.getDay());
+		c.add(Calendar.MONTH, tiempo + 1);
+		
+		Date date = c.getTime();
 
-		DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
-		String requiredDate = df.format(fechaFin);
+		/*DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
+		String requiredDate = df.format(c);
+*/
+		/*
+		 * int mes = fechaInicio.getMonth();
+		 * 
+		 * mes += tiempo;
+		 * 
+		 * var fechaFin = new Date(fechaInicio.getYear(), mes, fechaInicio.getDay());
+		 * 
+		 * DateFormat df = new SimpleDateFormat("dd/MM/yyyy"); String requiredDate =
+		 * df.format(fechaFin);
+		 */
 
-		return requiredDate;
+		return date.toString();
 	}
 
 	public void cambiarEstado() {
@@ -122,9 +150,9 @@ public class PolizaON {
 		for (Poliza p : polizas) {
 			if (p.getFecha_fin().after(new Date())) {
 				p.setEstado(false);
-				var c = p.getPersona();
-				var cuenta = c.getCuenta();
-				cuenta.setSaldo(p.getMonto() + p.getRendimiento());
+				var persona = personaON.buscarPorPoliza(p);
+				var cuenta = persona.getCuenta();
+				cuenta.setSaldo(cuenta.getSaldo() + p.getMonto() + p.getRendimiento());
 				cuentaON.guardarCuenta(cuenta);
 
 			}

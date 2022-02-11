@@ -10,8 +10,10 @@ import javax.ejb.Stateless;
 import javax.inject.Inject;
 
 import ec.edu.ups.ppw.ProyectoFinalBanco.dao.CuentaDAO;
+import ec.edu.ups.ppw.ProyectoFinalBanco.dao.ServiciosDAO;
 import ec.edu.ups.ppw.ProyectoFinalBanco.model.Cuenta;
 import ec.edu.ups.ppw.ProyectoFinalBanco.model.Persona;
+import ec.edu.ups.ppw.ProyectoFinalBanco.model.Servicios;
 import ec.edu.ups.ppw.ProyectoFinalBanco.model.Transferencia;
 
 @Stateless
@@ -23,12 +25,15 @@ public class CuentaON {
 	@Inject
 	private PersonaON personaON;
 
+	@Inject
+	private ServiciosON serviciosON;
+	
+	@Inject
+	private TransferenciaON transferenciaON;
+
 	private Cuenta cuentaLogIn = new Cuenta();
 
 	private Persona personaLogIn = new Persona();
-
-//	@Inject
-//	private TransferenciaON transferenciaON;
 
 	public void guardarCuenta(Cuenta cuenta) {
 		var c = cuentaDAO.read(cuenta.getId());
@@ -48,13 +53,71 @@ public class CuentaON {
 		System.out.println(per.getCuenta().getSaldo() + monto);
 		per.getCuenta().setSaldo(per.getCuenta().getSaldo() + monto);
 		Cuenta cuenta = per.getCuenta();
+
+		var t = new Transferencia();
+		t.setId(transferenciaON.calcularID());
+		t.setFecha(transferenciaON.generarFecha());
+		t.setMonto(monto);
+		t.setTipo("Deposito");
+		transferenciaON.guardarTransferencia(t);
+
+		cuenta.addTransferencia(t);
+
 		guardarCuenta(cuenta);
-//		transferenciaON.guardarTransferencia(cuenta, monto, "Deposito");
 
 	}
 
 	public boolean transferencia(Transferencia t) {
 		Persona us = personaON.consultarCuentaUsuario(t.getCuenta());
+		Persona us1 = personaON.consultarCuentaUsuario(t.getCuenta());
+
+		if (us == null && us1 == null || t.getMonto() > us.getCuenta().getSaldo()) {
+			return false;
+		} else {
+			us.getCuenta().setSaldo(us.getCuenta().getSaldo() - t.getMonto());
+			us1.getCuenta().setSaldo(us1.getCuenta().getSaldo() + t.getMonto());
+
+			Cuenta cuenta = us.getCuenta();
+			this.guardarCuenta(cuenta);
+
+			Cuenta cuenta1 = us1.getCuenta();
+
+			this.guardarCuenta(cuenta1);
+			return true;
+		}
+	}
+	
+	
+	public boolean pagoServicio(Servicios s) {
+		
+		/*var lista = personaON.personasServicio(s);
+		
+		var p1 = lista.get(0);
+		var p2 = lista.get(1);
+		
+		p1.getCuenta().setSaldo(p1.getCuenta().getSaldo() - s.getDeuda());
+		p2.getCuenta().setSaldo(p2.getCuenta().getSaldo() + s.getDeuda());
+		
+		var t = new Transferencia();
+		t.setId(transferenciaON.calcularID());
+		t.setFecha(transferenciaON.generarFecha());
+		t.setMonto(s.getDeuda());
+		t.setTipo("Servicios");
+		transferenciaON.guardarTransferencia(t);
+		
+		Cuenta cuenta = p1.getCuenta();
+		cuenta.addTransferencia(t);
+		this.guardarCuenta(cuenta);
+
+		Cuenta cuenta1 = p2.getCuenta();
+		cuenta1.addTransferencia(t);
+		this.guardarCuenta(cuenta1);
+		
+		s.setEstado(false);
+		serviciosON.guardarServicios(s);
+		*/
+		return true;
+		/*Persona us = personaON.consultarCuentaUsuario(t.getCuenta());
 		Persona us1 = personaON.consultarCuentaUsuario(t.getCuenta());
 
 		if (us == null && us1 == null || t.getMonto() > us.getCuenta().getSaldo()) {
@@ -69,7 +132,7 @@ public class CuentaON {
 
 			this.guardarCuenta(cuenta1);
 			return true;
-		}
+		}*/
 	}
 
 	public int calcularID() {
@@ -85,8 +148,8 @@ public class CuentaON {
 
 	public String crearNombreUsuario(String nombre, String apellido) {
 
-		String nom = nombre.split(" ")[0];
-		String ape = apellido.split(" ")[0];
+		String nom = nombre.split(" ")[0].toLowerCase();
+		String ape = apellido.split(" ")[0].toLowerCase();
 
 		String nombreUsuario = nom.concat(ape);
 		nombreUsuario = nombreUsuario.concat(String.valueOf(this.calcularID()));

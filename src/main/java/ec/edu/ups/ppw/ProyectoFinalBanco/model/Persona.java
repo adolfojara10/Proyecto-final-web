@@ -2,10 +2,13 @@ package ec.edu.ups.ppw.ProyectoFinalBanco.model;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
@@ -15,7 +18,7 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="persona")
+@Table(name = "persona")
 public class Persona {
 
 	@Column(name = "per_id")
@@ -42,9 +45,9 @@ public class Persona {
 	@JoinColumn(name = "tar_id")
 	private List<Tarjeta> tarjetas;
 
-	@OneToMany
+	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	@JoinColumn(name = "pol_id")
-	private List<Poliza> poliza;
+	private Set<Poliza> poliza;
 
 	@OneToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "cue_id")
@@ -59,7 +62,11 @@ public class Persona {
 
 	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	@JoinColumn(name = "ser_id")
-	private List<Servicios> servicios;
+	private List<Servicios> serviciosEmitidos;
+
+	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@JoinColumn(name = "ser_id")
+	private List<Servicios> serviciosPagados;
 
 	public int getId() {
 		return id;
@@ -133,11 +140,11 @@ public class Persona {
 		this.tarjetas = tarjeta;
 	}
 
-	public List<Poliza> getPoliza() {
+	public Set<Poliza> getPoliza() {
 		return poliza;
 	}
 
-	public void setPoliza(List<Poliza> poliza) {
+	public void setPoliza(Set<Poliza> poliza) {
 		this.poliza = poliza;
 	}
 
@@ -173,12 +180,28 @@ public class Persona {
 		this.tarjetas = tarjetas;
 	}
 
-	public List<Servicios> getServicios() {
-		return servicios;
+	public List<Prestamo> getPrestamos() {
+		return prestamos;
 	}
 
-	public void setServicios(List<Servicios> servicios) {
-		this.servicios = servicios;
+	public void setPrestamos(List<Prestamo> prestamos) {
+		this.prestamos = prestamos;
+	}
+
+	public List<Servicios> getServiciosEmitidos() {
+		return serviciosEmitidos;
+	}
+
+	public void setServiciosEmitidos(List<Servicios> serviciosEmitidos) {
+		this.serviciosEmitidos = serviciosEmitidos;
+	}
+
+	public List<Servicios> getServiciosPagados() {
+		return serviciosPagados;
+	}
+
+	public void setServiciosPagados(List<Servicios> serviciosPagados) {
+		this.serviciosPagados = serviciosPagados;
 	}
 
 	public void addTarjeta(Tarjeta tarjeta) {
@@ -188,13 +211,27 @@ public class Persona {
 		tarjetas.add(tarjeta);
 	}
 
-	public void addServicio(Servicios ser) {
-		if (servicios == null)
-			servicios = new ArrayList<Servicios>();
-
-		servicios.add(ser);
+	public void addPoliza(Poliza p) {
+		if (poliza == null) {
+			poliza = new HashSet<>();
+		}
+		poliza.add(p);
 	}
-	
+
+	public void addServicioEmitido(Servicios ser) {
+		if (serviciosEmitidos == null)
+			serviciosEmitidos = new ArrayList<Servicios>();
+
+		serviciosEmitidos.add(ser);
+	}
+
+	public void addServicioPagados(Servicios ser) {
+		if (serviciosPagados == null)
+			serviciosPagados = new ArrayList<Servicios>();
+
+		serviciosPagados.add(ser);
+	}
+
 	public void addPrestamo(Prestamo prestamo) {
 		if (prestamos == null) {
 			prestamos = new ArrayList<Prestamo>();
@@ -206,8 +243,9 @@ public class Persona {
 	public String toString() {
 		return "Persona [id=" + id + ", cedula=" + cedula + ", nombre=" + nombre + ", apellido=" + apellido + ", email="
 				+ email + ", fecha_nacimiento=" + fecha_nacimiento + ", tipo=" + tipo + ", solicitud=" + solicitud
-				+ ", tarjetas=" + tarjetas + ", poliza=" + poliza + ", cuenta=" + cuenta + ", prestamo=" + prestamos
-				+ ", garante=" + garante + ", servicios=" + servicios + "]";
+				+ ", tarjetas=" + tarjetas + ", poliza=" + poliza + ", cuenta=" + cuenta + ", prestamos=" + prestamos
+				+ ", garante=" + garante + ", serviciosEmitidos=" + serviciosEmitidos + ", serviciosPagados="
+				+ serviciosPagados + "]";
 	}
 
 }

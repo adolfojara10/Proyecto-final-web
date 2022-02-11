@@ -27,10 +27,11 @@ public class Poliza {
 	private double rendimiento;
 	@Column(name = "pol_estado")
 	private boolean estado;
-	@ManyToOne
+	
+	/*@ManyToOne
 	@JoinColumn(name = "per_id")
 	private Persona persona;
-
+*/
 	public int getId() {
 		return id;
 	}
@@ -87,14 +88,7 @@ public class Poliza {
 		this.estado = activo;
 	}
 
-	public Persona getPersona() {
-		return persona;
-	}
-
-	public void setPersona(Persona persona) {
-		this.persona = persona;
-	}
-
+	
 	
 	public int getTiempo() {
 		return tiempo;
@@ -107,8 +101,7 @@ public class Poliza {
 	@Override
 	public String toString() {
 		return "Poliza [id=" + id + ", monto=" + monto + ", por_interes=" + por_interes + ", fecha_inicio="
-				+ fecha_inicio + ", fecha_fin=" + fecha_fin + ", rendimiento=" + rendimiento + ", estado=" + estado
-				+ ", persona=" + persona + "]";
+				+ fecha_inicio + ", fecha_fin=" + fecha_fin + ", rendimiento=" + rendimiento + ", estado=" + estado +"]";
 	}
 
 }

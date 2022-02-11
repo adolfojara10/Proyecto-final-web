@@ -6,7 +6,7 @@
 
 <h:head>
 
-<!-- 	<link rel="shortcut icon" href="template/assets/images/favicon.png" /> -->
+	<!-- 	<link rel="shortcut icon" href="template/assets/images/favicon.png" /> -->
 </h:head>
 <!-- <h:body> -->
 <ui:composition template="blank-page.xhtml">
@@ -80,10 +80,19 @@
 									</div>
 
 									<div class="text-center">
-										<h:commandButton styleClass="btn btn-outline-primary btn-fw" value="Calcular"
+										<h:commandButton styleClass="btn btn-outline-primary btn-fw"
+											value="Calcular"
 											action="#{gestionPolizaBean.calcularDatos()}">
 											<f:ajax execute="txtTiempo txtMonto txtFechaInicio"
 												render="txtRendimiento txtFechaFin txtIntereses" />
+										</h:commandButton>
+									</div>
+
+									<div class="text-center">
+										<h:commandButton styleClass="btn btn-outline-primary btn-fw"
+											value="Crear Poliza"
+											action="#{gestionPolizaBean.guardarPoliza()}">
+
 										</h:commandButton>
 									</div>
 

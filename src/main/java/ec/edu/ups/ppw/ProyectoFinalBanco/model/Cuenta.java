@@ -1,5 +1,6 @@
 package ec.edu.ups.ppw.ProyectoFinalBanco.model;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.Column;
@@ -23,7 +24,7 @@ public class Cuenta {
 
 	@OneToMany
 	@JoinColumn(name = "tra_id")
-	private List<Transferencia> tranferencia;
+	private List<Transferencia> tranferencias;
 
 	public int getId() {
 		return id;
@@ -58,17 +59,24 @@ public class Cuenta {
 	}
 
 	public List<Transferencia> getTranferencia() {
-		return tranferencia;
+		return tranferencias;
 	}
 
 	public void setTranferencia(List<Transferencia> tranferencia) {
-		this.tranferencia = tranferencia;
+		this.tranferencias = tranferencia;
+	}
+	
+	public void addTransferencia(Transferencia t) {
+		if (tranferencias == null) {
+			tranferencias = new ArrayList<>();
+		}
+		tranferencias.add(t);
 	}
 
 	@Override
 	public String toString() {
 		return "Cuenta [id=" + id + ", saldo=" + saldo + ", nombre_usuario=" + nombre_usuario + ", contraseña="
-				+ contraseña + ", tranferencia=" + tranferencia + "]";
+				+ contraseña + ", tranferencia=" + tranferencias + "]";
 	}
 
 }

@@ -1,5 +1,6 @@
 package ec.edu.ups.ppw.ProyectoFinalBanco.business;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.ejb.Stateless;
@@ -9,6 +10,8 @@ import ec.edu.ups.ppw.ProyectoFinalBanco.dao.PersonaDAO;
 import ec.edu.ups.ppw.ProyectoFinalBanco.model.Cuenta;
 //import ec.edu.ups.ppw.ProyectoFinalBanco.dao.TransferenciaDAO;
 import ec.edu.ups.ppw.ProyectoFinalBanco.model.Persona;
+import ec.edu.ups.ppw.ProyectoFinalBanco.model.Poliza;
+import ec.edu.ups.ppw.ProyectoFinalBanco.model.Servicios;
 
 @Stateless
 public class PersonaON {
@@ -123,4 +126,41 @@ public class PersonaON {
 		System.out.println(per);
 		return per;
 	}
+
+	public List<Persona> personasServicio(Servicios s) {
+		var lista = personaDAO.getList();
+
+		var listaPersonas = new ArrayList<Persona>();
+
+		for (Persona p : lista) {
+			for (Servicios ser : p.getServiciosPagados()) {
+				if (ser.getId() == s.getId()) {
+					listaPersonas.add(p);
+				}
+			}
+		}
+
+		for (Persona p : lista) {
+			for (Servicios ser : p.getServiciosEmitidos()) {
+				if (ser.getId() == s.getId()) {
+					listaPersonas.add(p);
+				}
+			}
+		}
+
+		return listaPersonas;
+	}
+
+	public Persona buscarPorPoliza(Poliza p) {
+		for (Persona per : personaDAO.getList()) {
+			for (Poliza pol : per.getPoliza()) {
+				if (pol.getId() == p.getId()) {
+					return per;
+				}
+			}
+		}
+
+		return null;
+	}
+
 }
