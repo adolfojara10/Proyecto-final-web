@@ -4,9 +4,10 @@ import java.io.Serializable;
 
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-
+import javax.persistence.FetchType;
 import javax.persistence.Id;
 
 import javax.persistence.OneToMany;
@@ -34,7 +35,7 @@ public class Cuenta implements Serializable {
 	private List<Persona> personas;
 
 	//bi-directional many-to-one association to Transferencia
-	@OneToMany(mappedBy="cuenta")
+	@OneToMany(mappedBy="cuenta", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	private List<Transferencia> transferencias;
 
 	public Cuenta() {
@@ -114,6 +115,14 @@ public class Cuenta implements Serializable {
 		transferencia.setCuenta(null);
 
 		return transferencia;
+	}
+
+	@Override
+	public String toString() {
+		return "Cuenta [id=" + id + ", contrasenia=" + contrasenia + ", nombreUsuario=" + nombreUsuario + 
+		", saldo=" + saldo;
+//		+ ",\n --- > personas=" + personas 
+//		+",\n --- > transferencias=" + transferencias + "]";
 	}
 
 }

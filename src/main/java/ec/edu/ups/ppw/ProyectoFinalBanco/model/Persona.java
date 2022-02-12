@@ -262,5 +262,18 @@ public class Persona implements Serializable {
 		return tarjeta;
 	}
 
+	@Override
+	public String toString() {
+		return "Persona [id=" + id + ", apellido=" + apellido + ", cedula=" + cedula + ", email=" + email
+				+ ", fechaNacimiento=" + fechaNacimiento + ", nombre=" + nombre + ", tipo=" + tipo 
+				+ ",\n --- > cuenta=" + cuenta; 
+//				+ ",\n --- > polizas=" + polizas 
+//				+ ",\n --- > prestamos1=" + prestamos1 
+//				+ ",\n --- > prestamos2=" + prestamos2
+//				+ ",\n --- > servicios1=" + servicios1 
+//				+ ",\n --- > servicios2=" + servicios2 
+//				+ ",\n --- > tarjetas=" + tarjetas + "]";
+	}
+
 	
 }

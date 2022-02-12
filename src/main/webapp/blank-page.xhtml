@@ -23,9 +23,14 @@
 	<link rel="stylesheet" href="template/assets/css/style.css" />
 	<!-- End layout styles -->
 	<link rel="shortcut icon" href="template/assets/images/favicon.png" />
+	
+		<f:metadata>
+<!-- 			<f:viewParam name="id" value="#{gestionPersonasBean.usuario}"></f:viewParam> -->
+			<f:viewAction action="#{gestionPersonasBean.obtenerUser()}"></f:viewAction>
+		</f:metadata>
 </h:head>
 <h:body>
-	<div class="container-scroller">
+	<div  class="container-scroller">
 		<!-- partial:../../partials/_sidebar.html -->
 		<nav class="sidebar sidebar-offcanvas" id="sidebar">
 			<div
@@ -155,7 +160,7 @@
 							<li class="nav-item"><a class="nav-link"
 								href="../../pages/ui-features/buttons.html">Transacciones </a></li>
 							<li class="nav-item"><a class="nav-link"
-								href="../../pages/ui-features/dropdowns.html">Depositos</a></li>
+								href="deposito.xhtml">Depositos</a></li>
 							<li class="nav-item"><a class="nav-link" href="poliza.xhtml">Polizas</a></li>
 						</ul>
 					</div></li>
@@ -204,8 +209,10 @@
 					<ul class="navbar-nav navbar-nav-right">
 						<li class="nav-item dropdown">
 
-							<p class="mb-0 d-none d-sm-block navbar-profile-name ">Henry
-								Klein</p>
+<!-- 							<p class="mb-0 d-none d-sm-block navbar-profile-name ">Henry -->
+<!-- 								Klein</p> -->
+								
+								<h:outputLabel id="user" value="#{gestionPersonasBean.obtenerUser()}" />
 						</li>
 
 						<li class="nav-item dropdown border-left">
@@ -228,7 +235,9 @@
 							<div class="preview-thumbnail">
 								<div class="preview-icon bg-dark rounded-circle">
 									<a class="nav-link" href="iniciarSesion.xhtml"> <i
-										class="mdi mdi-logout text-danger"></i></a>
+										class="mdi mdi-logout text-danger" ></i>
+										
+										</a>
 								</div>
 							</div>
 <!-- 							<div class="preview-item-content"> -->

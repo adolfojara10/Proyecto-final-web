@@ -45,26 +45,26 @@ public class GestionServiciosBean {
 		//servicioPagar = new Servicios();
 	}
 
-	public String guardarServicio() {
-		servicio.setId(serviciosON.calcularID());
-		servicio.setDeuda(deuda);
-		servicio.setEstado(true);
-		servicio.setTipo(tipo);
-		servicio.setFechaEmision(fechaEmision);
-		this.persona = personaON.buscarCedula(cedula);
-
-		serviciosON.guardarServicios(servicio);
-
-		cuentaON.getPersonaLogIn().addServicioEmitido(servicio);
-
-		this.persona.addServicioPagados(servicio);
-		personaON.guardarCliente(persona);
-		personaON.guardarCliente(cuentaON.getPersonaLogIn());
-
-		System.out.println(persona);
-
-		return null;
-	}
+//	public String guardarServicio() {
+//		servicio.setId(serviciosON.calcularID());
+//		servicio.setDeuda(deuda);
+//		servicio.setEstado(true);
+//		servicio.setTipo(tipo);
+//		servicio.setFechaEmision(fechaEmision);
+//		this.persona = personaON.buscarCedula(cedula);
+//
+//		serviciosON.guardarServicios(servicio);
+//
+//		cuentaON.getPersonaLogIn().addServicioEmitido(servicio);
+//
+//		this.persona.addServicioPagados(servicio);
+//		personaON.guardarCliente(persona);
+//		personaON.guardarCliente(cuentaON.getPersonaLogIn());
+//
+//		System.out.println(persona);
+//
+//		return null;
+//	}
 
 	public String cargarPersona() {
 

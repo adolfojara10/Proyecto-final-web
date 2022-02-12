@@ -6,7 +6,9 @@
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:h="http://java.sun.com/jsf/html">
 <h:head>
-	
+	<f:metadata>
+		<f:viewAction action="#{gestionPersonasBean.verificarLogIn()}"></f:viewAction>
+	</f:metadata>
 </h:head>
 
 <ui:composition template="blank-page.xhtml">
@@ -72,7 +74,8 @@
 										class="form-group d-flex align-items-center justify-content-between">
 									</div>
 									<div class="text-center">
-										<h:commandButton styleClass="btn btn-outline-primary btn-fw" action="#{gestionTargetaBean.guardar()}"
+										<h:commandButton styleClass="btn btn-outline-primary btn-fw"
+											action="#{gestionTargetaBean.guardar()}"
 											value="Solicitar Tarjeta" />
 
 									</div>

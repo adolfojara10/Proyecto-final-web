@@ -1,13 +1,15 @@
 package ec.edu.ups.ppw.ProyectoFinalBanco.business;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.text.ParseException;
+//import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.List;
 
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 
 import ec.edu.ups.ppw.ProyectoFinalBanco.dao.TransferenciaDAO;
-import ec.edu.ups.ppw.ProyectoFinalBanco.model.Cuenta;
 import ec.edu.ups.ppw.ProyectoFinalBanco.model.Transferencia;
 
 @Stateless
@@ -26,10 +28,14 @@ public class TransferenciaON {
 		}
 	}
 
-	public String generarFecha() {
-		String pattern = "dd/MM/yyyy HH:mm:ss";
-		SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
-		String date = simpleDateFormat.format(new Date());
+	public String generarFecha() throws ParseException {
+		String pattern = "dd/MM/yyyy";
+		DateTimeFormatter dtf = DateTimeFormatter.ofPattern(pattern);
+		String date = dtf.format(LocalDateTime.now());
+		
+//		SimpleDateFormat sdf = new SimpleDateFormat(pattern);
+//		Date fecha = sdf.parse(date);
+		
 		return date;
 	}
 
@@ -42,6 +48,10 @@ public class TransferenciaON {
 			return lista.size() + 1;
 		}
 
+	}
+	
+	public List<Transferencia> getTransferencias(){
+		return transferenciaDAO.getList();
 	}
 
 }

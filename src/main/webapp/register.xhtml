@@ -70,7 +70,7 @@
 								<div class="form-group">
 									<h:outputLabel for="fecha">Fecha de Nacimiento*</h:outputLabel>
 									<h:inputText required="true" type="date"
-										value="#{gestionPersonasBean.newCliente.fecha_nacimiento}"
+										value="#{gestionPersonasBean.newCliente.fechaNacimiento}"
 										class="form-control"
 										converterMessage="  Por favor ingrese fecha valida segun el formato dd/mm/yyyy"
 										id="fecha" requiredMessage="  Este campo es obligatorio">
@@ -92,7 +92,7 @@
 									<h:outputLabel for="password">Password*</h:outputLabel>
 									<h:inputSecret id="password" required="true" type="text"
 										class="form-control p_input"
-										value="#{gestionPersonasBean.newCuenta.contraseña}"
+										value="#{gestionPersonasBean.newCuenta.contrasenia}"
 										requiredMessage="  Este campo es obligatorio" />
 									<h:message for="password" errorClass="mdi mdi-alert"
 										errorStyle="color:red" />

@@ -129,40 +129,40 @@ public class PersonaON {
 		return per;
 	}
 
-	public List<Persona> personasServicio(Servicio s) {
-		var lista = personaDAO.getList();
+//	public List<Persona> personasServicio(Servicio s) {
+//		var lista = personaDAO.getList();
+//
+//		var listaPersonas = new ArrayList<Persona>();
+//
+//		for (Persona p : lista) {
+//			for (Servicio ser : p.getServiciosPagados()) {
+//				if (ser.getId() == s.getId()) {
+//					listaPersonas.add(p);
+//				}
+//			}
+//		}
+//
+//		for (Persona p : lista) {
+//			for (Servicio ser : p.getServiciosEmitidos()) {
+//				if (ser.getId() == s.getId()) {
+//					listaPersonas.add(p);
+//				}
+//			}
+//		}
+//
+//		return listaPersonas;
+//	}
 
-		var listaPersonas = new ArrayList<Persona>();
-
-		for (Persona p : lista) {
-			for (Servicio ser : p.getServiciosPagados()) {
-				if (ser.getId() == s.getId()) {
-					listaPersonas.add(p);
-				}
-			}
-		}
-
-		for (Persona p : lista) {
-			for (Servicio ser : p.getServiciosEmitidos()) {
-				if (ser.getId() == s.getId()) {
-					listaPersonas.add(p);
-				}
-			}
-		}
-
-		return listaPersonas;
-	}
-
-	public Persona buscarPorPoliza(Poliza p) {
-		for (Persona per : personaDAO.getList()) {
-			for (Poliza pol : per.getPoliza()) {
-				if (pol.getId() == p.getId()) {
-					return per;
-				}
-			}
-		}
-
-		return null;
-	}
+//	public Persona buscarPorPoliza(Poliza p) {
+//		for (Persona per : personaDAO.getList()) {
+//			for (Poliza pol : per.getPoliza()) {
+//				if (pol.getId() == p.getId()) {
+//					return per;
+//				}
+//			}
+//		}
+//
+//		return null;
+//	}
 
 }

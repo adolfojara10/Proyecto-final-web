@@ -6,7 +6,9 @@
 	xmlns:p="http://java.sun.com/jsf/html">
 
 <h:head>
-
+	<f:metadata>
+		<f:viewAction action="#{gestionPersonasBean.verificarLogIn()}"></f:viewAction>
+	</f:metadata>
 </h:head>
 <ui:composition template="blank-page.xhtml">
 	<ui:define name="title">
@@ -30,7 +32,6 @@
 									<h:dataTable
 										value="#{gestionPersonasBean.listaServiciosActivos}" var="s"
 										class="table table-striped" paginator="true" rows="10"
-										
 										rendered="#{gestionPersonasBean.listaServiciosActivos.size()>=0}">
 
 										<h:column>

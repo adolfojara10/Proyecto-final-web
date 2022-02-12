@@ -5,7 +5,9 @@
 	xmlns:h="http://java.sun.com/jsf/html">
 
 <h:head>
-
+	<f:metadata>
+		<f:viewAction action="#{gestionPersonasBean.verificarLogIn()}"></f:viewAction>
+	</f:metadata>
 </h:head>
 <ui:composition template="blank-page.xhtml">
 	<ui:define name="title">
@@ -78,7 +80,8 @@
 
 									<br />
 									<div class="text-center">
-										<h:commandButton styleClass="btn btn-outline-primary btn-fw" value="Calcular"
+										<h:commandButton styleClass="btn btn-outline-primary btn-fw"
+											value="Calcular"
 											action="#{gestionConversionMoneda.calcular()}">
 											<f:ajax execute="txtCantidad moneda" render="txtTotal" />
 										</h:commandButton>

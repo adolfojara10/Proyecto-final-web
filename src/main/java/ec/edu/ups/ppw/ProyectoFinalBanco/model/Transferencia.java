@@ -71,6 +71,12 @@ public class Transferencia implements Serializable {
 	public void setTipo(String tipo) {
 		this.tipo = tipo;
 	}
+
+	@Override
+	public String toString() {
+		return "Transferencia [id=" + id + ", fecha=" + fecha + ", monto=" + monto + ", tipo=" + tipo + 
+				",\n --- > cuenta="	+ cuenta + "]";
+	}
 	
 	
 	

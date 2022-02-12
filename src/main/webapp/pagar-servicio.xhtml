@@ -5,7 +5,9 @@
 	xmlns:h="http://java.sun.com/jsf/html">
 
 <h:head>
-
+	<f:metadata>
+		<f:viewAction action="#{gestionPersonasBean.verificarLogIn()}"></f:viewAction>
+	</f:metadata>
 </h:head>
 <ui:composition template="blank-page.xhtml"></ui:composition>
 <ui:define name="title">

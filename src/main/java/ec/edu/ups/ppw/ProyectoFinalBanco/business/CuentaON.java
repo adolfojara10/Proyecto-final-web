@@ -2,6 +2,8 @@ package ec.edu.ups.ppw.ProyectoFinalBanco.business;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.NoSuchElementException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -35,6 +37,7 @@ public class CuentaON {
 
 	private Persona personaLogIn = new Persona();
 
+	
 	public void guardarCuenta(Cuenta cuenta) {
 		var c = cuentaDAO.read(cuenta.getId());
 		if (c == null) {
@@ -48,22 +51,31 @@ public class CuentaON {
 		return cuentaDAO.read(cuenta);
 	}
 
-	public void deposito(double monto, Persona per) {
+	public void deposito(double monto, Persona per) throws ParseException {
 
-		System.out.println(per.getCuenta().getSaldo() + monto);
-		per.getCuenta().setSaldo(per.getCuenta().getSaldo() + monto);
+		System.out.println(per.getCuenta().getSaldo() + " -- " + monto);
+		monto = monto + per.getCuenta().getSaldo();
+		
+		per.getCuenta().setSaldo(monto);
 		Cuenta cuenta = per.getCuenta();
 
 		var t = new Transferencia();
 		t.setId(transferenciaON.calcularID());
-		t.setFecha(transferenciaON.generarFecha());
+		
+		String pattern = "dd/MM/yyyy";
+		SimpleDateFormat sdf = new SimpleDateFormat(pattern);
+		t.setFecha(sdf.parse(transferenciaON.generarFecha()));
+		
 		t.setMonto(monto);
 		t.setTipo("Deposito");
-		transferenciaON.guardarTransferencia(t);
 
+		transferenciaON.guardarTransferencia(t);
+		
 		cuenta.addTransferencia(t);
 
 		guardarCuenta(cuenta);
+		System.out.println(transferenciaON.getTransferencias());
+		System.out.println(cuenta +" "+cuenta.getTransferencias());
 
 	}
 
@@ -195,10 +207,10 @@ public class CuentaON {
 		}
 
 		final String pass = passwordHash;
-		System.out.println(pass);
+		System.out.println("contra > " + pass);
 		try {
 			usu = listaCuentas.stream()
-					.filter(cue -> cue.getNombre_usuario().equals(nombreUsu) && pass.equals(cue.getContraseña()))
+					.filter(cue -> cue.getNombreUsuario().equals(nombreUsu) && pass.equals(cue.getContrasenia()))
 					.findFirst().get();
 			System.out.println(usu);
 
@@ -212,6 +224,11 @@ public class CuentaON {
 
 		return null;
 	}
+	
+//	public Cuenta logOut(String nombreUsu, String contra) {
+//		Cuenta usuario = null;
+//		return usuario;
+//	}
 
 	public Cuenta getCuentaLogIn() {
 		return cuentaLogIn;

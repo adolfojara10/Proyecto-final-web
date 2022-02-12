@@ -60,16 +60,16 @@ public class GestionPersonasBean {
 		newCuenta = new Cuenta();
 		clientesList = perON.getClientes();
 		// listaServiciosActivos = new ArrayList<Servicios>();
-
+//		System.out.println(cueON.getPersonaLogIn().getCuenta().getNombreUsuario());
 	}
 
 	public String guardar() throws NoSuchAlgorithmException {
 		System.out.println("1111 - " + tipo + " el id es > " + perON.calcularID());
 		String contraencrip = cueON.sha1(newCuenta.getContrasenia());
-		//newCliente.setId(perON.calcularID());
+		newCliente.setId(perON.calcularID());
 		newCliente.setTipo(tipo);
 
-		//newCuenta.setId(cueON.calcularID());
+		newCuenta.setId(cueON.calcularID());
 		newCuenta.setNombreUsuario(cueON.crearNombreUsuario(newCliente.getNombre(), newCliente.getApellido()));
 		// newCuenta.setNombre_usuario("aa");
 		newCuenta.setContrasenia(contraencrip);
@@ -102,6 +102,47 @@ public class GestionPersonasBean {
 		FacesContext.getCurrentInstance().addMessage(null, msg);
 	}
 
+	@SuppressWarnings("finally")
+	public String verificarLogIn() {
+		try {
+			usuario = cueON.getPersonaLogIn().getCuenta().getNombreUsuario();
+			System.out.println("us " + usuario);
+			return usuario;
+			
+		} finally {
+			// TODO: handle finally clause
+			if (usuario == null) {
+				return "iniciarSesion";
+			}else {
+				return null;
+			} 
+		}
+		
+		
+	}
+	
+	@SuppressWarnings("finally")
+	public String obtenerUser() {
+		
+		try {
+			System.out.println("--** " + cueON.getPersonaLogIn().getCuenta().getNombreUsuario());
+			usuario = cueON.getPersonaLogIn().getCuenta().getNombreUsuario();
+			return cueON.getPersonaLogIn().getCuenta().getNombreUsuario();
+		} catch (Exception e) {
+			// TODO: handle exception
+			System.out.println("--- >// " + e);
+		} finally {
+			return cueON.getPersonaLogIn().getCuenta().getNombreUsuario();
+		}
+
+		//return null;
+	}
+
+//	public void logout() {
+//		System.out.println("cerrando");
+//		cueON.logOut(cueON.getCuentaLogIn().getNombreUsuario(), cueON.getPersonaLogIn().getCuenta().getContrasenia());
+//	}
+	
 	public String login() {
 		System.out.println(usuario);
 		System.out.println(contraseña);
@@ -112,7 +153,7 @@ public class GestionPersonasBean {
 			if (cueON.getCuentaLogIn() != null) {
 
 				if (cueON.getPersonaLogIn().getTipo().equals("Común")) {
-					this.cargarDeudas();
+//					this.cargarDeudas();
 					System.out.println("brrrrrrrrrrrrrrrrr");
 				}
 				return "poliza";
@@ -127,22 +168,22 @@ public class GestionPersonasBean {
 		return null;
 	}
 
-	public List<Servicio> cargarDeudas() {
-
-		var listaDeudas = cueON.getPersonaLogIn().getServiciosPagados();
-		listaServiciosActivos = new ArrayList<Servicio>();
-		if (listaDeudas.size() > 0) {
-			for (Servicio s : listaDeudas) {
-				if (s.isEstado()) {
-					listaServiciosActivos.add(s);
-				}
-			}
-		}
-		
-		System.out.println(listaServiciosActivos);
-
-		return listaDeudas;
-	}
+//	public List<Servicio> cargarDeudas() {
+//
+//		var listaDeudas = cueON.getPersonaLogIn().getServiciosPagados();
+//		listaServiciosActivos = new ArrayList<Servicio>();
+//		if (listaDeudas.size() > 0) {
+//			for (Servicio s : listaDeudas) {
+//				if (s.isEstado()) {
+//					listaServiciosActivos.add(s);
+//				}
+//			}
+//		}
+//		
+//		System.out.println(listaServiciosActivos);
+//
+//		return listaDeudas;
+//	}
 
 	public String guardarTipo() {
 		System.out.println(tipo);

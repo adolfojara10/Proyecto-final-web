@@ -144,20 +144,20 @@ public class PolizaON {
 		return date.toString();
 	}
 
-	public void cambiarEstado() {
-		var polizas = polizaDAO.getList();
-
-		for (Poliza p : polizas) {
-			if (p.getFecha_fin().after(new Date())) {
-				p.setEstado(false);
-				var persona = personaON.buscarPorPoliza(p);
-				var cuenta = persona.getCuenta();
-				cuenta.setSaldo(cuenta.getSaldo() + p.getMonto() + p.getRendimiento());
-				cuentaON.guardarCuenta(cuenta);
-
-			}
-		}
-	}
+//	public void cambiarEstado() {
+//		var polizas = polizaDAO.getList();
+//
+//		for (Poliza p : polizas) {
+//			if (p.getFecha_fin().after(new Date())) {
+//				p.setEstado(false);
+//				var persona = personaON.buscarPorPoliza(p);
+//				var cuenta = persona.getCuenta();
+//				cuenta.setSaldo(cuenta.getSaldo() + p.getMonto() + p.getRendimiento());
+//				cuentaON.guardarCuenta(cuenta);
+//
+//			}
+//		}
+//	}
 
 	public double calcularInteres(int tiempo) {
 		double interes = 0;

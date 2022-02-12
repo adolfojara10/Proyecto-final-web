@@ -4,7 +4,9 @@
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:h="http://java.sun.com/jsf/html">
 <h:head>
-
+	<f:metadata>
+		<f:viewAction action="#{gestionPersonasBean.verificarLogIn()}"></f:viewAction>
+	</f:metadata>
 </h:head>
 <ui:composition template="blank-page.xhtml">
 	<ui:define name="title">
@@ -119,7 +121,7 @@
 
 									<!-- 								</div> -->
 									<div class="d-flex"></div>
-									
+
 									<h3 class="card-title text-left mb-3">CARACTERISTICAS DEL
 										PRESTAMO</h3>
 									<div class="form-group">
@@ -165,7 +167,7 @@
 										class="form-group d-flex align-items-center justify-content-between">
 									</div>
 									<!-- 								<div class="text-center"> -->
-									
+
 									<div>
 										<h:commandButton
 											action="#{gestionPrestamosBean.guardarPrestamo()}"
@@ -178,12 +180,8 @@
 								</h:form>
 
 							</div>
-							<div class="card-body px-5 py-5">
-
-							</div>
-							<div class="card-body px-5 py-5">
-
-							</div>
+							<div class="card-body px-5 py-5"></div>
+							<div class="card-body px-5 py-5"></div>
 						</div>
 					</div>
 					<!-- content-wrapper ends -->
