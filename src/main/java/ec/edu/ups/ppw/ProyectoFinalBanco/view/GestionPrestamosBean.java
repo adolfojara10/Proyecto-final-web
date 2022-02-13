@@ -108,7 +108,7 @@ public class GestionPrestamosBean {
 			newPrestamo.setPersona2(p);
 			presON.guardarPrestamo(newPrestamo);
 			Persona c = perON.buscarCedula(this.cedulaP);
-			//c.addPrestamo(newPrestamo);
+			c.addPrestamos1(newPrestamo);
 			perON.guardarCliente(c);
 			System.out.println(c);
 			System.out.println("Solicitud enviada");

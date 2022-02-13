@@ -53,11 +53,11 @@ public class GestionTargetaBean {
 			newTarjet.setTipo(tipo);
 			newTarjet.setNumero(tarON.generarNumero());
 			newTarjet.setCodigo(tarON.generarcodigoseguridad());
-			System.out.println(newTarjet.toString());
+			//System.out.println(newTarjet);
 			tarON.guardarTarjeta(newTarjet);
-			
+			//p.addTarjeta(newTarjet);
 			cuentaON.getPersonaLogIn().addTarjeta(newTarjet);
-			System.out.println(p);
+			//System.out.println(p);
 			perON.guardarCliente(cuentaON.getPersonaLogIn());
 			
 			System.out.println("Solicitud aprovada");

@@ -69,7 +69,7 @@ public class Persona implements Serializable {
 
 	// bi-directional many-to-one association to Tarjeta
 	@OneToMany(mappedBy = "persona")
-	private List<Tarjeta> tarjetas;
+	private Set<Tarjeta> tarjetas;
 
 	public Persona() {
 	}
@@ -259,15 +259,18 @@ public class Persona implements Serializable {
 		return servicios;
 	}
 
-	public List<Tarjeta> getTarjetas() {
-		return this.tarjetas;
+	public Set<Tarjeta> getTarjetas() {
+		return tarjetas;
 	}
 
-	public void setTarjetas(List<Tarjeta> tarjetas) {
+	public void setTarjetas(Set<Tarjeta> tarjetas) {
 		this.tarjetas = tarjetas;
 	}
 
 	public Tarjeta addTarjeta(Tarjeta tarjeta) {
+		if (tarjetas.size() == 0) {
+			tarjetas = new HashSet<Tarjeta>();
+		}
 		getTarjetas().add(tarjeta);
 		tarjeta.setPersona(this);
 
