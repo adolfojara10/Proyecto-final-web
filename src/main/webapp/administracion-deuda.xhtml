@@ -28,43 +28,83 @@
 						<div class="card col-lg-4 mx-auto">
 							<div class="form-group">
 
+								<h3>Servicios</h3>
 								<h:form>
-									<h:dataTable
-										value="#{gestionPersonasBean.listaServiciosActivos}" var="s"
-										class="table table-striped" paginator="true" rows="10"
-										rendered="#{gestionPersonasBean.listaServiciosActivos.size()>=0}">
 
-										<h:column>
+									<p:dataTable
+										value="#{gestionPersonasBean.listaServiciosActivos}" var="s"
+										class="table table-striped" paginator="true" rows="10">
+										<!-- rendered="#{gestionPersonasBean.listaServiciosActivos.size()>=0}">
+																				selectionMode="single" selection="#{gestionServiciosBean.servicioPagar}" rowKey="#{s.id}"> -->
+
+										<p:column>
 											<f:facet name="header">ID</f:facet>
 							#{s.id}
-							</h:column>
+							</p:column>
 
-										<h:column>
+										<p:column>
 											<f:facet name="header">Fecha Emisión</f:facet>
 							#{s.fechaEmision}
-							</h:column>
+							</p:column>
 
-										<h:column>
+										<p:column>
 											<f:facet name="header">Tipo</f:facet>
 							#{s.tipo}
-							</h:column>
+							</p:column>
 
-										<h:column>
+										<p:column>
 											<f:facet name="header">Deuda</f:facet>
 							#{s.deuda}
-							</h:column>
+							</p:column>
 
-										<h:column>
-											<f:facet name="header">Acciones</f:facet>
+									</p:dataTable>
 
-											<h:commandButton class="btn btn-light btn-fw" value="Pagar"
-												action="#{gestionServiciosBean.pagarServicio()}">
+									<br></br>
 
-											</h:commandButton>
+									<div class="form-group">
+										<label>ID</label>
+										<h:inputText id="txtID"
+											value="#{gestionServiciosBean.idServicio}"
+											class="form-control" />
+											<br></br>
+										<h:commandButton class="btn btn-light btn-fw" value="Pagar"
+											action="#{gestionServiciosBean.pagarServicio()}">
 
-										</h:column>
+										</h:commandButton>
 
-									</h:dataTable>
+									</div>
+
+								</h:form>
+								
+								<br></br>
+
+								<h3>Prestamos</h3>
+
+								<h:form>
+
+									<p:dataTable
+										value="" var=""
+										class="table table-striped" paginator="true" rows="10">
+										<!-- rendered="#{gestionPersonasBean.listaServiciosActivos.size()>=0}">
+																				selectionMode="single" selection="#{gestionServiciosBean.servicioPagar}" rowKey="#{s.id}"> -->
+
+										
+									</p:dataTable>
+
+									<br></br>
+
+									<div class="form-group">
+										<label>ID</label>
+										<h:inputText id="txtID"
+											
+											class="form-control" />
+											<br></br>
+										<h:commandButton class="btn btn-light btn-fw" value="Pagar"
+											>
+
+										</h:commandButton>
+
+									</div>
 
 								</h:form>
 								<!-- 
@@ -77,7 +117,7 @@
 										<th class="order-table-header">Quantity</th>
 									</tr>
 									<tbody>
-										<ui:repeat var="o" value="#{gestionPersonasBean.cargarDeudas()}"
+										
 											varStatus="status">
 											<h:panelGroup rendered="#{status.even}">
 												<tr>

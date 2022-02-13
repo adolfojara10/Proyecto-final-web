@@ -12,7 +12,7 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 @Entity
-@NamedQuery(name="Poliza.findAll", query="SELECT p FROM Poliza p")
+@NamedQuery(name = "Poliza.findAll", query = "SELECT p FROM Poliza p")
 public class Poliza implements Serializable {
 	private static final long serialVersionUID = 1L;
 
@@ -22,11 +22,11 @@ public class Poliza implements Serializable {
 	private String estado;
 
 	@Temporal(TemporalType.DATE)
-	@Column(name="fecha_fin")
+	@Column(name = "fecha_fin")
 	private Date fechaFin;
 
 	@Temporal(TemporalType.DATE)
-	@Column(name="fecha_inicio")
+	@Column(name = "fecha_inicio")
 	private Date fechaInicio;
 
 	private double interes;
@@ -35,7 +35,7 @@ public class Poliza implements Serializable {
 
 	private double rendimiento;
 
-	//bi-directional many-to-one association to Persona
+	// bi-directional many-to-one association to Persona
 	@ManyToOne
 	private Persona persona;
 
@@ -104,6 +104,12 @@ public class Poliza implements Serializable {
 
 	public void setPersona(Persona persona) {
 		this.persona = persona;
+	}
+
+	@Override
+	public String toString() {
+		return "Poliza [id=" + id + ", estado=" + estado + ", fechaFin=" + fechaFin + ", fechaInicio=" + fechaInicio
+				+ ", interes=" + interes + ", monto=" + monto + ", rendimiento=" + rendimiento + "]";
 	}
 
 }

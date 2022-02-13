@@ -47,28 +47,29 @@ public class GestionPolizaBean {
 		return null;
 	}
 
-//	public boolean guardarPoliza() {
-//
-//		if (polizaON.validarPoliza(this.cuentaON.getCuentaLogIn(), this.monto)) {
-//			var poliza = new Poliza();
-//			//poliza.setId(polizaON.calcularID());
-//			poliza.setMonto(this.monto);
-//			poliza.setTiempo(this.tiempo);
-//			poliza.setPor_interes(polizaON.calcularInteres(tiempo));
-//			poliza.setRendimiento(polizaON.calcularRendimiento(monto, tiempo));
-//			poliza.setFecha_inicio(this.fechaInicio);
-//			poliza.setFecha_fin(polizaON.calcularFechaFin(fechaInicio, tiempo));
-//			poliza.setEstado(true);
-//			
-//			System.out.println(poliza.toString());
-//
-//			polizaON.guardarPoliza(this.cuentaON.getCuentaLogIn(), poliza);
-//
-//			return true;
-//		} else {
-//			return false;
-//		}
-//	}
+	public boolean guardarPoliza() {
+
+		if (polizaON.validarPoliza(this.cuentaON.getCuentaLogIn(), this.monto)) {
+			var poliza = new Poliza();
+			poliza.setId(polizaON.calcularID());
+			poliza.setMonto(this.monto);
+			poliza.setInteres(polizaON.calcularInteres(tiempo));
+			poliza.setRendimiento(polizaON.calcularRendimiento(monto, tiempo));
+			poliza.setFechaInicio(this.fechaInicio);
+			poliza.setFechaFin(polizaON.calcularFechaFin(fechaInicio, tiempo));
+			poliza.setEstado("Activo");
+			
+			System.out.println(poliza.toString());
+
+			polizaON.guardarPoliza(this.cuentaON.getCuentaLogIn(), poliza);
+			
+			System.out.println(this.cuentaON.getCuentaLogIn().getSaldo());
+
+			return true;
+		} else {
+			return false;
+		}
+	}
 
 	public PolizaON getPolizaON() {
 		return polizaON;

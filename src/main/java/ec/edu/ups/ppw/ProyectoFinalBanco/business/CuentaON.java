@@ -2,6 +2,7 @@ package ec.edu.ups.ppw.ProyectoFinalBanco.business;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.Date;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.NoSuchElementException;
@@ -29,7 +30,7 @@ public class CuentaON {
 
 	@Inject
 	private ServiciosON serviciosON;
-	
+
 	@Inject
 	private TransferenciaON transferenciaON;
 
@@ -37,7 +38,6 @@ public class CuentaON {
 
 	private Persona personaLogIn = new Persona();
 
-	
 	public void guardarCuenta(Cuenta cuenta) {
 		var c = cuentaDAO.read(cuenta.getId());
 		if (c == null) {
@@ -55,27 +55,27 @@ public class CuentaON {
 
 		System.out.println(per.getCuenta().getSaldo() + " -- " + monto);
 		monto = monto + per.getCuenta().getSaldo();
-		
+
 		per.getCuenta().setSaldo(monto);
 		Cuenta cuenta = per.getCuenta();
 
 		var t = new Transferencia();
 		t.setId(transferenciaON.calcularID());
-		
+
 		String pattern = "dd/MM/yyyy";
 		SimpleDateFormat sdf = new SimpleDateFormat(pattern);
 		t.setFecha(sdf.parse(transferenciaON.generarFecha()));
-		
+
 		t.setMonto(monto);
 		t.setTipo("Deposito");
 
 		transferenciaON.guardarTransferencia(t);
-		
+
 		cuenta.addTransferencia(t);
 
 		guardarCuenta(cuenta);
 		System.out.println(transferenciaON.getTransferencias());
-		System.out.println(cuenta +" "+cuenta.getTransferencias());
+		System.out.println(cuenta + " " + cuenta.getTransferencias());
 
 	}
 
@@ -98,53 +98,53 @@ public class CuentaON {
 			return true;
 		}
 	}
-	
-	
+
 	public boolean pagoServicio(Servicio s) {
-		
-		/*var lista = personaON.personasServicio(s);
-		
-		var p1 = lista.get(0);
-		var p2 = lista.get(1);
-		
-		p1.getCuenta().setSaldo(p1.getCuenta().getSaldo() - s.getDeuda());
-		p2.getCuenta().setSaldo(p2.getCuenta().getSaldo() + s.getDeuda());
-		
-		var t = new Transferencia();
-		t.setId(transferenciaON.calcularID());
-		t.setFecha(transferenciaON.generarFecha());
-		t.setMonto(s.getDeuda());
-		t.setTipo("Servicios");
-		transferenciaON.guardarTransferencia(t);
-		
-		Cuenta cuenta = p1.getCuenta();
-		cuenta.addTransferencia(t);
-		this.guardarCuenta(cuenta);
 
-		Cuenta cuenta1 = p2.getCuenta();
-		cuenta1.addTransferencia(t);
-		this.guardarCuenta(cuenta1);
-		
-		s.setEstado(false);
-		serviciosON.guardarServicios(s);
-		*/
-		return true;
-		/*Persona us = personaON.consultarCuentaUsuario(t.getCuenta());
-		Persona us1 = personaON.consultarCuentaUsuario(t.getCuenta());
+		// var lista = personaON.personasServicio(s);
 
-		if (us == null && us1 == null || t.getMonto() > us.getCuenta().getSaldo()) {
-			return false;
-		} else {
-			us.getCuenta().setSaldo(us.getCuenta().getSaldo() - t.getMonto());
-			us1.getCuenta().setSaldo(us1.getCuenta().getSaldo() + t.getMonto());
-			Cuenta cuenta = us.getCuenta();
+		var p1 = s.getPersona1();
+		var p2 = s.getPersona2();
+
+		if (p1 != null && p2 != null) {
+			p1.getCuenta().setSaldo(p1.getCuenta().getSaldo() + s.getDeuda());
+			p2.getCuenta().setSaldo(p2.getCuenta().getSaldo() - s.getDeuda());
+
+			var t = new Transferencia();
+			t.setId(transferenciaON.calcularID());
+			t.setFecha(new Date());
+			t.setMonto(s.getDeuda());
+			t.setTipo("Servicios");
+			transferenciaON.guardarTransferencia(t);
+
+			Cuenta cuenta = p1.getCuenta();
+			cuenta.addTransferencia(t);
 			this.guardarCuenta(cuenta);
 
-			Cuenta cuenta1 = us1.getCuenta();
-
+			Cuenta cuenta1 = p2.getCuenta();
+			cuenta1.addTransferencia(t);
 			this.guardarCuenta(cuenta1);
-			return true;
-		}*/
+
+			s.setEstado("Pagado");
+			serviciosON.guardarServicios(s);
+			
+			System.out.println("sipi");
+		}
+
+		return true;
+		/*
+		 * Persona us = personaON.consultarCuentaUsuario(t.getCuenta()); Persona us1 =
+		 * personaON.consultarCuentaUsuario(t.getCuenta());
+		 * 
+		 * if (us == null && us1 == null || t.getMonto() > us.getCuenta().getSaldo()) {
+		 * return false; } else { us.getCuenta().setSaldo(us.getCuenta().getSaldo() -
+		 * t.getMonto()); us1.getCuenta().setSaldo(us1.getCuenta().getSaldo() +
+		 * t.getMonto()); Cuenta cuenta = us.getCuenta(); this.guardarCuenta(cuenta);
+		 * 
+		 * Cuenta cuenta1 = us1.getCuenta();
+		 * 
+		 * this.guardarCuenta(cuenta1); return true; }
+		 */
 	}
 
 	public int calcularID() {
@@ -216,6 +216,8 @@ public class CuentaON {
 
 			this.cuentaLogIn = usu;
 			this.personaLogIn = personaON.consultarCuentaUsuario(this.cuentaLogIn);
+			
+			personaON.cargarDeudas();
 
 			return usu;
 		} catch (NoSuchElementException e) {
@@ -224,17 +226,17 @@ public class CuentaON {
 
 		return null;
 	}
-	
+
 	public void logOut() {
 		try {
 			this.setCuentaLogIn(null);
-			this.setPersonaLogIn(null);			
+			this.setPersonaLogIn(null);
 			System.out.println("lof " + personaLogIn + " log " + cuentaLogIn);
 		} catch (Exception e) {
 			// TODO: handle exception
 			System.out.println("+++ > " + e);
 		}
-		
+
 	}
 
 	public Cuenta getCuentaLogIn() {

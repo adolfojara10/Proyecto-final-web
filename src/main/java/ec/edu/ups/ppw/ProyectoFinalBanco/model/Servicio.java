@@ -14,8 +14,8 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 @Entity
-@Table(name="servicios")
-@NamedQuery(name="Servicio.findAll", query="SELECT s FROM Servicio s")
+@Table(name = "servicios")
+@NamedQuery(name = "Servicio.findAll", query = "SELECT s FROM Servicio s")
 public class Servicio implements Serializable {
 	private static final long serialVersionUID = 1L;
 
@@ -25,19 +25,21 @@ public class Servicio implements Serializable {
 	private double deuda;
 
 	@Temporal(TemporalType.DATE)
-	@Column(name="fecha_emision")
+	@Column(name = "fecha_emision")
 	private Date fechaEmision;
 
 	private String tipo;
 
-	//bi-directional many-to-one association to Persona
+	private String estado;
+
+	// bi-directional many-to-one association to Persona
 	@ManyToOne
-	@JoinColumn(name="emisor_id")
+	@JoinColumn(name = "emisor_id")
 	private Persona persona1;
 
-	//bi-directional many-to-one association to Persona
+	// bi-directional many-to-one association to Persona
 	@ManyToOne
-	@JoinColumn(name="deudor_id")
+	@JoinColumn(name = "deudor_id")
 	private Persona persona2;
 
 	public Servicio() {
@@ -89,6 +91,20 @@ public class Servicio implements Serializable {
 
 	public void setPersona2(Persona persona2) {
 		this.persona2 = persona2;
+	}
+
+	public String getEstado() {
+		return estado;
+	}
+
+	public void setEstado(String estado) {
+		this.estado = estado;
+	}
+
+	@Override
+	public String toString() {
+		return "Servicio [id=" + id + ", deuda=" + deuda + ", fechaEmision=" + fechaEmision + ", tipo=" + tipo
+				+ ", estado=" + estado + "]";
 	}
 
 }

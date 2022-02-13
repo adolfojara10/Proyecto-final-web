@@ -30,7 +30,7 @@ public class ServiciosDAO {
 
 	// ----------------------------------------------------------------
 	public List<Servicio> getList() {
-		String jpql = "Select s From Servicios s";
+		String jpql = "Select s From Servicio s";
 
 		Query q = em.createQuery(jpql, Servicio.class);
 

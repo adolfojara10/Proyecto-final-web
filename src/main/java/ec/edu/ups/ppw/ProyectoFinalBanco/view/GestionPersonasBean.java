@@ -108,22 +108,21 @@ public class GestionPersonasBean {
 			usuario = cueON.getPersonaLogIn().getCuenta().getNombreUsuario();
 			System.out.println("us " + usuario);
 			return usuario;
-			
+
 		} finally {
 			// TODO: handle finally clause
 			if (usuario == null) {
 				return "iniciarSesion";
-			}else {
+			} else {
 				return null;
-			} 
+			}
 		}
-		
-		
+
 	}
-	
+
 	@SuppressWarnings("finally")
 	public String obtenerUser() {
-		
+
 		try {
 			System.out.println("--** " + cueON.getPersonaLogIn().getCuenta().getNombreUsuario());
 			usuario = cueON.getPersonaLogIn().getCuenta().getNombreUsuario();
@@ -135,14 +134,14 @@ public class GestionPersonasBean {
 			return cueON.getPersonaLogIn().getCuenta().getNombreUsuario();
 		}
 
-		//return null;
+		// return null;
 	}
 
 	public String logout() {
 		cueON.logOut();
 		return this.verificarLogIn();
 	}
-	
+
 	public String login() {
 		System.out.println(usuario);
 		System.out.println(contraseña);
@@ -153,7 +152,7 @@ public class GestionPersonasBean {
 			if (cueON.getCuentaLogIn() != null) {
 
 				if (cueON.getPersonaLogIn().getTipo().equals("Común")) {
-//					this.cargarDeudas();
+					this.cargarDeudas();
 					System.out.println("brrrrrrrrrrrrrrrrr");
 				}
 				return "poliza.xhtml";
@@ -168,22 +167,22 @@ public class GestionPersonasBean {
 		return null;
 	}
 
-//	public List<Servicio> cargarDeudas() {
-//
-//		var listaDeudas = cueON.getPersonaLogIn().getServiciosPagados();
-//		listaServiciosActivos = new ArrayList<Servicio>();
-//		if (listaDeudas.size() > 0) {
-//			for (Servicio s : listaDeudas) {
-//				if (s.isEstado()) {
-//					listaServiciosActivos.add(s);
-//				}
-//			}
-//		}
-//		
-//		System.out.println(listaServiciosActivos);
-//
-//		return listaDeudas;
-//	}
+	public void cargarDeudas() {
+
+		var listaDeudas = cueON.getPersonaLogIn().getServicios2();
+		listaServiciosActivos = new ArrayList<Servicio>();
+		if (listaDeudas.size() > 0) {
+			for (Servicio s : listaDeudas) {
+				if (s.getEstado().equals("Pagar")) {
+					listaServiciosActivos.add(s);
+				}
+			}
+		}
+
+		System.out.println(listaServiciosActivos);
+
+
+	}
 
 	public String guardarTipo() {
 		System.out.println(tipo);

@@ -2,9 +2,14 @@ package ec.edu.ups.ppw.ProyectoFinalBanco.model;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.NamedQuery;
@@ -13,7 +18,7 @@ import javax.persistence.TemporalType;
 import javax.persistence.ManyToOne;
 
 @Entity
-@NamedQuery(name="Persona.findAll", query="SELECT p FROM Persona p")
+@NamedQuery(name = "Persona.findAll", query = "SELECT p FROM Persona p")
 public class Persona implements Serializable {
 	private static final long serialVersionUID = 1L;
 
@@ -27,39 +32,43 @@ public class Persona implements Serializable {
 	private String email;
 
 	@Temporal(TemporalType.DATE)
-	@Column(name="fecha_nacimiento")
+	@Column(name = "fecha_nacimiento")
 	private Date fechaNacimiento;
 
 	private String nombre;
-	
+
 	private String tipo;
 
-	//bi-directional many-to-one association to Cuenta
+	// bi-directional many-to-one association to Cuenta
 	@ManyToOne
 	private Cuenta cuenta;
 
-	//bi-directional many-to-one association to Poliza
-	@OneToMany(mappedBy="persona")
-	private List<Poliza> polizas;
+	// bi-directional many-to-one association to Poliza
+	@OneToMany(mappedBy = "persona", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	private Set<Poliza> polizas;
 
-	//bi-directional many-to-one association to Prestamo
-	@OneToMany(mappedBy="persona1")
+	// bi-directional many-to-one association to Prestamo
+	// prestamos
+	@OneToMany(mappedBy = "persona1")
 	private List<Prestamo> prestamos1;
 
-	//bi-directional many-to-one association to Prestamo
-	@OneToMany(mappedBy="persona2")
+	// bi-directional many-to-one association to Prestamo
+	// garantes
+	@OneToMany(mappedBy = "persona2")
 	private List<Prestamo> prestamos2;
 
-	//bi-directional many-to-one association to Servicio
-	@OneToMany(mappedBy="persona1")
-	private List<Servicio> servicios1;
+	// bi-directional many-to-one association to Servicio
+	// emisores
+	@OneToMany(mappedBy = "persona1", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	private Set<Servicio> servicios1;
 
-	//bi-directional many-to-one association to Servicio
-	@OneToMany(mappedBy="persona2")
-	private List<Servicio> servicios2;
+	// bi-directional many-to-one association to Servicio
+	// deudores
+	@OneToMany(mappedBy = "persona2", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	private Set<Servicio> servicios2;
 
-	//bi-directional many-to-one association to Tarjeta
-	@OneToMany(mappedBy="persona")
+	// bi-directional many-to-one association to Tarjeta
+	@OneToMany(mappedBy = "persona")
 	private List<Tarjeta> tarjetas;
 
 	public Persona() {
@@ -121,14 +130,13 @@ public class Persona implements Serializable {
 		this.cuenta = cuenta;
 	}
 
-	public List<Poliza> getPolizas() {
+	public Set<Poliza> getPolizas() {
 		return this.polizas;
 	}
 
-	public void setPolizas(List<Poliza> polizas) {
+	public void setPolizas(Set<Poliza> polizas) {
 		this.polizas = polizas;
 	}
-	
 
 	public String getTipo() {
 		return tipo;
@@ -139,7 +147,11 @@ public class Persona implements Serializable {
 	}
 
 	public Poliza addPoliza(Poliza poliza) {
-		getPolizas().add(poliza);
+
+		if (polizas.size() == 0) {
+			polizas = new HashSet<Poliza>();
+		}
+
 		poliza.setPersona(this);
 
 		return poliza;
@@ -196,48 +208,55 @@ public class Persona implements Serializable {
 		return prestamos2;
 	}
 
-	public List<Servicio> getServicios1() {
+	public Set<Servicio> getServicios1() {
 		return this.servicios1;
 	}
 
-	public void setServicios1(List<Servicio> servicios1) {
+	public void setServicios1(Set<Servicio> servicios1) {
 		this.servicios1 = servicios1;
 	}
 
-	public Servicio addServicios1(Servicio servicios1) {
-		getServicios1().add(servicios1);
-		servicios1.setPersona1(this);
+	public Servicio addServiciosEmitido(Servicio servicios) {
 
-		return servicios1;
+		if (servicios1.size() == 0) {
+			servicios1 = new HashSet<Servicio>();
+		}
+		getServicios1().add(servicios);
+		servicios.setPersona1(this);
+
+		return servicios;
 	}
 
-	public Servicio removeServicios1(Servicio servicios1) {
+	public Servicio removeServiciosEmitido(Servicio servicios) {
 		getServicios1().remove(servicios1);
-		servicios1.setPersona1(null);
+		servicios.setPersona1(null);
 
-		return servicios1;
+		return servicios;
 	}
 
-	public List<Servicio> getServicios2() {
+	public Set<Servicio> getServicios2() {
 		return this.servicios2;
 	}
 
-	public void setServicios2(List<Servicio> servicios2) {
+	public void setServicios2(Set<Servicio> servicios2) {
 		this.servicios2 = servicios2;
 	}
 
-	public Servicio addServicios2(Servicio servicios2) {
-		getServicios2().add(servicios2);
-		servicios2.setPersona2(this);
+	public Servicio addServiciosPagados(Servicio servicios) {
+		if (servicios2.size() == 0) {
+			servicios2 = new HashSet<Servicio>();
+		}
+		getServicios2().add(servicios);
+		servicios.setPersona2(this);
 
-		return servicios2;
+		return servicios;
 	}
 
-	public Servicio removeServicios2(Servicio servicios2) {
-		getServicios2().remove(servicios2);
-		servicios2.setPersona2(null);
+	public Servicio removeServiciosPagados(Servicio servicios) {
+		getServicios2().remove(servicios);
+		servicios.setPersona2(null);
 
-		return servicios2;
+		return servicios;
 	}
 
 	public List<Tarjeta> getTarjetas() {
@@ -265,8 +284,8 @@ public class Persona implements Serializable {
 	@Override
 	public String toString() {
 		return "Persona [id=" + id + ", apellido=" + apellido + ", cedula=" + cedula + ", email=" + email
-				+ ", fechaNacimiento=" + fechaNacimiento + ", nombre=" + nombre + ", tipo=" + tipo 
-				+ ",\n --- > cuenta=" + cuenta; 
+				+ ", fechaNacimiento=" + fechaNacimiento + ", nombre=" + nombre + ", tipo=" + tipo + ",\n --- > cuenta="
+				+ cuenta;
 //				+ ",\n --- > polizas=" + polizas 
 //				+ ",\n --- > prestamos1=" + prestamos1 
 //				+ ",\n --- > prestamos2=" + prestamos2
@@ -275,5 +294,4 @@ public class Persona implements Serializable {
 //				+ ",\n --- > tarjetas=" + tarjetas + "]";
 	}
 
-	
 }

@@ -76,7 +76,7 @@ public class CuentaDAO{
 	        try {
 	            passwordHash = sha1(password);
 	        } catch (NoSuchAlgorithmException ex) {
-	            Logger.getLogger(CuentaDAO.class.getName()).log(Level.SEVERE, null, ex);
+	            Logger.getLogger(CuentaDAO.class.getName()).log(null, Level.SEVERE, null, ex);
 	        }
 
 	        final String pass = passwordHash;

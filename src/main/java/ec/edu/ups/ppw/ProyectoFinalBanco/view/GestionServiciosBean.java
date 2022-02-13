@@ -1,6 +1,7 @@
 package ec.edu.ups.ppw.ProyectoFinalBanco.view;
 
 import java.util.Date;
+import java.util.List;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.RequestScoped;
@@ -27,13 +28,16 @@ public class GestionServiciosBean {
 	private CuentaON cuentaON;
 
 	private Servicio servicio = new Servicio();
-	private Servicio servicioPagar = new Servicio();
+	private Servicio servicioPagar;
 	private Persona persona = new Persona();
 
 	private Date fechaEmision;
 	private String tipo;
 	private double deuda;
 	private boolean estado;
+	private int idServicio;
+
+	private List<Servicio> listaServiciosActivos;
 
 	private String cedula;
 
@@ -42,29 +46,32 @@ public class GestionServiciosBean {
 		servicio = new Servicio();
 		fechaEmision = new Date();
 		// persona = new Persona();
-		//servicioPagar = new Servicios();
+		// servicioPagar = new Servicios();
+
+		this.cargarListaDeudas();
 	}
 
-//	public String guardarServicio() {
-//		servicio.setId(serviciosON.calcularID());
-//		servicio.setDeuda(deuda);
-//		servicio.setEstado(true);
-//		servicio.setTipo(tipo);
-//		servicio.setFechaEmision(fechaEmision);
-//		this.persona = personaON.buscarCedula(cedula);
-//
-//		serviciosON.guardarServicios(servicio);
-//
-//		cuentaON.getPersonaLogIn().addServicioEmitido(servicio);
-//
-//		this.persona.addServicioPagados(servicio);
-//		personaON.guardarCliente(persona);
-//		personaON.guardarCliente(cuentaON.getPersonaLogIn());
-//
-//		System.out.println(persona);
-//
-//		return null;
-//	}
+	public String guardarServicio() {
+		servicio.setId(serviciosON.calcularID());
+		servicio.setDeuda(deuda);
+		servicio.setEstado("Pagar");
+		servicio.setTipo(tipo);
+		servicio.setFechaEmision(fechaEmision);
+		this.persona = personaON.buscarCedula(cedula);
+
+		serviciosON.guardarServicios(servicio);
+
+		cuentaON.getPersonaLogIn().addServiciosEmitido(servicio);
+
+		this.cargarPersona();
+		this.persona.addServiciosPagados(servicio);
+		personaON.guardarCliente(persona);
+		personaON.guardarCliente(cuentaON.getPersonaLogIn());
+
+		System.out.println(servicio);
+
+		return null;
+	}
 
 	public String cargarPersona() {
 
@@ -74,20 +81,36 @@ public class GestionServiciosBean {
 
 	public String pagarServicio() {
 
-		if (cuentaON.getCuentaLogIn().getSaldo() > servicioPagar.getDeuda()) {
+		servicioPagar = serviciosON.buscarServicio(idServicio);
 
-			cuentaON.pagoServicio(servicioPagar);
+		if (servicioPagar != null) {
+			if (cuentaON.getCuentaLogIn().getSaldo() > servicioPagar.getDeuda() && servicioPagar != null && servicioPagar.getEstado().equals("Pagar")) {
 
-			//servicioPagar.setEstado(false);
+				cuentaON.pagoServicio(servicioPagar);
 
-			//serviciosON.guardarServicios(servicioPagar);
-			
-			System.out.println("siuuu");
-			return "SIUUU";
-		} else {
-			System.out.println("noooo");
-			return "No";
+				// servicioPagar.setEstado(false);
+
+				// serviciosON.guardarServicios(servicioPagar);
+
+				System.out.println("siuuu");
+				servicioPagar = null;
+				idServicio = 0;
+				this.cargarListaDeudas();
+				return "SIUUU";
+
+			} else {
+				System.out.println("noooo");
+				return "No";
+			}
 		}
+		return null;
+	}
+
+	public List<Servicio> cargarListaDeudas() {
+		
+		listaServiciosActivos = personaON.cargarDeudas();
+
+		return listaServiciosActivos;
 	}
 
 	public Servicio getServicio() {
@@ -152,6 +175,22 @@ public class GestionServiciosBean {
 
 	public void setServicioPagar(Servicio servicioPagar) {
 		this.servicioPagar = servicioPagar;
+	}
+
+	public int getIdServicio() {
+		return idServicio;
+	}
+
+	public void setIdServicio(int idServicio) {
+		this.idServicio = idServicio;
+	}
+
+	public List<Servicio> getListaServiciosActivos() {
+		return listaServiciosActivos;
+	}
+
+	public void setListaServiciosActivos(List<Servicio> listaServiciosActivos) {
+		this.listaServiciosActivos = listaServiciosActivos;
 	}
 
 }

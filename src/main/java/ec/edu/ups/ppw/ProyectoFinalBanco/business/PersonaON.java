@@ -25,6 +25,8 @@ public class PersonaON {
 	@Inject
 	private CuentaON cuentaON;
 
+	private List<Servicio> listaServiciosActivos;
+
 	public void guardarCliente(Persona persona) {
 
 		Persona p = personaDAO.read(persona.getId());
@@ -36,7 +38,7 @@ public class PersonaON {
 	}
 
 	public Persona consultarCuentaUsuario(Cuenta cuenta) {
-		var personas = personaDAO.getList();		
+		var personas = personaDAO.getList();
 		if (cuenta != null) {
 			for (Persona p : personas) {
 				if (p.getCuenta().getId() == cuenta.getId()) {
@@ -131,6 +133,33 @@ public class PersonaON {
 		return per;
 	}
 
+	public List<Servicio> cargarDeudas() {
+
+		var listaDeudas = cuentaON.getPersonaLogIn().getServicios2();
+		listaServiciosActivos = new ArrayList<Servicio>();
+		if (listaDeudas != null) {
+			for (Servicio s : listaDeudas) {
+				if (s.getEstado().equals("Pagar")) {
+					listaServiciosActivos.add(s);
+				}
+			}
+		}
+
+		System.out.println(listaServiciosActivos);
+
+		return listaServiciosActivos;
+	}
+
+	public List<Servicio> getListaServiciosActivos() {
+		return listaServiciosActivos;
+	}
+
+	public void setListaServiciosActivos(List<Servicio> listaServiciosActivos) {
+		this.listaServiciosActivos = listaServiciosActivos;
+	}
+	
+	
+
 //	public List<Persona> personasServicio(Servicio s) {
 //		var lista = personaDAO.getList();
 //
@@ -166,5 +195,7 @@ public class PersonaON {
 //
 //		return null;
 //	}
+	
+	
 
 }
