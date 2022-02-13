@@ -138,10 +138,10 @@ public class GestionPersonasBean {
 		//return null;
 	}
 
-//	public void logout() {
-//		System.out.println("cerrando");
-//		cueON.logOut(cueON.getCuentaLogIn().getNombreUsuario(), cueON.getPersonaLogIn().getCuenta().getContrasenia());
-//	}
+	public String logout() {
+		cueON.logOut();
+		return this.verificarLogIn();
+	}
 	
 	public String login() {
 		System.out.println(usuario);
@@ -156,7 +156,7 @@ public class GestionPersonasBean {
 //					this.cargarDeudas();
 					System.out.println("brrrrrrrrrrrrrrrrr");
 				}
-				return "poliza";
+				return "poliza.xhtml";
 			} else {
 				return null;
 			}

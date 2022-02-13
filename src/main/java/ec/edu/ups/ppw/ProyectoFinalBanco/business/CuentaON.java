@@ -225,10 +225,17 @@ public class CuentaON {
 		return null;
 	}
 	
-//	public Cuenta logOut(String nombreUsu, String contra) {
-//		Cuenta usuario = null;
-//		return usuario;
-//	}
+	public void logOut() {
+		try {
+			this.setCuentaLogIn(null);
+			this.setPersonaLogIn(null);			
+			System.out.println("lof " + personaLogIn + " log " + cuentaLogIn);
+		} catch (Exception e) {
+			// TODO: handle exception
+			System.out.println("+++ > " + e);
+		}
+		
+	}
 
 	public Cuenta getCuentaLogIn() {
 		return cuentaLogIn;

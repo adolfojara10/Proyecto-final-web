@@ -7721,6 +7721,9 @@ progress {
   font: inherit;
   -webkit-appearance: button; }
 
+.logout-img{
+	background-image: url("/template/assets/images/logout.png") !important;
+}
 output {
   display: inline-block; }
 
@@ -13649,6 +13652,23 @@ button.bg-dark:focus {
 .shadow-none {
   box-shadow: none !important; }
 
+.label{
+	font-weight: bold;
+	font-size: 75px; 
+}
+
+/*.w-1 {
+  width: 1% !important; }*/
+
+.w-10 {
+  width: 1% !important; }
+    
+.w-5 {
+  width: 5% !important; }
+
+.w-15 {
+  width: 5% !important; }
+    
 .w-25 {
   width: 25% !important; }
 

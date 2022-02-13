@@ -36,14 +36,16 @@ public class PersonaON {
 	}
 
 	public Persona consultarCuentaUsuario(Cuenta cuenta) {
-		var personas = personaDAO.getList();
-
-		for (Persona p : personas) {
-			if (p.getCuenta().getId() == cuenta.getId()) {
-				return p;
+		var personas = personaDAO.getList();		
+		if (cuenta != null) {
+			for (Persona p : personas) {
+				if (p.getCuenta().getId() == cuenta.getId()) {
+					return p;
+				}
 			}
+		} else {
+			return null;
 		}
-
 		return null;
 	}
 
