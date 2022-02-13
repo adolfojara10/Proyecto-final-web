@@ -1,5 +1,7 @@
 package ec.edu.ups.ppw.ProyectoFinalBanco.view;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import javax.annotation.PostConstruct;
@@ -7,6 +9,7 @@ import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 
+import ec.edu.ups.ppw.ProyectoFinalBanco.business.CuentaON;
 import ec.edu.ups.ppw.ProyectoFinalBanco.business.PersonaON;
 import ec.edu.ups.ppw.ProyectoFinalBanco.business.PrestamosON;
 import ec.edu.ups.ppw.ProyectoFinalBanco.model.Persona;
@@ -21,6 +24,9 @@ public class GestionPrestamosBean {
 	
 	@Inject
 	private PrestamosON presON;
+	
+	@Inject
+	private CuentaON cuentaON;
 	
 	private int id;
 	private double monto;
@@ -94,22 +100,30 @@ public class GestionPrestamosBean {
 		//return null;
 	}
 	
-	public String guardarPrestamo() {
+	public String guardarPrestamo() throws ParseException {
 		aprobarGarante();
 		System.out.println(aprovacion);
 		if(aprovacion == true) {
-			//newPrestamo.setId(presON.calcularID());
+			newPrestamo.setId(presON.calcularID());
+			String pattern = "dd/MM/yyyy";
+			SimpleDateFormat sdf = new SimpleDateFormat(pattern);
+			newPrestamo.setFechaInicio(sdf.parse(presON.generarFecha()));
+			calculoPagoCuotas();
 			newPrestamo.setMonto(monto);
 			newPrestamo.setEstado("Pendiente");
 			newPrestamo.setPagoMensual(pagoMensual);
 			newPrestamo.setPlazo(plazo);
+			newPrestamo.setFechaFin(presON.generarFechaFin(plazo));
 			newPrestamo.setInteres(porInteres);
 			Persona p = perON.buscarCedula(this.cedula);
 			newPrestamo.setPersona2(p);
+			var c = cuentaON.getPersonaLogIn();
+			newPrestamo.setPersona1(c);
 			presON.guardarPrestamo(newPrestamo);
-			Persona c = perON.buscarCedula(this.cedulaP);
 			c.addPrestamos1(newPrestamo);
 			perON.guardarCliente(c);
+			p.addPrestamos2(newPrestamo);
+			perON.guardarCliente(p);
 			System.out.println(c);
 			System.out.println("Solicitud enviada");
 		}else {

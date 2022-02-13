@@ -1,5 +1,12 @@
 package ec.edu.ups.ppw.ProyectoFinalBanco.business;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.temporal.TemporalAccessor;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.Random;
 
@@ -50,6 +57,24 @@ public class TarjetaON {
 		Random aleatorio = new Random();
 		int numero = aleatorio.nextInt(1000 - 100 + 1) + 100;
 		return numero;
+	}
+	
+	public String generarFecha() throws ParseException {
+		String pattern = "dd/MM/yyyy";
+		DateTimeFormatter dtf = DateTimeFormatter.ofPattern(pattern);
+		String date = dtf.format(LocalDateTime.now());
+		
+		return date;
+	}
+	
+	public String generarFechaFin() throws ParseException {
+		Calendar c = Calendar.getInstance();
+		c.set(Calendar.YEAR, 5);
+		Date actual = c.getTime();
+		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/YYYY");
+		String date = sdf.format(actual);
+		
+		return date;
 	}
 
 }

@@ -1,5 +1,10 @@
 package ec.edu.ups.ppw.ProyectoFinalBanco.business;
 
+import java.text.ParseException;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import javax.ejb.Stateless;
@@ -58,7 +63,27 @@ public class PrestamosON {
 	
 	public double calculoPago(double monto, int plazo) {
 		double pagoMensual = monto/plazo;
-		return pagoMensual;
+		double interes = calculoInteres(monto);
+		double calucloPago = pagoMensual * interes;
+		double total = pagoMensual + calucloPago;
+		return total;
+	}
+	
+	public String generarFecha() throws ParseException {
+		String pattern = "dd/MM/yyyy";
+		DateTimeFormatter dtf = DateTimeFormatter.ofPattern(pattern);
+		String date = dtf.format(LocalDateTime.now());
+		
+		return date;
+	}
+	
+	public Date generarFechaFin(int plazo) {
+		Calendar c = Calendar.getInstance();
+		c.set(Calendar.MONTH, plazo + 1);
+		Date fina = c.getTime();
+		
+		
+		return fina;
 	}
 
 }

@@ -49,13 +49,13 @@ public class Persona implements Serializable {
 
 	// bi-directional many-to-one association to Prestamo
 	// prestamos
-	@OneToMany(mappedBy = "persona1")
-	private List<Prestamo> prestamos1;
+	@OneToMany(mappedBy = "persona1", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	private Set<Prestamo> prestamos1;
 
 	// bi-directional many-to-one association to Prestamo
 	// garantes
-	@OneToMany(mappedBy = "persona2")
-	private List<Prestamo> prestamos2;
+	@OneToMany(mappedBy = "persona2", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	private Set<Prestamo> prestamos2;
 
 	// bi-directional many-to-one association to Servicio
 	// emisores
@@ -68,7 +68,7 @@ public class Persona implements Serializable {
 	private Set<Servicio> servicios2;
 
 	// bi-directional many-to-one association to Tarjeta
-	@OneToMany(mappedBy = "persona")
+	@OneToMany(mappedBy = "persona", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	private Set<Tarjeta> tarjetas;
 
 	public Persona() {
@@ -164,19 +164,22 @@ public class Persona implements Serializable {
 		return poliza;
 	}
 
-	public List<Prestamo> getPrestamos1() {
-		return this.prestamos1;
+	public Set<Prestamo> getPrestamos1() {
+		return prestamos1;
 	}
 
-	public void setPrestamos1(List<Prestamo> prestamos1) {
+	public void setPrestamos1(Set<Prestamo> prestamos1) {
 		this.prestamos1 = prestamos1;
 	}
 
-	public Prestamo addPrestamos1(Prestamo prestamos1) {
-		getPrestamos1().add(prestamos1);
-		prestamos1.setPersona1(this);
+	public Prestamo addPrestamos1(Prestamo prestamos) {
+		if (prestamos1.size() == 0) {
+			prestamos1 = new HashSet<Prestamo>();
+		}
+		getPrestamos1().add(prestamos);
+		prestamos.setPersona1(this);
 
-		return prestamos1;
+		return prestamos;
 	}
 
 	public Prestamo removePrestamos1(Prestamo prestamos1) {
@@ -186,19 +189,22 @@ public class Persona implements Serializable {
 		return prestamos1;
 	}
 
-	public List<Prestamo> getPrestamos2() {
-		return this.prestamos2;
+	public Set<Prestamo> getPrestamos2() {
+		return prestamos2;
 	}
 
-	public void setPrestamos2(List<Prestamo> prestamos2) {
+	public void setPrestamos2(Set<Prestamo> prestamos2) {
 		this.prestamos2 = prestamos2;
 	}
 
-	public Prestamo addPrestamos2(Prestamo prestamos2) {
-		getPrestamos2().add(prestamos2);
-		prestamos2.setPersona2(this);
+	public Prestamo addPrestamos2(Prestamo prestamo2) {
+		if (prestamos2.size() == 0) {
+			prestamos2 = new HashSet<Prestamo>();
+		}
+		getPrestamos2().add(prestamo2);
+		prestamo2.setPersona2(this);
 
-		return prestamos2;
+		return prestamo2;
 	}
 
 	public Prestamo removePrestamos2(Prestamo prestamos2) {

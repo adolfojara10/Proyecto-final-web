@@ -1,5 +1,7 @@
 package ec.edu.ups.ppw.ProyectoFinalBanco.view;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import javax.annotation.PostConstruct;
@@ -45,20 +47,31 @@ public class GestionTargetaBean {
 		newTarjet = new Tarjeta();
 	}
 	
-	public String guardar() {
+	public String fechaN() throws ParseException  {			
+		return tarON.generarFecha();
+	}
+	
+	
+	public String guardar() throws ParseException {
 		var p = cuentaON.getPersonaLogIn();
 		double saldo = p.getCuenta().getSaldo();
 		if(saldo > 5) {
-			//newTarjet.setId(tarON.calcularID());
+			String pattern = "dd/MM/yyyy";
+			SimpleDateFormat sdf = new SimpleDateFormat(pattern);
+			newTarjet.setFechaInicio(sdf.parse(tarON.generarFecha()));
+			newTarjet.setId(tarON.calcularID());
 			newTarjet.setTipo(tipo);
 			newTarjet.setNumero(tarON.generarNumero());
 			newTarjet.setCodigo(tarON.generarcodigoseguridad());
-			//System.out.println(newTarjet);
+			newTarjet.setPersona(p);
+			
 			tarON.guardarTarjeta(newTarjet);
+			System.out.println(newTarjet);
 			//p.addTarjeta(newTarjet);
-			cuentaON.getPersonaLogIn().addTarjeta(newTarjet);
-			//System.out.println(p);
-			perON.guardarCliente(cuentaON.getPersonaLogIn());
+			p.addTarjeta(newTarjet);
+			
+			perON.guardarCliente(p);
+			System.out.println(p);
 			
 			System.out.println("Solicitud aprovada");
 		}else {

@@ -41,19 +41,19 @@
 
 									<div class="form-group">
 										<label>Nombre</label>
-										<h:inputText type="text" class="form-control p_input"
-											value="#{gestionPrestamosBean.nombre}" id="txtNombre" />
+										<h:outputText class="form-control p_input"
+											value="#{gestionPrestamosBean.nombre}" id="txtNombre"/>
 									</div>
 
 									<div class="form-group">
 										<label>Apellidos</label>
-										<h:inputText type="text" class="form-control p_input"
-											value="#{gestionPrestamosBean.apellidos}" id="txtApellido" />
+										<h:outputText class="form-control p_input"
+											value="#{gestionPrestamosBean.apellidos}" id="txtApellido"  />
 									</div>
 
 									<div class="form-group">
 										<label>Numero de Cuenta</label>
-										<h:inputText type="text" class="form-control p_input"
+										<h:outputText class="form-control p_input"
 											value="#{gestionPrestamosBean.cuenta}" id="txtNumeroCuenta" />
 									</div>
 
@@ -64,14 +64,6 @@
 										class="form-group d-flex align-items-center justify-content-between">
 									</div>
 									<!-- 								<div class="text-center"> -->
-
-
-									<div>
-										<h:commandButton
-											action="#{gestionPrestamosBean.aprobarGarante()}"
-											value="Aprovar Garante"
-											class="btn btn-primary btn-block enter-btn" />
-									</div>
 
 									<!-- 								</div> -->
 									<div class="d-flex"></div>
@@ -85,7 +77,7 @@
 									<div>
 										<h:commandButton
 											action="#{gestionPrestamosBean.cargarDatosCliente()}"
-											value="Cargar Datos Garnte"
+											value="Cargar Datos Cliente"
 											class="btn btn-primary btn-block enter-btn">
 											<f:ajax execute="txtCedulap"
 												render="txtNombrep txtApellidop txtNumeroCuentap"></f:ajax>
@@ -94,20 +86,20 @@
 
 									<div class="form-group">
 										<label>Nombre</label>
-										<h:inputText type="text" class="form-control p_input"
-											value="#{gestionPrestamosBean.nombreP}" id="txtNombrep" />
+										<h:outputText class="form-control p_input"
+											value="#{gestionPrestamosBean.nombreP}" id="txtNombrep"  />
 									</div>
 
 									<div class="form-group">
 										<label>Apellidos</label>
-										<h:inputText type="text" class="form-control p_input"
-											value="#{gestionPrestamosBean.apellidosP}" id="txtApellidop" />
+										<h:outputText class="form-control p_input"
+											value="#{gestionPrestamosBean.apellidosP}" id="txtApellidop"/>
 									</div>
 
 									<div class="form-group">
 										<label>Numero de Cuenta</label>
-										<h:inputText type="text" class="form-control p_input"
-											value="#{gestionPrestamosBean.cuentaP}" id="txtNumeroCuentap" />
+										<h:outputText class="form-control p_input"
+											value="#{gestionPrestamosBean.cuentaP}" id="txtNumeroCuentap"/>
 									</div>
 
 
@@ -150,14 +142,14 @@
 
 									<div class="form-group">
 										<label>Pago Mensual</label>
-										<h:inputText type="text" class="form-control p_input"
+										<h:outputText class="form-control p_input"
 											value="#{gestionPrestamosBean.pagoMensual}"
-											id="txtPagoMensual" />
+											id="txtPagoMensual"  />
 									</div>
 
 									<div class="form-group">
 										<label>Interes %</label>
-										<h:inputText type="text" class="form-control p_input"
+										<h:outputText class="form-control p_input"
 											value="#{gestionPrestamosBean.porInteres}" id="txtInteres" />
 									</div>
 

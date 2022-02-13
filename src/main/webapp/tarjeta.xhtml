@@ -40,13 +40,11 @@
 									</div>
 									<div class="form-group">
 										<label>Fecha de Inicio</label>
-										<h:inputText
-											value="#{gestionTargetaBean.newTarjet.fechaInicio}"
-											class="form-control"
-											converterMessage="Please provide date of birth in dd/mm/yyyy format"
-											id="txtFecha">
+										<h:outputText id="txtFecha"
+											value="#{gestionTargetaBean.fechaN()}"
+											class="form-control">
 											<f:convertDateTime pattern="dd/mm/yyyy" />
-										</h:inputText>
+										</h:outputText>
 									</div>
 
 									<div class="form-group">

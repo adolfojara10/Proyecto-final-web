@@ -107,4 +107,12 @@ public class Tarjeta implements Serializable {
 		this.persona = persona;
 	}
 
+	@Override
+	public String toString() {
+		return "Tarjeta [id=" + id + ", codigo=" + codigo + ", fechaFin=" + fechaFin + ", fechaInicio=" + fechaInicio
+				+ ", nombre=" + nombre + ", numero=" + numero + ", tipo=" + tipo + ", persona=" + persona + "]";
+	}
+	
+	
+
 }
