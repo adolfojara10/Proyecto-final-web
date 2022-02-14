@@ -15,19 +15,18 @@ import ec.edu.ups.ppw.ProyectoFinalBanco.business.PrestamosON;
 import ec.edu.ups.ppw.ProyectoFinalBanco.model.Persona;
 import ec.edu.ups.ppw.ProyectoFinalBanco.model.Prestamo;
 
-
 @Named
 @RequestScoped
 public class GestionPrestamosBean {
 	@Inject
 	private PersonaON perON;
-	
+
 	@Inject
 	private PrestamosON presON;
-	
+
 	@Inject
 	private CuentaON cuentaON;
-	
+
 	private int id;
 	private double monto;
 	private int cuotasPagadas;
@@ -38,72 +37,76 @@ public class GestionPrestamosBean {
 	private int plazo;
 	private double pagoProgreso;
 	private double porInteres;
-	
+
 	private String cedula;
 	private String nombre;
 	private String apellidos;
 	private int cuenta;
 	private boolean aprovacion;
-	
+
 	private String cedulaP;
 	private String nombreP;
 	private String apellidosP;
 	private int cuentaP;
-	
+
+	private int idPrestamo = 0;
+
 	private Prestamo newPrestamo = new Prestamo();
 	private Persona newCliente = new Persona();
-	
+
+	private Prestamo prestamoPagar = new Prestamo();
+
 	@PostConstruct
 	public void init() {
 		newCliente = new Persona();
 		newPrestamo = new Prestamo();
 		aprovacion = false;
 	}
-	
-	public void cargarDatosGarante () {
+
+	public void cargarDatosGarante() {
 		Persona p = perON.buscarCedula(this.cedula);
 		this.nombre = p.getNombre();
 		this.apellidos = p.getApellido();
 		this.cuenta = p.getCuenta().getId();
-		//return null;
+		// return null;
 	}
-	
-	public void cargarDatosCliente () {
+
+	public void cargarDatosCliente() {
 		Persona p = perON.buscarCedula(this.cedulaP);
 		this.nombreP = p.getNombre();
 		this.apellidosP = p.getApellido();
 		this.cuentaP = p.getCuenta().getId();
-		//return null;
+		// return null;
 	}
-	
+
 	public void aprobarGarante() {
 		Persona p = perON.buscarCedula(this.cedula);
 		System.out.println(p);
 		double saldo = p.getCuenta().getSaldo();
-		if(saldo > 2000) {
+		if (saldo > 2000) {
 			System.out.println("Garante Aprobado");
 			aprovacion = true;
 			System.out.println(aprovacion);
-			//return null;
-		}else {
+			// return null;
+		} else {
 			System.out.println("Garante No Aprobado");
 			aprovacion = false;
 			System.out.println(aprovacion);
 		}
-		//return null;
+		// return null;
 	}
-	
+
 	public void calculoPagoCuotas() {
 		System.out.println(this.monto);
-		this.porInteres= presON.calculoInteres(this.monto);
-		this.pagoMensual= presON.calculoPago(this.monto, this.plazo);
-		//return null;
+		this.porInteres = presON.calculoInteres(this.monto);
+		this.pagoMensual = presON.calculoPago(this.monto, this.plazo);
+		// return null;
 	}
-	
+
 	public String guardarPrestamo() throws ParseException {
 		aprobarGarante();
 		System.out.println(aprovacion);
-		if(aprovacion == true) {
+		if (aprovacion == true) {
 			newPrestamo.setId(presON.calcularID());
 			String pattern = "dd/MM/yyyy";
 			SimpleDateFormat sdf = new SimpleDateFormat(pattern);
@@ -111,6 +114,7 @@ public class GestionPrestamosBean {
 			calculoPagoCuotas();
 			newPrestamo.setMonto(monto);
 			newPrestamo.setEstado("Pendiente");
+			newPrestamo.setCoutasPagadas(0);
 			newPrestamo.setPagoMensual(pagoMensual);
 			newPrestamo.setPlazo(plazo);
 			newPrestamo.setFechaFin(presON.generarFechaFin(plazo));
@@ -126,8 +130,34 @@ public class GestionPrestamosBean {
 			perON.guardarCliente(p);
 			System.out.println(c);
 			System.out.println("Solicitud enviada");
-		}else {
+		} else {
 			System.out.println("No se puede enviar la solucitud garante no aprovado");
+		}
+		return null;
+	}
+
+	public String pagarPrestamo() {
+
+		prestamoPagar = presON.buscarPrestamo(idPrestamo);
+		
+		System.out.println(prestamoPagar + "-----------------");
+
+		if (prestamoPagar != null) {
+			if (cuentaON.getCuentaLogIn().getSaldo() > prestamoPagar.getPagoMensual() && prestamoPagar != null
+					&& !prestamoPagar.getEstado().equals("Finalizado")) {
+
+				cuentaON.pagoPrestamo(prestamoPagar);
+
+				System.out.println("siuuu");
+				prestamoPagar = null;
+				idPrestamo = 0;
+
+				return "SIUUU";
+
+			} else {
+				System.out.println("noooo");
+				return "No";
+			}
 		}
 		return null;
 	}
@@ -299,9 +329,23 @@ public class GestionPrestamosBean {
 	public void setAprovacion(boolean aprovacion) {
 		this.aprovacion = aprovacion;
 	}
+
+	public Prestamo getPrestamoPagar() {
+		return prestamoPagar;
+	}
+
+	public void setPrestamoPagar(Prestamo prestamoPagar) {
+		this.prestamoPagar = prestamoPagar;
+	}
+
+	public int getIdPrestamo() {
+		return idPrestamo;
+	}
+
+	public void setIdPrestamo(int idPrestamo) {
+		this.idPrestamo = idPrestamo;
+	}
 	
 	
-	
-	
-	
+
 }

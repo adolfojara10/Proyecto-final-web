@@ -1,7 +1,12 @@
 package ec.edu.ups.ppw.ProyectoFinalBanco.view;
 
 import java.security.NoSuchAlgorithmException;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.Period;
+import java.time.ZoneId;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 //import java.util.regex.Matcher;
@@ -19,6 +24,7 @@ import ec.edu.ups.ppw.ProyectoFinalBanco.business.CuentaON;
 import ec.edu.ups.ppw.ProyectoFinalBanco.business.PersonaON;
 import ec.edu.ups.ppw.ProyectoFinalBanco.model.Cuenta;
 import ec.edu.ups.ppw.ProyectoFinalBanco.model.Persona;
+import ec.edu.ups.ppw.ProyectoFinalBanco.model.Prestamo;
 import ec.edu.ups.ppw.ProyectoFinalBanco.model.Servicio;
 
 @Named
@@ -53,6 +59,8 @@ public class GestionPersonasBean {
 	private List<Persona> clientesList;
 //	private List<Persona> cuentasList;
 	private static List<Servicio> listaServiciosActivos;
+
+	private static List<Prestamo> listaPrestamosActivos;
 
 	@PostConstruct
 	public void init() {
@@ -147,21 +155,27 @@ public class GestionPersonasBean {
 		System.out.println(contraseña);
 		cuentaLogIn = cueON.logIn(usuario, contraseña);
 
-		if (cuentaLogIn != null) {
-			cueON.setCuentaLogIn(cuentaLogIn);
-			if (cueON.getCuentaLogIn() != null) {
+		try {
+			if (cuentaLogIn != null) {
+				cueON.setCuentaLogIn(cuentaLogIn);
+				if (cueON.getCuentaLogIn() != null) {
 
-				if (cueON.getPersonaLogIn().getTipo().equals("Común")) {
+					if (cueON.getPersonaLogIn().getTipo().equals("Común")) {
+
+						System.out.println("brrrrrrrrrrrrrrrrr");
+					}
 					this.cargarDeudas();
-					System.out.println("brrrrrrrrrrrrrrrrr");
+					this.cargarDeudasPrestamos();
+					return "poliza.xhtml";
+				} else {
+					return null;
 				}
-				return "poliza.xhtml";
-			} else {
-				return null;
+
 			}
 
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
-
 		System.out.println("Cuenta Iniciada con exito");
 		System.out.println(cuentaLogIn);
 		return null;
@@ -181,6 +195,49 @@ public class GestionPersonasBean {
 
 		System.out.println(listaServiciosActivos);
 
+	}
+
+	public void cargarDeudasPrestamos() {
+
+		var listaDeudas = cueON.getPersonaLogIn().getPrestamos1();
+		System.out.println(listaDeudas);
+		listaPrestamosActivos = new ArrayList<Prestamo>();
+		if (listaDeudas.size() > 0) {
+			for (Prestamo s : listaDeudas) {
+				if (s.getEstado().equals("Pendiente")) {
+
+					Calendar hoy = Calendar.getInstance();
+					Calendar fin = Calendar.getInstance();
+
+					fin.setTime(s.getFechaFin());
+
+					Period period = Period.between(LocalDate.ofInstant(hoy.toInstant(), ZoneId.systemDefault()),
+							LocalDate.ofInstant(fin.toInstant(), ZoneId.systemDefault()));
+
+					int mesesSobrantes = 0;
+					if (Math.abs(period.getYears()) > 0) {
+						mesesSobrantes = Math.abs(period.getMonths()) + (Math.abs(period.getYears()) * 12);
+					} else if (Math.abs(period.getDays()) == 0) {
+						mesesSobrantes = Math.abs(period.getMonths());
+					} else {
+						mesesSobrantes = Math.abs(period.getMonths()) + 1;
+					}
+
+					int mesesRestantes = s.getPlazo() - s.getCoutasPagadas();
+
+					System.out.println(mesesSobrantes + "-----------" + mesesRestantes + "---------------"
+							+ Math.abs(period.getYears()) + "------------" + Math.abs(period.getMonths())
+							+ "------------" + Math.abs(period.getDays()));
+
+					if (mesesSobrantes - mesesRestantes == 0) {
+						listaPrestamosActivos.add(s);
+					}
+
+				}
+			}
+		}
+
+		System.out.println(listaPrestamosActivos);
 
 	}
 
@@ -283,6 +340,14 @@ public class GestionPersonasBean {
 
 	public void setListaServiciosActivos(List<Servicio> listaServiciosActivos) {
 		this.listaServiciosActivos = listaServiciosActivos;
+	}
+
+	public List<Prestamo> getListaPrestamosActivos() {
+		return listaPrestamosActivos;
+	}
+
+	public void setListaPrestamosActivos(List<Prestamo> listaPrestamosActivos) {
+		this.listaPrestamosActivos = listaPrestamosActivos;
 	}
 
 //

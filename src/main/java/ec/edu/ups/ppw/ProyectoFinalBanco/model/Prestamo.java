@@ -12,9 +12,8 @@ import javax.persistence.NamedQuery;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
-
 @Entity
-@NamedQuery(name="Prestamo.findAll", query="SELECT p FROM Prestamo p")
+@NamedQuery(name = "Prestamo.findAll", query = "SELECT p FROM Prestamo p")
 public class Prestamo implements Serializable {
 	private static final long serialVersionUID = 1L;
 
@@ -24,30 +23,32 @@ public class Prestamo implements Serializable {
 	private String estado;
 
 	@Temporal(TemporalType.DATE)
-	@Column(name="fecha_fin")
+	@Column(name = "fecha_fin")
 	private Date fechaFin;
 
 	@Temporal(TemporalType.DATE)
-	@Column(name="fecha_inicio")
+	@Column(name = "fecha_inicio")
 	private Date fechaInicio;
 
 	private double interes;
 
 	private double monto;
 
-	@Column(name="pago_mensual")
+	private int coutasPagadas;
+
+	@Column(name = "pago_mensual")
 	private double pagoMensual;
 
 	private int plazo;
 
-	//bi-directional many-to-one association to Persona
+	// bi-directional many-to-one association to Persona
 	@ManyToOne
-	@JoinColumn(name="persona_id")
+	@JoinColumn(name = "persona_id")
 	private Persona persona1;
 
-	//bi-directional many-to-one association to Persona
+	// bi-directional many-to-one association to Persona
 	@ManyToOne
-	@JoinColumn(name="garante_id")
+	@JoinColumn(name = "garante_id")
 	private Persona persona2;
 
 	public Prestamo() {
@@ -125,6 +126,14 @@ public class Prestamo implements Serializable {
 		this.persona1 = persona1;
 	}
 
+	public int getCoutasPagadas() {
+		return coutasPagadas;
+	}
+
+	public void setCoutasPagadas(int coutasPagadas) {
+		this.coutasPagadas = coutasPagadas;
+	}
+
 	public Persona getPersona2() {
 		return this.persona2;
 	}
@@ -133,6 +142,13 @@ public class Prestamo implements Serializable {
 		this.persona2 = persona2;
 	}
 
+	@Override
+	public String toString() {
+		return "Prestamo [id=" + id + ", estado=" + estado + ", fechaFin=" + fechaFin + ", fechaInicio=" + fechaInicio
+				+ ", interes=" + interes + ", monto=" + monto + ", coutasPagadas=" + coutasPagadas + ", pagoMensual="
+				+ pagoMensual + ", plazo=" + plazo + "]";
+	}
+	
 	
 
 }

@@ -16,6 +16,7 @@ import ec.edu.ups.ppw.ProyectoFinalBanco.dao.CuentaDAO;
 import ec.edu.ups.ppw.ProyectoFinalBanco.dao.ServiciosDAO;
 import ec.edu.ups.ppw.ProyectoFinalBanco.model.Cuenta;
 import ec.edu.ups.ppw.ProyectoFinalBanco.model.Persona;
+import ec.edu.ups.ppw.ProyectoFinalBanco.model.Prestamo;
 import ec.edu.ups.ppw.ProyectoFinalBanco.model.Servicio;
 import ec.edu.ups.ppw.ProyectoFinalBanco.model.Transferencia;
 
@@ -33,6 +34,9 @@ public class CuentaON {
 
 	@Inject
 	private TransferenciaON transferenciaON;
+
+	@Inject
+	private PrestamosON presON;
 
 	private Cuenta cuentaLogIn = new Cuenta();
 
@@ -54,7 +58,6 @@ public class CuentaON {
 	public void deposito(double monto, Persona per) throws ParseException {
 
 		System.out.println(per.getCuenta().getSaldo() + " -- " + monto);
-		
 
 		per.getCuenta().setSaldo(monto + per.getCuenta().getSaldo());
 		Cuenta cuenta = per.getCuenta();
@@ -127,7 +130,7 @@ public class CuentaON {
 
 			s.setEstado("Pagado");
 			serviciosON.guardarServicios(s);
-			
+
 			System.out.println("sipi");
 		}
 
@@ -155,6 +158,43 @@ public class CuentaON {
 		} else {
 			return lista.size() + 1;
 		}
+
+	}
+
+	public boolean pagoPrestamo(Prestamo p) {
+
+		// var lista = personaON.personasServicio(s);
+
+		var p1 = p.getPersona1();
+		
+		System.out.println("sipi------------------------");
+
+		if (p1 != null) {
+			p1.getCuenta().setSaldo(p1.getCuenta().getSaldo() - p.getPagoMensual());
+
+			var t = new Transferencia();
+			t.setId(transferenciaON.calcularID());
+			t.setFecha(new Date());
+			t.setMonto(p.getPagoMensual());
+			t.setTipo("Prestamo");
+			transferenciaON.guardarTransferencia(t);
+
+			Cuenta cuenta = p1.getCuenta();
+			cuenta.addTransferencia(t);
+			this.guardarCuenta(cuenta);
+
+			p.setCoutasPagadas(p.getCoutasPagadas() + 1);
+
+			if (p.getCoutasPagadas() == p.getPlazo()) {
+				p.setEstado("Finalizado");
+			}
+
+			presON.guardarPrestamo(p);
+
+			System.out.println("sipi");
+		}
+
+		return true;
 
 	}
 
@@ -216,7 +256,7 @@ public class CuentaON {
 
 			this.cuentaLogIn = usu;
 			this.personaLogIn = personaON.consultarCuentaUsuario(this.cuentaLogIn);
-			
+
 			personaON.cargarDeudas();
 
 			return usu;
