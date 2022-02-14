@@ -66,7 +66,7 @@ public class PrestamosON {
 		double interes = calculoInteres(monto);
 		double calucloPago = pagoMensual * interes;
 		double total = pagoMensual + calucloPago;
-		return total;
+		return Math.round(total);
 	}
 	
 	public String generarFecha() throws ParseException {
@@ -84,6 +84,10 @@ public class PrestamosON {
 		
 		
 		return fina;
+	}
+	
+	public Prestamo buscarPrestamo(int id) {
+		return prestamoDAO.read(id);
 	}
 
 }

@@ -28,80 +28,99 @@
 						<div class="card col-lg-4 mx-auto">
 							<div class="form-group">
 
+
 								<h3>Servicios</h3>
 								<h:form>
-
-									<h:dataTable
-										value="#{gestionPersonasBean.listaServiciosActivos}" var="s"
-										class="table table-striped" paginator="true" rows="10">
-										<!-- rendered="#{gestionPersonasBean.listaServiciosActivos.size()>=0}">
+									<div>
+										<h:dataTable
+											value="#{gestionPersonasBean.listaServiciosActivos}" var="s"
+											class="table table-striped" paginator="true" rows="10">
+											<!-- rendered="#{gestionPersonasBean.listaServiciosActivos.size()>=0}">
 																				selectionMode="single" selection="#{gestionServiciosBean.servicioPagar}" rowKey="#{s.id}"> -->
 
-										<h:column>
-											<f:facet name="header">ID</f:facet>
+											<h:column>
+												<f:facet name="header">ID</f:facet>
 							#{s.id}
 							</h:column>
 
-										<h:column>
-											<f:facet name="header">Fecha Emisión</f:facet>
+											<h:column>
+												<f:facet name="header">Fecha Emisión</f:facet>
 							#{s.fechaEmision}
 							</h:column>
 
-										<h:column>
-											<f:facet name="header">Tipo</f:facet>
+											<h:column>
+												<f:facet name="header">Tipo</f:facet>
 							#{s.tipo}
 							</h:column>
 
-										<h:column>
-											<f:facet name="header">Deuda</f:facet>
+											<h:column>
+												<f:facet name="header">Deuda</f:facet>
 							#{s.deuda}
 							</h:column>
 
-									</h:dataTable>
+										</h:dataTable>
+
+										<br></br>
+
+										<div class="form-group">
+											<label>ID</label>
+											<h:inputText id="txtIDServicio"
+												value="#{gestionServiciosBean.idServicio}"
+												class="form-control" />
+											<br></br>
+											<h:commandButton class="btn btn-light btn-fw" value="Pagar"
+												action="#{gestionServiciosBean.pagarServicio()}">
+
+											</h:commandButton>
+
+										</div>
+									</div>
 
 									<br></br>
 
-									<div class="form-group">
-										<label>ID</label>
-										<h:inputText id="txtID"
-											value="#{gestionServiciosBean.idServicio}"
-											class="form-control" />
+									<div>
+										<h3>Prestamos</h3>
+
+
+
+										<h:dataTable
+											value="#{gestionPersonasBean.listaPrestamosActivos}" var="p"
+											class="table table-striped" paginator="true" rows="10">
+											
+											<h:column>
+												<f:facet name="header">ID</f:facet>
+							#{p.id}
+							</h:column>
+
+											<h:column>
+												<f:facet name="header">Plazos</f:facet>
+							#{p.plazo}
+							</h:column>
+											<h:column>
+												<f:facet name="header">Coutas Pagadas</f:facet>
+							#{p.coutasPagadas}
+							</h:column>
+
+											<h:column>
+												<f:facet name="header">Deuda</f:facet>
+							#{p.pagoMensual}
+							</h:column>
+
+										</h:dataTable>
+
 										<br></br>
-										<h:commandButton class="btn btn-light btn-fw" value="Pagar"
-											action="#{gestionServiciosBean.pagarServicio()}">
 
-										</h:commandButton>
+										<div class="form-group">
+											<label>ID</label>
+											<h:inputText id="txtIDPrestamo" class="form-control"
+												value="#{gestionPrestamosBean.idPrestamo}" />
+											<br></br>
+											<h:commandButton class="btn btn-light btn-fw" value="Pagar"
+												action="#{gestionPrestamosBean.pagarPrestamo()}">
+											</h:commandButton>
 
+										</div>
 									</div>
-
-								</h:form>
-
-								<br></br>
-
-								<h3>Prestamos</h3>
-
-								<h:form>
-
-									<p:dataTable value="" var="" class="table table-striped"
-										paginator="true" rows="10">
-										<!-- rendered="#{gestionPersonasBean.listaServiciosActivos.size()>=0}">
-																				selectionMode="single" selection="#{gestionServiciosBean.servicioPagar}" rowKey="#{s.id}"> -->
-
-
-									</p:dataTable>
-
-									<br></br>
-
-									<div class="form-group">
-										<label>ID</label>
-										<h:inputText id="txtID" class="form-control" />
-										<br></br>
-										<h:commandButton class="btn btn-light btn-fw" value="Pagar">
-
-										</h:commandButton>
-
-									</div>
-
 								</h:form>
 								<!-- 
 
