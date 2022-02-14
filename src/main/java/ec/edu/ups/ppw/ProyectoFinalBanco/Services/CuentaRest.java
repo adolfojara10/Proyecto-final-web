@@ -51,6 +51,7 @@ public class CuentaRest {
 	}
 
 	@GET
+	@Path("Saldo")
 	@Produces(MediaType.APPLICATION_JSON)
 	public double estado() {
 		System.out.println("brrrrrrrrrrrrrrrrr" + cueON.getCuentaLogIn().getSaldo());
@@ -60,9 +61,13 @@ public class CuentaRest {
 	@GET
 	@Path("personas")
 	@Produces(MediaType.APPLICATION_JSON)
-	public List<Persona> getPersonas() {
-		List<Persona> usuuers = perON.getClientes();
-		return usuuers;
+	public Persona getPersonas() {
+		for (Persona persona: perON.getClientes()) {
+			System.err.println(persona.getCedula());
+			return persona;
+		}
+		return null;
+		
 	}
 	
 	@GET
