@@ -12,6 +12,7 @@ import javax.ws.rs.core.MediaType;
 
 import ec.edu.ups.ppw.ProyectoFinalBanco.business.CuentaON;
 import ec.edu.ups.ppw.ProyectoFinalBanco.business.PersonaON;
+import ec.edu.ups.ppw.ProyectoFinalBanco.business.PrestamosON;
 import ec.edu.ups.ppw.ProyectoFinalBanco.model.*;
 
 @Path("cuenta")
@@ -22,6 +23,9 @@ public class CuentaRest {
 
 	@Inject
 	private PersonaON perON;
+	
+	@Inject
+	private PrestamosON presON;
 
 	@POST
 	@Path("monedaC")
@@ -59,6 +63,14 @@ public class CuentaRest {
 	public List<Persona> getPersonas() {
 		List<Persona> usuuers = perON.getClientes();
 		return usuuers;
+	}
+	
+	@GET
+	@Path("prestamos")
+	@Produces(MediaType.APPLICATION_JSON)
+	public List<Prestamo> getPrestamo() {
+		List<Prestamo> prestamo = presON.getprestamo();
+		return prestamo;
 	}
 
 }
