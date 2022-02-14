@@ -11,7 +11,7 @@ Note: upgrading to JSF 2.3 will cause currently deployment errors if the web pro
    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
    xsi:schemaLocation="
         http://xmlns.jcp.org/xml/ns/javaee
-        http://xmlns.jcp.org/xml/ns/javaee/web-facesconfig_2_2.xsd">
+        http://xmlns.jcp.org/xml/ns/javaee/web-facesconfig_2_2.xsd"> 
 
    <!-- This descriptor activates the JSF Servlet -->
 

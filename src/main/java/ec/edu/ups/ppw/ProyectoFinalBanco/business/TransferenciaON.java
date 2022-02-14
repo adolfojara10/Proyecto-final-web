@@ -33,9 +33,6 @@ public class TransferenciaON {
 		DateTimeFormatter dtf = DateTimeFormatter.ofPattern(pattern);
 		String date = dtf.format(LocalDateTime.now());
 		
-//		SimpleDateFormat sdf = new SimpleDateFormat(pattern);
-//		Date fecha = sdf.parse(date);
-		
 		return date;
 	}
 

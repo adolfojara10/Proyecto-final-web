@@ -79,26 +79,36 @@ public class CuentaON {
 		guardarCuenta(cuenta);
 		System.out.println(transferenciaON.getTransferencias());
 		System.out.println(cuenta + " " + cuenta.getTransferencias());
-
 	}
 
-	public boolean transferencia(Transferencia t) {
-		Persona us = personaON.consultarCuentaUsuario(t.getCuenta());
-		Persona us1 = personaON.consultarCuentaUsuario(t.getCuenta());
+	public boolean transferencia(Persona Emisor, Persona receptor, double monto) throws ParseException {
+		if (Emisor.getCuenta().getSaldo() > monto) {			
+			Transferencia newTransferencia = new Transferencia();
+			newTransferencia.setId(transferenciaON.calcularID());
+			String pattern = "dd/MM/yyyy";
+			SimpleDateFormat sdf = new SimpleDateFormat(pattern);
+			newTransferencia.setFecha(sdf.parse(transferenciaON.generarFecha()));
+			newTransferencia.setMonto(monto);
+			newTransferencia.setTipo("Transferencia");
 
-		if (us == null && us1 == null || t.getMonto() > us.getCuenta().getSaldo()) {
-			return false;
-		} else {
-			us.getCuenta().setSaldo(us.getCuenta().getSaldo() - t.getMonto());
-			us1.getCuenta().setSaldo(us1.getCuenta().getSaldo() + t.getMonto());
-
-			Cuenta cuenta = us.getCuenta();
-			this.guardarCuenta(cuenta);
-
-			Cuenta cuenta1 = us1.getCuenta();
-
-			this.guardarCuenta(cuenta1);
+			Cuenta cuentaEm = Emisor.getCuenta();
+			cuentaEm.setSaldo(cuentaEm.getSaldo()-monto);
+			
+			
+			Cuenta cuentaRes = receptor.getCuenta();
+			cuentaRes.setSaldo(cuentaRes.getSaldo() + monto);
+			transferenciaON.guardarTransferencia(newTransferencia);
+			
+			cuentaEm.addTransferencia(newTransferencia);
+			cuentaRes.addTransferencia(newTransferencia);
+			
+			guardarCuenta(cuentaEm);
+			guardarCuenta(cuentaRes);			
+			System.out.println("cuentas -->" + cuentaEm + ""
+					+ "\n--- " + cuentaRes);
 			return true;
+		}else {
+			return false;
 		}
 	}
 

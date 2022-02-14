@@ -3,6 +3,7 @@ package ec.edu.ups.ppw.ProyectoFinalBanco.model;
 import java.io.Serializable;
 
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -31,12 +32,12 @@ public class Cuenta implements Serializable {
 	private double saldo;
 
 	//bi-directional many-to-one association to Persona
-	@OneToMany(mappedBy="cuenta")
-	private List<Persona> personas;
+	@OneToMany(mappedBy="cuenta", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	private Set<Persona> personas;
 
 	//bi-directional many-to-one association to Transferencia
 	@OneToMany(mappedBy="cuenta", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-	private List<Transferencia> transferencias;
+	private Set<Transferencia> transferencias;
 
 	public Cuenta() {
 	}
@@ -73,11 +74,11 @@ public class Cuenta implements Serializable {
 		this.saldo = saldo;
 	}
 
-	public List<Persona> getPersonas() {
+	public Set<Persona> getPersonas() {
 		return this.personas;
 	}
 
-	public void setPersonas(List<Persona> personas) {
+	public void setPersonas(Set<Persona> personas) {
 		this.personas = personas;
 	}
 
@@ -95,11 +96,11 @@ public class Cuenta implements Serializable {
 		return persona;
 	}
 
-	public List<Transferencia> getTransferencias() {
+	public Set<Transferencia> getTransferencias() {
 		return this.transferencias;
 	}
 
-	public void setTransferencias(List<Transferencia> transferencias) {
+	public void setTransferencias(Set<Transferencia> transferencias) {
 		this.transferencias = transferencias;
 	}
 
