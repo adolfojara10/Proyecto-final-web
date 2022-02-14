@@ -146,7 +146,10 @@ public class GestionPersonasBean {
 	}
 
 	public String logout() {
-		cueON.logOut();
+		//cueON.logOut();
+		cueON.setCuentaLogIn(null);
+		cueON.setPersonaLogIn(null);
+		System.out.println("aaaa + " + cueON.getPersonaLogIn());
 		return this.verificarLogIn();
 	}
 
