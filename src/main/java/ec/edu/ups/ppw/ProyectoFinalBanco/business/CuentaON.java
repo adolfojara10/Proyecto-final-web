@@ -54,9 +54,9 @@ public class CuentaON {
 	public void deposito(double monto, Persona per) throws ParseException {
 
 		System.out.println(per.getCuenta().getSaldo() + " -- " + monto);
-		monto = monto + per.getCuenta().getSaldo();
+		
 
-		per.getCuenta().setSaldo(monto);
+		per.getCuenta().setSaldo(monto + per.getCuenta().getSaldo());
 		Cuenta cuenta = per.getCuenta();
 
 		var t = new Transferencia();

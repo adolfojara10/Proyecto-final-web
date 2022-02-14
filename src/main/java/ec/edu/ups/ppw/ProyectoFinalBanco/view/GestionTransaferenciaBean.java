@@ -5,6 +5,7 @@ import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Date;
+import java.util.List;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.RequestScoped;
@@ -27,21 +28,17 @@ public class GestionTransaferenciaBean {
 		
 		private Transferencia transferencia;
 		private double monto;
+		private List<Transferencia> listaTransferencias;
 		
 		@PostConstruct
 		public void init() {
 			System.out.println(cueON.getPersonaLogIn());
+			System.out.println("la t > " + transON.getTransferencias());
 			transferencia = new Transferencia();
+			listaTransferencias = transON.getTransferencias();
 		}
 		
 		public void GuardarDep() throws ParseException {
-//			String pattern = "dd/MM/yyyy";
-//			SimpleDateFormat sdf = new SimpleDateFormat(pattern);
-//			this.date = sdf.parse(fechaN());
-//			this.transferencia.setFecha(date);
-//			System.out.println(transferencia +"-  " + date);
-//			System.out.println(cueON.getPersonaLogIn());
-			
 			cueON.deposito(monto, cueON.getPersonaLogIn());
 		}
 		
@@ -62,6 +59,14 @@ public class GestionTransaferenciaBean {
 
 		public void setMonto(double monto) {
 			this.monto = monto;
+		}
+
+		public List<Transferencia> getListaTransferencias() {
+			return listaTransferencias;
+		}
+
+		public void setListaTransferencias(List<Transferencia> listaTransferencias) {
+			this.listaTransferencias = listaTransferencias;
 		}
 
 		
