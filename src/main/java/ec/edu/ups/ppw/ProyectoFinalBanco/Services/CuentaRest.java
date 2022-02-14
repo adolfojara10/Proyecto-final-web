@@ -23,7 +23,7 @@ public class CuentaRest {
 
 	@Inject
 	private PersonaON perON;
-	
+
 	@Inject
 	private PrestamosON presON;
 
@@ -64,13 +64,27 @@ public class CuentaRest {
 		List<Persona> usuuers = perON.getClientes();
 		return usuuers;
 	}
-	
+
 	@GET
 	@Path("prestamos")
 	@Produces(MediaType.APPLICATION_JSON)
 	public List<Prestamo> getPrestamo() {
 		List<Prestamo> prestamo = presON.getprestamo();
 		return prestamo;
+	}
+
+	@POST
+	@Path("rendimientoCuenta")
+	public double calcular(@QueryParam("monto") double monto, @QueryParam("tiempo") double tiempo) {
+		System.out.println("emntro");
+
+		double rendimiento = (((monto * 3) / 100) * tiempo) / 12;
+
+		rendimiento = Math.round(rendimiento * 100) / 100;
+
+		System.out.println(rendimiento + "jkfghljkadfhjklgsdf");
+		return rendimiento;
+
 	}
 
 }
