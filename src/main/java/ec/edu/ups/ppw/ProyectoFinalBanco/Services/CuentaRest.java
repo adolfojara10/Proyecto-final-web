@@ -336,47 +336,56 @@ public class CuentaRest {
 		return listaServiciosActivos;
 	}
 	
-//	public void cargarDeudasPrestamos() {
-//
-//		var listaDeudas = cueON.getPersonaLogIn().getPrestamos1();
-//		System.out.println(listaDeudas);
-//		listaPrestamosActivos = new ArrayList<Prestamo>();
-//		if (listaDeudas.size() > 0) {
-//			for (Prestamo s : listaDeudas) {
-//				if (s.getEstado().equals("Aprobado")) {
-//
-//					Calendar hoy = Calendar.getInstance();
-//					Calendar fin = Calendar.getInstance();
-//
-//					fin.setTime(s.getFechaFin());
-//
-//					Period period = Period.between(LocalDate.ofInstant(hoy.toInstant(), ZoneId.systemDefault()),
-//							LocalDate.ofInstant(fin.toInstant(), ZoneId.systemDefault()));
-//
-//					int mesesSobrantes = 0;
-//					if (Math.abs(period.getYears()) > 0) {
-//						mesesSobrantes = Math.abs(period.getMonths()) + (Math.abs(period.getYears()) * 12);
-//					} else if (Math.abs(period.getDays()) == 0) {
-//						mesesSobrantes = Math.abs(period.getMonths());
-//					} else {
-//						mesesSobrantes = Math.abs(period.getMonths()) + 1;
-//					}
-//
-//					int mesesRestantes = s.getPlazo() - s.getCoutasPagadas();
-//
-//					System.out.println(mesesSobrantes + "-----------" + mesesRestantes + "---------------"
-//							+ Math.abs(period.getYears()) + "------------" + Math.abs(period.getMonths())
-//							+ "------------" + Math.abs(period.getDays()));
-//
-//					if (mesesSobrantes - mesesRestantes == 0) {
-//						listaPrestamosActivos.add(s);
-//					}
-//
-//				}
-//			}
-//		}
-//
-//		System.out.println(listaPrestamosActivos);
-//
-//	}
+	@GET
+	@Path("cargarDeudaPrestamos")
+	@Produces(MediaType.APPLICATION_JSON)
+	@Consumes(MediaType.APPLICATION_JSON)
+	public List<Prestamo> cargarDeudasPrestamos() {
+
+		var listaDeudas = cueON.getPersonaLogIn().getPrestamos1();
+		System.out.println(listaDeudas);
+		List<Prestamo> listaPrestamosActivos = new ArrayList<Prestamo>();
+		if (listaDeudas.size() > 0) {
+			for (Prestamo s : listaDeudas) {
+				if (s.getEstado().equals("Aprobado")) {
+
+					Calendar hoy = Calendar.getInstance();
+					Calendar fin = Calendar.getInstance();
+
+					fin.setTime(s.getFechaFin());
+
+					Period period = Period.between(LocalDate.ofInstant(hoy.toInstant(), ZoneId.systemDefault()),
+							LocalDate.ofInstant(fin.toInstant(), ZoneId.systemDefault()));
+
+					int mesesSobrantes = 0;
+					if (Math.abs(period.getYears()) > 0) {
+						mesesSobrantes = Math.abs(period.getMonths()) + (Math.abs(period.getYears()) * 12);
+					} else if (Math.abs(period.getDays()) == 0) {
+						mesesSobrantes = Math.abs(period.getMonths());
+					} else {
+						mesesSobrantes = Math.abs(period.getMonths()) + 1;
+					}
+
+					int mesesRestantes = s.getPlazo() - s.getCoutasPagadas();
+
+					System.out.println(mesesSobrantes + "-----------" + mesesRestantes + "---------------"
+							+ Math.abs(period.getYears()) + "------------" + Math.abs(period.getMonths())
+							+ "------------" + Math.abs(period.getDays()));
+
+					if (mesesSobrantes - mesesRestantes == 0) {
+						Prestamo nPres = new Prestamo();
+						nPres.setId(s.getId());
+						nPres.setPlazo(s.getPlazo());
+						nPres.setCoutasPagadas(s.getCoutasPagadas());
+						nPres.setPagoMensual(s.getPagoMensual());
+						listaPrestamosActivos.add(nPres);
+					}
+
+				}
+			}
+		}
+
+		System.out.println(listaPrestamosActivos);
+		return listaPrestamosActivos;
+	}
 }
