@@ -33,7 +33,7 @@
 								<h:form>
 									<div>
 										<h:dataTable
-											value="#{gestionPersonasBean.listaServiciosActivos}" var="s"
+											value="#{gestionPersonasBean.cargarDeudas()}" var="s"
 											class="table table-striped" paginator="true" rows="10">
 											<!-- rendered="#{gestionPersonasBean.listaServiciosActivos.size()>=0}">
 																				selectionMode="single" selection="#{gestionServiciosBean.servicioPagar}" rowKey="#{s.id}"> -->
@@ -86,7 +86,7 @@
 										<h:dataTable
 											value="#{gestionPersonasBean.listaPrestamosActivos}" var="p"
 											class="table table-striped" paginator="true" rows="10">
-											
+
 											<h:column>
 												<f:facet name="header">ID</f:facet>
 							#{p.id}

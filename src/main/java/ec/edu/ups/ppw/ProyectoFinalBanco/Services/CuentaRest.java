@@ -2,6 +2,9 @@ package ec.edu.ups.ppw.ProyectoFinalBanco.Services;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.Period;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -162,37 +165,36 @@ public class CuentaRest {
 	}
 
 	// ---------------------------------------------------------------------------------------------
-	@GET
-	@Path("personas")
-	@Produces(MediaType.APPLICATION_JSON)
-
-	public List<Persona> getPersonas() {
-		System.out.println("entro");
-		List<Persona> listaper = new ArrayList<Persona>();
-
-		try {
-			System.out.println("personarest = " + perON.getClientes());
-			for (Persona persona : perON.getClientes()) {
-				Persona p = new Persona(persona.getId(), persona.getApellido(), persona.getCedula(), persona.getEmail(),
-						persona.getFechaNacimiento(), persona.getNombre(), persona.getTipo());
-
-				listaper.add(p);
-			}
-			System.out.println("per " + listaper);
-			return listaper;
-		} catch (Exception e) {
-			// TODO: handle exception
-			System.out.println(e);
-		}
-
-		return null;
-
-	}
+//	@GET
+//	@Path("personas")
+//	@Produces(MediaType.APPLICATION_JSON)
+//
+//	public List<Persona> getPersonas() {
+//		System.out.println("entro");
+//		List<Persona> listaper = new ArrayList<Persona>();
+//
+//		try {
+//			System.out.println("personarest = " + perON.getClientes());
+//			for (Persona persona : perON.getClientes()) {
+//				Persona p = new Persona(persona.getId(), persona.getApellido(), persona.getCedula(), persona.getEmail(),
+//						persona.getFechaNacimiento(), persona.getNombre(), persona.getTipo());
+//
+//				listaper.add(p);
+//			}
+//			System.out.println("per " + listaper);
+//			return listaper;
+//		} catch (Exception e) {
+//			// TODO: handle exception
+//			System.out.println(e);
+//		}
+//
+//		return null;
+//
+//	}
 
 	@GET
 	@Path("prestamos")
 	@Produces(MediaType.APPLICATION_JSON)
-
 	public List<Prestamo> getPrestamo() {
 		List<Prestamo> listapres = new ArrayList<Prestamo>();
 		try {
@@ -291,10 +293,6 @@ public class CuentaRest {
 
 					cueON.pagoServicio(servicioPagar);
 
-					// servicioPagar.setEstado(false);
-
-					// serviciosON.guardarServicios(servicioPagar);
-
 					System.out.println("siuuu");
 
 					return "SIUUU";
@@ -309,4 +307,76 @@ public class CuentaRest {
 		return "nel";
 	}
 
+	
+	@GET
+	@Path("cargarDeuda")
+	@Produces(MediaType.APPLICATION_JSON)
+	@Consumes(MediaType.APPLICATION_JSON)
+	public List<Servicio> cargarDeudas() {
+		
+		var listaDeudas = cueON.getPersonaLogIn().getServicios2();
+		List<Servicio> listaServiciosActivos = new ArrayList<Servicio>();
+		if (listaDeudas.size() > 0) {
+			for (Servicio s : listaDeudas) {
+				System.out.println("ser   " + s);
+				if (s.getEstado().equals("Pagar")) {
+					Servicio nServicio = new Servicio();
+					nServicio.setId(s.getId());
+					nServicio.setFechaEmision(s.getFechaEmision());
+					nServicio.setDeuda(s.getDeuda());
+					nServicio.setTipo(s.getTipo());
+					nServicio.setEstado(s.getEstado());
+					System.out.println("eerr " + nServicio);
+					listaServiciosActivos.add(nServicio);
+				}
+			}
+		}
+
+		System.out.println(listaServiciosActivos);
+		return listaServiciosActivos;
+	}
+	
+//	public void cargarDeudasPrestamos() {
+//
+//		var listaDeudas = cueON.getPersonaLogIn().getPrestamos1();
+//		System.out.println(listaDeudas);
+//		listaPrestamosActivos = new ArrayList<Prestamo>();
+//		if (listaDeudas.size() > 0) {
+//			for (Prestamo s : listaDeudas) {
+//				if (s.getEstado().equals("Aprobado")) {
+//
+//					Calendar hoy = Calendar.getInstance();
+//					Calendar fin = Calendar.getInstance();
+//
+//					fin.setTime(s.getFechaFin());
+//
+//					Period period = Period.between(LocalDate.ofInstant(hoy.toInstant(), ZoneId.systemDefault()),
+//							LocalDate.ofInstant(fin.toInstant(), ZoneId.systemDefault()));
+//
+//					int mesesSobrantes = 0;
+//					if (Math.abs(period.getYears()) > 0) {
+//						mesesSobrantes = Math.abs(period.getMonths()) + (Math.abs(period.getYears()) * 12);
+//					} else if (Math.abs(period.getDays()) == 0) {
+//						mesesSobrantes = Math.abs(period.getMonths());
+//					} else {
+//						mesesSobrantes = Math.abs(period.getMonths()) + 1;
+//					}
+//
+//					int mesesRestantes = s.getPlazo() - s.getCoutasPagadas();
+//
+//					System.out.println(mesesSobrantes + "-----------" + mesesRestantes + "---------------"
+//							+ Math.abs(period.getYears()) + "------------" + Math.abs(period.getMonths())
+//							+ "------------" + Math.abs(period.getDays()));
+//
+//					if (mesesSobrantes - mesesRestantes == 0) {
+//						listaPrestamosActivos.add(s);
+//					}
+//
+//				}
+//			}
+//		}
+//
+//		System.out.println(listaPrestamosActivos);
+//
+//	}
 }

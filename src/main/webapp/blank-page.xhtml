@@ -24,8 +24,8 @@
 	<!-- End layout styles -->
 	<link rel="shortcut icon" href="template/assets/images/favicon.png" />
 
-	<f:metadata>
-		<!-- 			<f:viewParam name="id" value="#{gestionPersonasBean.usuario}"></f:viewParam> -->
+	<f:metadata>		
+		<f:viewAction action="#{gestionPersonasBean.verificarLogIn()}"></f:viewAction>	
 		<f:viewAction action="#{gestionPersonasBean.obtenerUser()}"></f:viewAction>
 	</f:metadata>
 </h:head>
@@ -46,6 +46,7 @@
 						<div class="profile-pic">
 							<div class="profile-name">
 								<h5 class="mb-0 font-weight-normal">Entidad Bancaria</h5>
+								
 								<span>Basic Member</span>
 							</div>
 						</div>
@@ -92,12 +93,11 @@
 						</div>
 					</div>
 				</li>
-				<li class="nav-item nav-category"><span class="nav-link">Navigation</span>
-				</li>
+
 				<li class="nav-item menu-items"><a class="nav-link"
-					href="../../index.html"> <span class="menu-icon"> <i
-							class="mdi mdi-speedometer"></i>
-					</span> <span class="menu-title">Dashboard</span>
+					href="http://localhost:4200/estadoCuenta"> <span
+						class="menu-icon"> <i class="mdi mdi-speedometer"></i>
+					</span> <span class="menu-title">Estado de Cuenta</span>
 				</a></li>
 				<li class="nav-item menu-items"><a class="nav-link"
 					data-toggle="collapse" href="#solicitud" aria-expanded="false"
@@ -124,11 +124,7 @@
 					<div class="collapse" id="consultar">
 						<ul class="nav flex-column sub-menu">
 							<li class="nav-item"><a class="nav-link"
-								href="historial.xhtml">Historial
-									Bancario</a></li>
-							<li class="nav-item"><a class="nav-link"
-								href="../../pages/ui-features/dropdowns.html">Estado de
-									Cuenta</a></li>
+								href="historial.xhtml">Historial Bancario</a></li>
 						</ul>
 					</div></li>
 				<li class="nav-item menu-items"><a class="nav-link"
@@ -154,21 +150,22 @@
 					<div class="collapse" id="Servicios">
 						<ul class="nav flex-column sub-menu">
 							<li class="nav-item"><a class="nav-link"
-								href="../../pages/ui-features/buttons.html">Transferencias</a></li>
+								href="http://localhost:4200/transferencia">Transferencias</a></li>
 							<li class="nav-item"><a class="nav-link"
 								href="deposito.xhtml">Depositos</a></li>
 							<li class="nav-item"><a class="nav-link" href="poliza.xhtml">Polizas</a></li>
-							<li class="nav-item"><a class="nav-link" href="crear-servicio.xhtml">Creacion Servicio</a></li>
+							<li class="nav-item"><a class="nav-link"
+								href="crear-servicio.xhtml">Creacion Servicio</a></li>
 						</ul>
 					</div></li>
 				<li class="nav-item menu-items"><a class="nav-link"
-					href="../../pages/tables/basic-table.html"> <span
+					href="http://localhost:4200/simuladorAhorros"> <span
 						class="menu-icon"> <i class="mdi mdi-table-large"></i>
 					</span> <span class="menu-title">Simulador de Ahorros</span>
 				</a></li>
 				<li class="nav-item menu-items"><a class="nav-link"
-					href="conversion-moneda.xhtml"> <span class="menu-icon">
-							<i class="mdi mdi-chart-bar"></i>
+					href="http://localhost:4200/conversionMoneda"> <span
+						class="menu-icon"> <i class="mdi mdi-chart-bar"></i>
 					</span> <span class="menu-title">Conversion de Moneda</span>
 				</a></li>
 				<li class="nav-item menu-items"><a class="nav-link"
@@ -247,14 +244,25 @@
 			</nav>
 			<!-- partial -->
 			<div class="main-panel">
-				<div class="content-wrapper">
+				<div class="content-wrapper" style="background-image: url('template/assets/images/auth/Login_bg2.jpg');">
 					<h1>
 						<h:title name="title">
 							<ui:insert name="title"></ui:insert>
 						</h:title>
 					</h1>
-					<h:form name="content">
+					<h:form name="content" styleClass="">
 						<ui:insert name="content"></ui:insert>
+						
+						<div
+							class="content-wrapper full-page-wrapper d-flex align-items-center auth"  >							
+							<div class="card col-lg-4 mx-auto">
+								<div class="card-body px-5 py-5">
+									
+									<h1 class="mb-0 font-weight-normal text-center">BIENVENIDO</h1>
+								</div>
+							</div>
+						</div>
+
 					</h:form>
 
 				</div>

@@ -169,7 +169,7 @@ public class GestionPersonasBean {
 					}
 					this.cargarDeudas();
 					this.cargarDeudasPrestamos();
-					return "poliza.xhtml";
+					return "blank-page.xhtml";
 				} else {
 					return null;
 				}
@@ -184,7 +184,7 @@ public class GestionPersonasBean {
 		return null;
 	}
 
-	public void cargarDeudas() {
+	public List<Servicio> cargarDeudas() {
 
 		var listaDeudas = cueON.getPersonaLogIn().getServicios2();
 		listaServiciosActivos = new ArrayList<Servicio>();
@@ -197,7 +197,7 @@ public class GestionPersonasBean {
 		}
 
 		System.out.println(listaServiciosActivos);
-
+		return listaServiciosActivos;
 	}
 
 	public void cargarDeudasPrestamos() {
