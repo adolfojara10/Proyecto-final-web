@@ -188,9 +188,63 @@ public class CuentaRest {
 	@GET
 	@Path("prestamos")
 	@Produces(MediaType.APPLICATION_JSON)
+
 	public List<Prestamo> getPrestamo() {
-		List<Prestamo> prestamo = presON.getprestamo();
-		return prestamo;
+		List<Prestamo> listapres = new ArrayList<Prestamo>();
+		try {
+			for (Prestamo prestamo : presON.getprestamo()) {
+
+				if (prestamo.getEstado().equals("Pendiente")) {
+					Prestamo pres = new Prestamo(prestamo.getId(), prestamo.getEstado(), prestamo.getFechaFin(),
+							prestamo.getFechaInicio(), prestamo.getInteres(), prestamo.getMonto(),
+							prestamo.getCoutasPagadas(), prestamo.getPagoMensual(), prestamo.getPlazo());
+
+					listapres.add(pres);
+				}
+			}
+			System.out.println("per " + listapres);
+			return listapres;
+		} catch (Exception e) {
+			// TODO: handle exception
+			System.out.println(e);
+		}
+		return null;
+	}
+	
+	@POST
+	@Path("Aprovar")
+	@Produces(MediaType.APPLICATION_JSON)
+	@Consumes(MediaType.APPLICATION_JSON)
+	public List<Prestamo> actualizar(@QueryParam("id") int id, @QueryParam("estado") String estado) {
+		List<Prestamo> listapres = new ArrayList<Prestamo>();
+		Prestamo p = presON.buscarPrestamo(id);
+		
+		if(estado.equals("Aprobado")) {
+			System.out.println("Entra");
+			p.setEstado(estado);
+			Cuenta c = p.getPersona1().getCuenta();
+			double valorEntregar = c.getSaldo() + p.getMonto();
+			c.setSaldo(valorEntregar);
+			cueON.guardarCuenta(c);
+			presON.guardarPrestamo(p);
+		}
+		
+		try {
+			for (Prestamo prestamo : presON.getprestamo()) {
+				if (prestamo.getEstado().equals("Pendiente")) {
+					Prestamo pres = new Prestamo(prestamo.getId(), prestamo.getEstado(), prestamo.getFechaFin(),
+							prestamo.getFechaInicio(), prestamo.getInteres(), prestamo.getMonto(),
+							prestamo.getCoutasPagadas(), prestamo.getPagoMensual(), prestamo.getPlazo());
+					listapres.add(pres);
+				}
+			}
+			System.out.println("per " + listapres);
+			return listapres;
+		} catch (Exception e) {
+			// TODO: handle exception
+			System.out.println(e);
+		}
+		return presON.getprestamo();
 	}
 
 }

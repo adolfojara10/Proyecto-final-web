@@ -50,9 +50,25 @@ public class Prestamo implements Serializable {
 	@ManyToOne
 	@JoinColumn(name = "garante_id")
 	private Persona persona2;
-
+	
 	public Prestamo() {
 	}
+
+	public Prestamo(int id, String estado, Date fechaFin, Date fechaInicio, double interes, double monto,
+			int coutasPagadas, double pagoMensual, int plazo) {
+		super();
+		this.id = id;
+		this.estado = estado;
+		this.fechaFin = fechaFin;
+		this.fechaInicio = fechaInicio;
+		this.interes = interes;
+		this.monto = monto;
+		this.coutasPagadas = coutasPagadas;
+		this.pagoMensual = pagoMensual;
+		this.plazo = plazo;
+	}
+
+	
 
 	public int getId() {
 		return this.id;
