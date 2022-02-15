@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- <!DOCTYPE html> -->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html lang="es" xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html">
+<h:head>
+	<f:metadata>
+		<f:viewAction action="#{gestionPersonasBean.verificarLogIn()}"></f:viewAction>
+	</f:metadata>
+</h:head>
+
+<ui:composition template="blank-page.xhtml">
+	<ui:define name="title">
+        AVISO
+    </ui:define>
+	<ui:define name="content">
+		<div class="container-scroller">
+			<div class="container-fluid page-body-wrapper full-page-wrapper">
+				<div class="row w-100 m-0">
+					<div
+						class="content-wrapper full-page-wrapper d-flex align-items-center auth login-bg"
+						style="background-color: red;">
+						<div class="card col-lg-4 mx-auto">
+							<div class="card-body px-5 py-5">
+
+
+								<h:form title="formulario-registrar">
+									<h2 class="card-title text-left mb-3">FELICIDADES SU TARJETA A SIDO APROVADA</h2>
+									<div class="text-center">
+										<h4>DESEA CONSULTAR SU TARJETA </h4>
+									</div>
+									
+									<div
+										class="form-group d-flex align-items-center justify-content-between">
+									</div>
+									<div class="text-center">
+										<h:commandButton styleClass="btn btn-outline-primary btn-fw"
+											action="consulTartarjeta"
+											value="Consultar Tarjeta" />
+										
+									</div>
+									<div class="d-flex"></div>
+								</h:form>
+
+							</div>
+						</div>
+					</div>
+					<!-- 						content-wrapper ends -->
+				</div>
+				<!-- 					row ends -->
+			</div>
+			<!-- 				page-body-wrapper ends -->
+		</div>
+	</ui:define>
+</ui:composition>
+</html>

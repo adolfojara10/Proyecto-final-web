@@ -51,6 +51,11 @@ public class GestionTargetaBean {
 		return tarON.generarFecha();
 	}
 	
+	public String idTargeta() throws ParseException {
+		int it=tarON.calcularID();
+		String ita = String.valueOf(it);
+		return ita;
+	}
 	
 	public String guardar() throws ParseException {
 		var p = cuentaON.getPersonaLogIn();
@@ -74,10 +79,23 @@ public class GestionTargetaBean {
 			System.out.println(p);
 			
 			System.out.println("Solicitud aprovada");
+			return "AvisoTarjeta";
 		}else {
 			System.out.println("Faltan fondos para aprovar su Solicitud");
+			return "AvisoRechaso";
 		}
-		return null;
+
+	}
+	
+	public void cargarDatosCliente() {
+		Tarjeta t = tarON.buscarTarjeta(id);
+		this.nombre = t.getNombre();
+		this.numero = t.getNumero();
+		this.codigo = t.getCodigo();
+		this.tipo = t.getTipo();
+		this.fechaInicio= t.getFechaInicio();
+		this.fechaFin = t.getFechaFin();
+		// return null;
 	}
 
 	public int getId() {
