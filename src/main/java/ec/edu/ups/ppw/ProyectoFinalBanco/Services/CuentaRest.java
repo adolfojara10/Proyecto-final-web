@@ -22,6 +22,7 @@ import org.hibernate.validator.constraints.SafeHtml.Attribute;
 import ec.edu.ups.ppw.ProyectoFinalBanco.business.CuentaON;
 import ec.edu.ups.ppw.ProyectoFinalBanco.business.PersonaON;
 import ec.edu.ups.ppw.ProyectoFinalBanco.business.PrestamosON;
+import ec.edu.ups.ppw.ProyectoFinalBanco.business.ServiciosON;
 import ec.edu.ups.ppw.ProyectoFinalBanco.business.TransferenciaON;
 import ec.edu.ups.ppw.ProyectoFinalBanco.model.*;
 
@@ -40,6 +41,9 @@ public class CuentaRest {
 	@Inject
 	private TransferenciaON transON;
 
+	@Inject
+	private ServiciosON serviciosON;
+
 	@POST
 	@Path("monedaC")
 	public double calcular(@QueryParam("moneda") String moneda, @QueryParam("cantidad") double cantidad) {
@@ -53,7 +57,7 @@ public class CuentaRest {
 
 			resultado = (Math.round((cantidad * 0.90) * 100.0) / 100.0);
 
-		} else if (moneda.equals("Bitcoin")){
+		} else if (moneda.equals("Bitcoin")) {
 
 			resultado = (cantidad * 0.000028);
 
@@ -130,7 +134,7 @@ public class CuentaRest {
 	@Path("transferir")
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
-	public String transferir(@QueryParam("cedulaR") String cedulaR, @QueryParam("montoT") double monto){
+	public String transferir(@QueryParam("cedulaR") String cedulaR, @QueryParam("montoT") double monto) {
 		try {
 			Persona receptor = perON.buscarCedula(cedulaR);
 			System.out.println("receptor " + receptor);
@@ -145,12 +149,12 @@ public class CuentaRest {
 
 				return "Transaccion realizada exitosamente";
 
-			}		
+			}
 			if (cueON.getCuentaLogIn() == null) {
 				return "Error de session, vuelva inciar sesion";
 			}
 
-		}catch (Exception e) {
+		} catch (Exception e) {
 			// TODO: handle exception
 		}
 		return "Hubo un problema, intente otra vez";
@@ -210,7 +214,7 @@ public class CuentaRest {
 		}
 		return null;
 	}
-	
+
 	@POST
 	@Path("Aprovar")
 	@Produces(MediaType.APPLICATION_JSON)
@@ -218,8 +222,8 @@ public class CuentaRest {
 	public List<Prestamo> actualizar(@QueryParam("id") int id, @QueryParam("estado") String estado) {
 		List<Prestamo> listapres = new ArrayList<Prestamo>();
 		Prestamo p = presON.buscarPrestamo(id);
-		
-		if(estado.equals("Aprobado")) {
+
+		if (estado.equals("Aprobado")) {
 			System.out.println("Entra");
 			p.setEstado(estado);
 			Cuenta c = p.getPersona1().getCuenta();
@@ -228,7 +232,7 @@ public class CuentaRest {
 			cueON.guardarCuenta(c);
 			presON.guardarPrestamo(p);
 		}
-		
+
 		try {
 			for (Prestamo prestamo : presON.getprestamo()) {
 				if (prestamo.getEstado().equals("Pendiente")) {
@@ -245,6 +249,64 @@ public class CuentaRest {
 			System.out.println(e);
 		}
 		return presON.getprestamo();
+	}
+
+	@POST
+	@Path("pagoPrestamo")
+	@Produces(MediaType.APPLICATION_JSON)
+	@Consumes(MediaType.APPLICATION_JSON)
+	public String pagarDeuda(@QueryParam("idPrestamo") int id, @QueryParam("tipoDeuda") String tipo) {
+
+		if (tipo.equals("Prestamo")) {
+			var prestamoPagar = presON.buscarPrestamo(id);
+
+			System.out.println(prestamoPagar + "-----------------");
+
+			if (prestamoPagar != null) {
+
+				if (prestamoPagar.getPersona1().getCuenta().getSaldo() > prestamoPagar.getPagoMensual()
+						&& prestamoPagar != null && prestamoPagar.getEstado().equals("Aprobado")) {
+
+					cueON.pagoPrestamo(prestamoPagar);
+
+					System.out.println("siuuu");
+
+					return "SIUUU";
+
+				} else {
+					System.out.println("noooo");
+					return "No";
+				}
+
+			}
+
+			return "noo";
+		} else if (tipo.equals("Servicio")) {
+
+			var servicioPagar = serviciosON.buscarServicio(id);
+
+			if (servicioPagar != null) {
+				if (servicioPagar.getPersona2().getCuenta().getSaldo() > servicioPagar.getDeuda()
+						&& servicioPagar != null && servicioPagar.getEstado().equals("Pagar")) {
+
+					cueON.pagoServicio(servicioPagar);
+
+					// servicioPagar.setEstado(false);
+
+					// serviciosON.guardarServicios(servicioPagar);
+
+					System.out.println("siuuu");
+
+					return "SIUUU";
+
+				} else {
+					System.out.println("noooo");
+					return "No";
+				}
+			}
+		}
+
+		return "nel";
 	}
 
 }

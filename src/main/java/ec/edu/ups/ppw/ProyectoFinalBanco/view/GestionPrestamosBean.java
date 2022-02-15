@@ -144,7 +144,7 @@ public class GestionPrestamosBean {
 
 		if (prestamoPagar != null) {
 			if (cuentaON.getCuentaLogIn().getSaldo() > prestamoPagar.getPagoMensual() && prestamoPagar != null
-					&& !prestamoPagar.getEstado().equals("Finalizado")) {
+					&& prestamoPagar.getEstado().equals("Aprobado")) {
 
 				cuentaON.pagoPrestamo(prestamoPagar);
 

@@ -207,7 +207,7 @@ public class GestionPersonasBean {
 		listaPrestamosActivos = new ArrayList<Prestamo>();
 		if (listaDeudas.size() > 0) {
 			for (Prestamo s : listaDeudas) {
-				if (s.getEstado().equals("Pendiente")) {
+				if (s.getEstado().equals("Aprobado")) {
 
 					Calendar hoy = Calendar.getInstance();
 					Calendar fin = Calendar.getInstance();
