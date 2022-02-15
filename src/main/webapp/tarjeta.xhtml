@@ -29,10 +29,20 @@
 								<h:form title="formulario-registrar">
 									<h3 class="card-title text-left mb-3">Solicita tu Tarjeta</h3>
 									<div class="form-group">
+										<label>ID</label>
+										<h:outputText id="txtId"
+											value="#{gestionTargetaBean.idTargeta()}"
+											class="form-control">
+										</h:outputText>
+									</div>
+									
+									<div class="form-group">
 										<label>Nombres</label>
 										<h:inputText type="text" class="form-control p_input"
 											value="#{gestionTargetaBean.newTarjet.nombre}" />
 									</div>
+									
+									
 									<div class="form-group">
 										<label>Cedula</label>
 										<h:inputText type="text" class="form-control p_input"
@@ -75,7 +85,11 @@
 										<h:commandButton styleClass="btn btn-outline-primary btn-fw"
 											action="#{gestionTargetaBean.guardar()}"
 											value="Solicitar Tarjeta" />
-
+									
+										
+									</div>
+									<div class="text-center">
+										NOTA: No olvidar el ID de su solucitud es imporante para consultar sobre la misma
 									</div>
 									<div class="d-flex"></div>
 								</h:form>

@@ -31,6 +31,7 @@ public class GestionPrestamosBean {
 	private double monto;
 	private int cuotasPagadas;
 	private boolean estado;
+	private String estadopres;
 	private Date fecha_inicio;
 	private Date fecha_fin;
 	private double pagoMensual;
@@ -61,6 +62,12 @@ public class GestionPrestamosBean {
 		newCliente = new Persona();
 		newPrestamo = new Prestamo();
 		aprovacion = false;
+	}
+	
+	public String idPrestamo() throws ParseException {
+		int it=presON.calcularID();
+		String ita = String.valueOf(it);
+		return ita;
 	}
 
 	public void cargarDatosGarante() {
@@ -130,10 +137,25 @@ public class GestionPrestamosBean {
 			perON.guardarCliente(p);
 			System.out.println(c);
 			System.out.println("Solicitud enviada");
+			return "AvisoSolicitud";
 		} else {
 			System.out.println("No se puede enviar la solucitud garante no aprovado");
+			return "AvisoRechaso";
 		}
-		return null;
+	}
+	
+	public void cargarDatosPrestamo() {
+		Prestamo p = presON.buscarPrestamo(id);
+		this.monto = p.getMonto();
+		this.plazo = p.getPlazo();
+		this.porInteres = p.getInteres();
+		this.pagoMensual = p.getPagoMensual();
+		this.estadopres = p.getEstado();
+		this.cuotasPagadas = p.getCoutasPagadas();
+		this.cedula = p.getPersona2().getCedula();
+		this.fecha_inicio = p.getFechaInicio();
+		this.fecha_fin = p.getFechaFin();
+		// return null;
 	}
 
 	public String pagarPrestamo() {
@@ -345,6 +367,15 @@ public class GestionPrestamosBean {
 	public void setIdPrestamo(int idPrestamo) {
 		this.idPrestamo = idPrestamo;
 	}
+
+	public String getEstadopres() {
+		return estadopres;
+	}
+
+	public void setEstadopres(String estadopres) {
+		this.estadopres = estadopres;
+	}
+	
 	
 	
 
